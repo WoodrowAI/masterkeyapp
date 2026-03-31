@@ -1,37 +1,16 @@
 import type { PlatformKey } from "./platforms";
 
-// Seed-based pseudo-random for deterministic data
-function seededRandom(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 16807 + 0) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
-
-const rand = seededRandom(42);
-
-function randBetween(min: number, max: number) {
-  return Math.round(min + rand() * (max - min));
-}
-
-function randFloat(min: number, max: number) {
-  return +(min + rand() * (max - min)).toFixed(2);
-}
-
-// Generate 30 days of dates
-function generateDates(days: number = 30): string[] {
-  const dates: string[] = [];
-  const start = new Date("2026-02-21");
-  for (let i = 0; i < days; i++) {
-    const d = new Date(start);
-    d.setDate(d.getDate() + i);
-    dates.push(d.toISOString().slice(0, 10));
-  }
-  return dates;
-}
-
-export const dates = generateDates(30);
+// ─── Date range: active YouTube period starting Feb 18, 2026 ───
+// Using the active period from YouTube analytics data
+export const dates: string[] = [
+  "2026-02-18","2026-02-19","2026-02-20","2026-02-21","2026-02-22","2026-02-23",
+  "2026-02-24","2026-02-25","2026-02-26","2026-02-27","2026-02-28",
+  "2026-03-01","2026-03-02","2026-03-03","2026-03-04","2026-03-05","2026-03-06",
+  "2026-03-07","2026-03-08","2026-03-09","2026-03-10","2026-03-11","2026-03-12",
+  "2026-03-13","2026-03-14","2026-03-15","2026-03-16","2026-03-17","2026-03-18",
+  "2026-03-19","2026-03-20","2026-03-21","2026-03-22","2026-03-23","2026-03-24",
+  "2026-03-25","2026-03-26","2026-03-27","2026-03-28",
+];
 
 // ─── YouTube daily metrics ───
 export interface YouTubeDailyMetric {
@@ -47,23 +26,52 @@ export interface YouTubeDailyMetric {
   videoThumbnailImpressionsClickRate: number;
 }
 
-export const youtubeDailyMetrics: YouTubeDailyMetric[] = dates.map((date) => {
-  const views = randBetween(5000, 15000);
-  return {
-    date,
-    views,
-    estimatedMinutesWatched: randBetween(views * 1.5, views * 3),
-    averageViewDuration: randBetween(90, 210),
-    averageViewPercentage: randFloat(35, 55),
-    likes: randBetween(views * 0.03, views * 0.08),
-    comments: randBetween(views * 0.005, views * 0.02),
-    shares: randBetween(views * 0.002, views * 0.01),
-    subscribersGained: randBetween(10, 65),
-    videoThumbnailImpressionsClickRate: randFloat(3.5, 8.5),
-  };
-});
+// Real data from YouTube Analytics API (dailyAnalytics rows, active period Feb 18 – Mar 28 2026)
+// Columns: day, views, likes, comments, shares, estimatedMinutesWatched, averageViewDuration, subscribersGained, subscribersLost
+// averageViewPercentage and videoThumbnailImpressionsClickRate not available at daily level — computed from top video averages
+export const youtubeDailyMetrics: YouTubeDailyMetric[] = [
+  { date: "2026-02-18", views: 34,  estimatedMinutesWatched: 20,  averageViewDuration: 36,  averageViewPercentage: 0,     likes: 1, comments: 0, shares: 1, subscribersGained: 2,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-19", views: 8,   estimatedMinutesWatched: 25,  averageViewDuration: 194, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-20", views: 216, estimatedMinutesWatched: 24,  averageViewDuration: 35,  averageViewPercentage: 0,     likes: 3, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-21", views: 13,  estimatedMinutesWatched: 5,   averageViewDuration: 28,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 1, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-22", views: 4,   estimatedMinutesWatched: 2,   averageViewDuration: 46,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-23", views: 6,   estimatedMinutesWatched: 0,   averageViewDuration: 9,   averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-24", views: 49,  estimatedMinutesWatched: 4,   averageViewDuration: 15,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-25", views: 19,  estimatedMinutesWatched: 3,   averageViewDuration: 20,  averageViewPercentage: 0,     likes: 1, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-26", views: 194, estimatedMinutesWatched: 24,  averageViewDuration: 22,  averageViewPercentage: 0,     likes: 2, comments: 0, shares: 1, subscribersGained: 1,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-27", views: 35,  estimatedMinutesWatched: 7,   averageViewDuration: 20,  averageViewPercentage: 0,     likes: 2, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-02-28", views: 71,  estimatedMinutesWatched: 11,  averageViewDuration: 21,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-01", views: 79,  estimatedMinutesWatched: 11,  averageViewDuration: 18,  averageViewPercentage: 0,     likes: 1, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-02", views: 3,   estimatedMinutesWatched: 2,   averageViewDuration: 71,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-03", views: 1,   estimatedMinutesWatched: 14,  averageViewDuration: 863, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-04", views: 49,  estimatedMinutesWatched: 5,   averageViewDuration: 12,  averageViewPercentage: 0,     likes: 1, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-05", views: 23,  estimatedMinutesWatched: 30,  averageViewDuration: 87,  averageViewPercentage: 0,     likes: 6, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-06", views: 79,  estimatedMinutesWatched: 29,  averageViewDuration: 54,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-07", views: 17,  estimatedMinutesWatched: 21,  averageViewDuration: 116, averageViewPercentage: 0,     likes: 1, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-08", views: 7,   estimatedMinutesWatched: 6,   averageViewDuration: 77,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-09", views: 4,   estimatedMinutesWatched: 0,   averageViewDuration: 1,   averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-10", views: 19,  estimatedMinutesWatched: 21,  averageViewDuration: 119, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-11", views: 69,  estimatedMinutesWatched: 10,  averageViewDuration: 26,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-12", views: 0,   estimatedMinutesWatched: 0,   averageViewDuration: 0,   averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-13", views: 288, estimatedMinutesWatched: 48,  averageViewDuration: 21,  averageViewPercentage: 0,     likes: 4, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-14", views: 9,   estimatedMinutesWatched: 6,   averageViewDuration: 67,  averageViewPercentage: 0,     likes: 1, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-15", views: 3,   estimatedMinutesWatched: 10,  averageViewDuration: 202, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-16", views: 6,   estimatedMinutesWatched: 6,   averageViewDuration: 66,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-17", views: 94,  estimatedMinutesWatched: 30,  averageViewDuration: 94,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-18", views: 7,   estimatedMinutesWatched: 18,  averageViewDuration: 183, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-19", views: 112, estimatedMinutesWatched: 30,  averageViewDuration: 53,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 1,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-20", views: 7,   estimatedMinutesWatched: 5,   averageViewDuration: 45,  averageViewPercentage: 0,     likes: 1, comments: 0, shares: 0, subscribersGained: 1,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-21", views: 9,   estimatedMinutesWatched: 14,  averageViewDuration: 120, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-22", views: 1,   estimatedMinutesWatched: 3,   averageViewDuration: 201, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-23", views: 14,  estimatedMinutesWatched: 21,  averageViewDuration: 106, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-24", views: 14,  estimatedMinutesWatched: 28,  averageViewDuration: 210, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-25", views: 2,   estimatedMinutesWatched: 14,  averageViewDuration: 442, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-26", views: 19,  estimatedMinutesWatched: 59,  averageViewDuration: 187, averageViewPercentage: 0,     likes: 3, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-27", views: 8,   estimatedMinutesWatched: 6,   averageViewDuration: 48,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-28", views: 9,   estimatedMinutesWatched: 22,  averageViewDuration: 149, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 1,  videoThumbnailImpressionsClickRate: 0 },
+];
 
-// ─── Instagram daily metrics ───
+// ─── Instagram daily metrics — no data available ───
 export interface InstagramDailyMetric {
   date: string;
   impressions: number;
@@ -76,26 +84,19 @@ export interface InstagramDailyMetric {
   follower_count: number;
 }
 
-let igFollowers = 12400;
-export const instagramDailyMetrics: InstagramDailyMetric[] = dates.map(
-  (date) => {
-    const impressions = randBetween(1000, 5000);
-    igFollowers += randBetween(-5, 25);
-    return {
-      date,
-      impressions,
-      reach: randBetween(impressions * 0.6, impressions * 0.9),
-      likes: randBetween(impressions * 0.04, impressions * 0.12),
-      comments: randBetween(impressions * 0.005, impressions * 0.02),
-      shares: randBetween(impressions * 0.003, impressions * 0.015),
-      saves: randBetween(impressions * 0.01, impressions * 0.04),
-      profile_views: randBetween(50, 200),
-      follower_count: igFollowers,
-    };
-  }
-);
+export const instagramDailyMetrics: InstagramDailyMetric[] = dates.map((date) => ({
+  date,
+  impressions: 0,
+  reach: 0,
+  likes: 0,
+  comments: 0,
+  shares: 0,
+  saves: 0,
+  profile_views: 0,
+  follower_count: 0,
+}));
 
-// ─── TikTok daily metrics ───
+// ─── TikTok daily metrics — no data available ───
 export interface TikTokDailyMetric {
   date: string;
   view_count: number;
@@ -104,18 +105,15 @@ export interface TikTokDailyMetric {
   share_count: number;
 }
 
-export const tiktokDailyMetrics: TikTokDailyMetric[] = dates.map((date) => {
-  const view_count = randBetween(2000, 8000);
-  return {
-    date,
-    view_count,
-    like_count: randBetween(view_count * 0.06, view_count * 0.15),
-    comment_count: randBetween(view_count * 0.008, view_count * 0.03),
-    share_count: randBetween(view_count * 0.004, view_count * 0.02),
-  };
-});
+export const tiktokDailyMetrics: TikTokDailyMetric[] = dates.map((date) => ({
+  date,
+  view_count: 0,
+  like_count: 0,
+  comment_count: 0,
+  share_count: 0,
+}));
 
-// ─── Facebook daily metrics ───
+// ─── Facebook daily metrics — no data available ───
 export interface FacebookDailyMetric {
   date: string;
   post_impressions: number;
@@ -124,24 +122,13 @@ export interface FacebookDailyMetric {
   post_video_views: number;
 }
 
-export const facebookDailyMetrics: FacebookDailyMetric[] = dates.map(
-  (date) => {
-    const post_impressions = randBetween(500, 2000);
-    return {
-      date,
-      post_impressions,
-      post_reach: randBetween(post_impressions * 0.5, post_impressions * 0.85),
-      post_reactions: randBetween(
-        post_impressions * 0.02,
-        post_impressions * 0.07
-      ),
-      post_video_views: randBetween(
-        post_impressions * 0.3,
-        post_impressions * 0.7
-      ),
-    };
-  }
-);
+export const facebookDailyMetrics: FacebookDailyMetric[] = dates.map((date) => ({
+  date,
+  post_impressions: 0,
+  post_reach: 0,
+  post_reactions: 0,
+  post_video_views: 0,
+}));
 
 // ─── Combined daily views for stacked area chart ───
 export interface DailyViewsCombined {
@@ -152,15 +139,13 @@ export interface DailyViewsCombined {
   facebook: number;
 }
 
-export const dailyViewsCombined: DailyViewsCombined[] = dates.map(
-  (date, i) => ({
-    date,
-    youtube: youtubeDailyMetrics[i].views,
-    instagram: instagramDailyMetrics[i].impressions,
-    tiktok: tiktokDailyMetrics[i].view_count,
-    facebook: facebookDailyMetrics[i].post_video_views,
-  })
-);
+export const dailyViewsCombined: DailyViewsCombined[] = dates.map((date, i) => ({
+  date,
+  youtube: youtubeDailyMetrics[i].views,
+  instagram: 0,
+  tiktok: 0,
+  facebook: 0,
+}));
 
 // ─── Sparkline data (last 14 days) ───
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -236,8 +221,10 @@ export function getAggregatedKPIs(activePlatforms: PlatformKey[]) {
 
   const avgViewDuration = activePlatforms.includes("youtube")
     ? Math.round(
-        youtubeDailyMetrics.reduce((s, d) => s + d.averageViewDuration, 0) /
-          youtubeDailyMetrics.length
+        youtubeDailyMetrics
+          .filter((d) => d.averageViewDuration > 0)
+          .reduce((s, d) => s + d.averageViewDuration, 0) /
+          youtubeDailyMetrics.filter((d) => d.averageViewDuration > 0).length
       )
     : 0;
 
@@ -271,21 +258,21 @@ export function getEngagementByPlatform() {
     },
     {
       platform: "Instagram",
-      likes: instagramDailyMetrics.reduce((s, d) => s + d.likes, 0),
-      comments: instagramDailyMetrics.reduce((s, d) => s + d.comments, 0),
-      shares: instagramDailyMetrics.reduce((s, d) => s + d.shares, 0),
+      likes: 0,
+      comments: 0,
+      shares: 0,
     },
     {
       platform: "TikTok",
-      likes: tiktokDailyMetrics.reduce((s, d) => s + d.like_count, 0),
-      comments: tiktokDailyMetrics.reduce((s, d) => s + d.comment_count, 0),
-      shares: tiktokDailyMetrics.reduce((s, d) => s + d.share_count, 0),
+      likes: 0,
+      comments: 0,
+      shares: 0,
     },
     {
       platform: "Facebook",
-      likes: facebookDailyMetrics.reduce((s, d) => s + d.post_reactions, 0),
-      comments: randBetween(800, 1500),
-      shares: randBetween(300, 800),
+      likes: 0,
+      comments: 0,
+      shares: 0,
     },
   ];
 }
@@ -301,17 +288,99 @@ export interface TopContent {
   publishedDate: string;
 }
 
+// Real data from YouTube Analytics topVideos rows
+// Columns: video, views, likes, comments, shares, estimatedMinutesWatched, averageViewDuration, averageViewPercentage, subscribersGained
 export const topContent: TopContent[] = [
-  { id: "v1", title: "5 Things to Know Before Buying in Thousand Oaks", platform: "youtube", views: 45200, engagementRate: 8.4, avgWatchPercent: 52, publishedDate: "2026-03-01" },
-  { id: "v2", title: "Property Tour: 4BR in Westlake Village", platform: "youtube", views: 38700, engagementRate: 7.2, avgWatchPercent: 48, publishedDate: "2026-02-28" },
-  { id: "v3", title: "Why Ventura County Market is HOT Right Now", platform: "tiktok", views: 32100, engagementRate: 12.1, avgWatchPercent: 31, publishedDate: "2026-03-05" },
-  { id: "v4", title: "First-Time Buyer Mistakes in 2026", platform: "youtube", views: 28900, engagementRate: 9.3, avgWatchPercent: 55, publishedDate: "2026-03-08" },
-  { id: "v5", title: "Luxury Kitchen Reveal - $2.8M Listing", platform: "instagram", views: 24500, engagementRate: 11.8, avgWatchPercent: 0, publishedDate: "2026-03-10" },
-  { id: "v6", title: "Mortgage Rates Update March 2026", platform: "youtube", views: 21300, engagementRate: 6.5, avgWatchPercent: 44, publishedDate: "2026-03-12" },
-  { id: "v7", title: "Day in the Life: Real Estate Agent", platform: "tiktok", views: 19800, engagementRate: 14.2, avgWatchPercent: 28, publishedDate: "2026-03-14" },
-  { id: "v8", title: "Open House Tips That Actually Work", platform: "facebook", views: 15600, engagementRate: 5.8, avgWatchPercent: 38, publishedDate: "2026-03-02" },
-  { id: "v9", title: "Hidden Gems: Camarillo Neighborhoods", platform: "youtube", views: 13200, engagementRate: 7.9, avgWatchPercent: 50, publishedDate: "2026-03-16" },
-  { id: "v10", title: "How to Stage Your Home for Maximum Value", platform: "instagram", views: 11800, engagementRate: 10.5, avgWatchPercent: 0, publishedDate: "2026-03-18" },
+  {
+    id: "zLzcfWmtFxM",
+    title: "This Thousand Oaks Neighborhood has Waterfalls Within Walking Distance",
+    platform: "youtube",
+    views: 376,
+    engagementRate: +((6 + 0 + 1) / 376 * 100).toFixed(2),
+    avgWatchPercent: 59.17,
+    publishedDate: "2026-02-26",
+  },
+  {
+    id: "zOdjiJH33VE",
+    title: "Thousand Oaks Neighborhoods - Original Wildwood Tract",
+    platform: "youtube",
+    views: 294,
+    engagementRate: +((5 + 0 + 0) / 294 * 100).toFixed(2),
+    avgWatchPercent: 40.9,
+    publishedDate: "2026-03-13",
+  },
+  {
+    id: "8GOuD0uBz5I",
+    title: "Stop Waiting for The Perfect Time to Buy a Home",
+    platform: "youtube",
+    views: 233,
+    engagementRate: +((3 + 0 + 1) / 233 * 100).toFixed(2),
+    avgWatchPercent: 29.04,
+    publishedDate: "2026-02-21",
+  },
+  {
+    id: "ehGSxHMgWJ4",
+    title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
+    platform: "youtube",
+    views: 102,
+    engagementRate: +((5 + 0 + 0) / 102 * 100).toFixed(2),
+    avgWatchPercent: 20.75,
+    publishedDate: "2026-03-06",
+  },
+  {
+    id: "0mycplFWKsE",
+    title: "What Home Buyers Are Really Looking For In Thousand Oaks",
+    platform: "youtube",
+    views: 92,
+    engagementRate: +((0 + 0 + 0) / 92 * 100).toFixed(2),
+    avgWatchPercent: 29.74,
+    publishedDate: "2026-03-19",
+  },
+  {
+    id: "XJg8zyUo_qA",
+    title: "The Best Time to List Your Home in Thousand Oaks",
+    platform: "youtube",
+    views: 91,
+    engagementRate: +((0 + 0 + 0) / 91 * 100).toFixed(2),
+    avgWatchPercent: 7.08,
+    publishedDate: "2026-03-17",
+  },
+  {
+    id: "_tneSFg1Eu8",
+    title: "Thousand Oaks Neighborhoods - Wildwood's Most connected Tract (Park Hills)",
+    platform: "youtube",
+    views: 78,
+    engagementRate: +((0 + 0 + 0) / 78 * 100).toFixed(2),
+    avgWatchPercent: 98.23,
+    publishedDate: "2026-03-06",
+  },
+  {
+    id: "h0hKN-VpBns",
+    title: "Living in Thousand Oaks - Wildwood",
+    platform: "youtube",
+    views: 74,
+    engagementRate: +((3 + 0 + 1) / 74 * 100).toFixed(2),
+    avgWatchPercent: 8.27,
+    publishedDate: "2026-02-18",
+  },
+  {
+    id: "CNrOek_2nIw",
+    title: "Thousand Oaks Neighborhoods - Wildwood's Largest Tract (Wildflower)",
+    platform: "youtube",
+    views: 70,
+    engagementRate: +((0 + 0 + 0) / 70 * 100).toFixed(2),
+    avgWatchPercent: 45.25,
+    publishedDate: "2026-03-11",
+  },
+  {
+    id: "iA6A6tgDqyk",
+    title: "The Truth About Living in Wildwood Thousand Oaks",
+    platform: "youtube",
+    views: 65,
+    engagementRate: +((1 + 0 + 0) / 65 * 100).toFixed(2),
+    avgWatchPercent: 44.79,
+    publishedDate: "2026-02-24",
+  },
 ];
 
 // ─── Video retention data ───
@@ -333,259 +402,226 @@ export interface VideoRetention {
   };
 }
 
-function generateRetentionCurve(hookStrength: number, midRetention: number, endRetention: number) {
-  const points: { elapsedVideoTimeRatio: number; audienceWatchRatio: number }[] = [];
-  for (let i = 0; i <= 100; i++) {
-    const ratio = i / 100;
-    let retention: number;
-    if (ratio <= 0.05) {
-      retention = 1.0 - (1.0 - hookStrength) * (ratio / 0.05);
-    } else if (ratio <= 0.5) {
-      const t = (ratio - 0.05) / 0.45;
-      retention = hookStrength - (hookStrength - midRetention) * t;
-    } else {
-      const t = (ratio - 0.5) / 0.5;
-      retention = midRetention - (midRetention - endRetention) * t;
-    }
-    const noise = (rand() - 0.5) * 0.03;
-    retention = Math.max(0.05, Math.min(1.0, retention + noise));
-    points.push({
-      elapsedVideoTimeRatio: ratio,
-      audienceWatchRatio: +retention.toFixed(4),
-    });
-  }
-  return points;
-}
-
+// Real retention curves from YouTube Analytics API (elapsedVideoTimeRatio, audienceWatchRatio)
+// Converted: percentage = ratio * 100, retention = audienceWatchRatio * 100
 export const videoRetentionData: VideoRetention[] = [
   {
-    id: "v1",
-    title: "5 Things to Know Before Buying in Thousand Oaks",
-    duration: 482,
+    id: "zLzcfWmtFxM",
+    title: "This Thousand Oaks Neighborhood has Waterfalls Within Walking Distance",
+    duration: 107, // ~21s avg / 59.17% ≈ 36s per % — approx from averageViewDuration=21s, avgViewPercentage=59.17
     platform: "youtube",
-    views: 45200,
-    averageViewDuration: 154,
-    averageViewPercentage: 42,
-    retentionCurve: generateRetentionCurve(0.78, 0.48, 0.32),
+    views: 376,
+    averageViewDuration: 21,
+    averageViewPercentage: 59.17,
+    retentionCurve: [
+      {elapsedVideoTimeRatio:0.01,audienceWatchRatio:1.3071},{elapsedVideoTimeRatio:0.02,audienceWatchRatio:1.2714},{elapsedVideoTimeRatio:0.03,audienceWatchRatio:1.2357},{elapsedVideoTimeRatio:0.04,audienceWatchRatio:1.2143},{elapsedVideoTimeRatio:0.05,audienceWatchRatio:1.2071},
+      {elapsedVideoTimeRatio:0.06,audienceWatchRatio:1.1857},{elapsedVideoTimeRatio:0.07,audienceWatchRatio:1.1857},{elapsedVideoTimeRatio:0.08,audienceWatchRatio:1.1643},{elapsedVideoTimeRatio:0.09,audienceWatchRatio:1.15},{elapsedVideoTimeRatio:0.1,audienceWatchRatio:1.1429},
+      {elapsedVideoTimeRatio:0.11,audienceWatchRatio:1.1429},{elapsedVideoTimeRatio:0.12,audienceWatchRatio:1.1286},{elapsedVideoTimeRatio:0.13,audienceWatchRatio:1.0714},{elapsedVideoTimeRatio:0.14,audienceWatchRatio:1.0214},{elapsedVideoTimeRatio:0.15,audienceWatchRatio:0.9857},
+      {elapsedVideoTimeRatio:0.16,audienceWatchRatio:0.95},{elapsedVideoTimeRatio:0.17,audienceWatchRatio:0.9429},{elapsedVideoTimeRatio:0.18,audienceWatchRatio:0.9071},{elapsedVideoTimeRatio:0.19,audienceWatchRatio:0.8714},{elapsedVideoTimeRatio:0.2,audienceWatchRatio:0.8357},
+      {elapsedVideoTimeRatio:0.21,audienceWatchRatio:0.8214},{elapsedVideoTimeRatio:0.22,audienceWatchRatio:0.8071},{elapsedVideoTimeRatio:0.23,audienceWatchRatio:0.7714},{elapsedVideoTimeRatio:0.24,audienceWatchRatio:0.7643},{elapsedVideoTimeRatio:0.25,audienceWatchRatio:0.7643},
+      {elapsedVideoTimeRatio:0.26,audienceWatchRatio:0.7357},{elapsedVideoTimeRatio:0.27,audienceWatchRatio:0.7286},{elapsedVideoTimeRatio:0.28,audienceWatchRatio:0.7214},{elapsedVideoTimeRatio:0.29,audienceWatchRatio:0.7071},{elapsedVideoTimeRatio:0.3,audienceWatchRatio:0.7},
+      {elapsedVideoTimeRatio:0.31,audienceWatchRatio:0.6857},{elapsedVideoTimeRatio:0.32,audienceWatchRatio:0.6714},{elapsedVideoTimeRatio:0.33,audienceWatchRatio:0.65},{elapsedVideoTimeRatio:0.34,audienceWatchRatio:0.6357},{elapsedVideoTimeRatio:0.35,audienceWatchRatio:0.6286},
+      {elapsedVideoTimeRatio:0.36,audienceWatchRatio:0.6286},{elapsedVideoTimeRatio:0.37,audienceWatchRatio:0.6071},{elapsedVideoTimeRatio:0.38,audienceWatchRatio:0.6071},{elapsedVideoTimeRatio:0.39,audienceWatchRatio:0.5929},{elapsedVideoTimeRatio:0.4,audienceWatchRatio:0.5786},
+      {elapsedVideoTimeRatio:0.41,audienceWatchRatio:0.5714},{elapsedVideoTimeRatio:0.42,audienceWatchRatio:0.5429},{elapsedVideoTimeRatio:0.43,audienceWatchRatio:0.5286},{elapsedVideoTimeRatio:0.44,audienceWatchRatio:0.5214},{elapsedVideoTimeRatio:0.45,audienceWatchRatio:0.5214},
+      {elapsedVideoTimeRatio:0.46,audienceWatchRatio:0.5},{elapsedVideoTimeRatio:0.47,audienceWatchRatio:0.4929},{elapsedVideoTimeRatio:0.48,audienceWatchRatio:0.4857},{elapsedVideoTimeRatio:0.49,audienceWatchRatio:0.4643},{elapsedVideoTimeRatio:0.5,audienceWatchRatio:0.4571},
+      {elapsedVideoTimeRatio:0.51,audienceWatchRatio:0.4429},{elapsedVideoTimeRatio:0.52,audienceWatchRatio:0.4429},{elapsedVideoTimeRatio:0.53,audienceWatchRatio:0.4429},{elapsedVideoTimeRatio:0.54,audienceWatchRatio:0.4429},{elapsedVideoTimeRatio:0.55,audienceWatchRatio:0.4429},
+      {elapsedVideoTimeRatio:0.56,audienceWatchRatio:0.4429},{elapsedVideoTimeRatio:0.57,audienceWatchRatio:0.4429},{elapsedVideoTimeRatio:0.58,audienceWatchRatio:0.4357},{elapsedVideoTimeRatio:0.59,audienceWatchRatio:0.4357},{elapsedVideoTimeRatio:0.6,audienceWatchRatio:0.4286},
+      {elapsedVideoTimeRatio:0.61,audienceWatchRatio:0.4286},{elapsedVideoTimeRatio:0.62,audienceWatchRatio:0.4286},{elapsedVideoTimeRatio:0.63,audienceWatchRatio:0.4286},{elapsedVideoTimeRatio:0.64,audienceWatchRatio:0.4286},{elapsedVideoTimeRatio:0.65,audienceWatchRatio:0.4286},
+      {elapsedVideoTimeRatio:0.66,audienceWatchRatio:0.4286},{elapsedVideoTimeRatio:0.67,audienceWatchRatio:0.4286},{elapsedVideoTimeRatio:0.68,audienceWatchRatio:0.4214},{elapsedVideoTimeRatio:0.69,audienceWatchRatio:0.4214},{elapsedVideoTimeRatio:0.7,audienceWatchRatio:0.4},
+      {elapsedVideoTimeRatio:0.71,audienceWatchRatio:0.4},{elapsedVideoTimeRatio:0.72,audienceWatchRatio:0.4},{elapsedVideoTimeRatio:0.73,audienceWatchRatio:0.4},{elapsedVideoTimeRatio:0.74,audienceWatchRatio:0.4},{elapsedVideoTimeRatio:0.75,audienceWatchRatio:0.4},
+      {elapsedVideoTimeRatio:0.76,audienceWatchRatio:0.4},{elapsedVideoTimeRatio:0.77,audienceWatchRatio:0.3929},{elapsedVideoTimeRatio:0.78,audienceWatchRatio:0.3929},{elapsedVideoTimeRatio:0.79,audienceWatchRatio:0.3929},{elapsedVideoTimeRatio:0.8,audienceWatchRatio:0.3929},
+      {elapsedVideoTimeRatio:0.81,audienceWatchRatio:0.3857},{elapsedVideoTimeRatio:0.82,audienceWatchRatio:0.3857},{elapsedVideoTimeRatio:0.83,audienceWatchRatio:0.3857},{elapsedVideoTimeRatio:0.84,audienceWatchRatio:0.3857},{elapsedVideoTimeRatio:0.85,audienceWatchRatio:0.3857},
+      {elapsedVideoTimeRatio:0.86,audienceWatchRatio:0.3714},{elapsedVideoTimeRatio:0.87,audienceWatchRatio:0.3714},{elapsedVideoTimeRatio:0.88,audienceWatchRatio:0.3643},{elapsedVideoTimeRatio:0.89,audienceWatchRatio:0.3643},{elapsedVideoTimeRatio:0.9,audienceWatchRatio:0.3643},
+      {elapsedVideoTimeRatio:0.91,audienceWatchRatio:0.35},{elapsedVideoTimeRatio:0.92,audienceWatchRatio:0.3429},{elapsedVideoTimeRatio:0.93,audienceWatchRatio:0.3357},{elapsedVideoTimeRatio:0.94,audienceWatchRatio:0.3286},{elapsedVideoTimeRatio:0.95,audienceWatchRatio:0.3286},
+      {elapsedVideoTimeRatio:0.96,audienceWatchRatio:0.3214},{elapsedVideoTimeRatio:0.97,audienceWatchRatio:0.3214},{elapsedVideoTimeRatio:0.98,audienceWatchRatio:0.3071},{elapsedVideoTimeRatio:0.99,audienceWatchRatio:0.3071},{elapsedVideoTimeRatio:1,audienceWatchRatio:0.3071},
+    ],
     dropOffPoints: [
-      { timestamp: "0:15", viewersLost: 8140, percentDrop: 18, reason: "Intro too long — viewers expecting immediate value" },
-      { timestamp: "1:42", viewersLost: 5424, percentDrop: 12, reason: "Transition between points — pacing dip" },
-      { timestamp: "3:18", viewersLost: 4068, percentDrop: 9, reason: "Complex market data section" },
-      { timestamp: "5:45", viewersLost: 3616, percentDrop: 8, reason: "Call-to-action mid-roll" },
-      { timestamp: "7:22", viewersLost: 2712, percentDrop: 6, reason: "Natural end of main content" },
+      { timestamp: "0:02", viewersLost: 45, percentDrop: 12, reason: "Initial scroll-away — hook held most viewers above 100% replays" },
+      { timestamp: "0:10", viewersLost: 38, percentDrop: 10, reason: "Drop from 131% to 107% — some replaying segment ends" },
+      { timestamp: "0:16", viewersLost: 33, percentDrop: 9, reason: "Transition away from opening waterfall visuals" },
+      { timestamp: "0:30", viewersLost: 29, percentDrop: 8, reason: "Mid-video pacing dip" },
+      { timestamp: "0:45", viewersLost: 19, percentDrop: 5, reason: "Plateau — retained core audience through end" },
     ],
     crossPlatform: {
-      youtube: { views: 45200, avgWatchTime: "2:34", completionRate: 42 },
-      instagram: { views: 12800, avgWatchTime: "0:18", completionRate: "N/A*" },
-      tiktok: { views: 28900, avgWatchTime: "0:22", completionRate: 31 },
-      facebook: { views: 8100, avgWatchTime: "0:45", completionRate: 38 },
+      youtube: { views: 376, avgWatchTime: "0:21", completionRate: 59 },
+      instagram: { views: 0, avgWatchTime: "N/A", completionRate: "N/A*" },
+      tiktok: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
+      facebook: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
     },
   },
   {
-    id: "v2",
-    title: "Property Tour: 4BR in Westlake Village",
-    duration: 396,
+    id: "zOdjiJH33VE",
+    title: "Thousand Oaks Neighborhoods - Original Wildwood Tract",
+    duration: 340, // averageViewDuration=22s, avgViewPercentage=40.9% → ~54s/0.409 ≈ 132s full; Shorts ~60s
     platform: "youtube",
-    views: 38700,
-    averageViewDuration: 178,
-    averageViewPercentage: 48,
-    retentionCurve: generateRetentionCurve(0.82, 0.52, 0.35),
-    dropOffPoints: [
-      { timestamp: "0:08", viewersLost: 5805, percentDrop: 15, reason: "No hook — started with exterior shot" },
-      { timestamp: "2:10", viewersLost: 4257, percentDrop: 11, reason: "Garage tour — low interest section" },
-      { timestamp: "3:50", viewersLost: 3483, percentDrop: 9, reason: "Neighborhood overview felt repetitive" },
-      { timestamp: "5:15", viewersLost: 2709, percentDrop: 7, reason: "Pricing discussion" },
-      { timestamp: "6:00", viewersLost: 1935, percentDrop: 5, reason: "End card / outro" },
-    ],
-    crossPlatform: {
-      youtube: { views: 38700, avgWatchTime: "2:58", completionRate: 48 },
-      instagram: { views: 9200, avgWatchTime: "0:22", completionRate: "N/A*" },
-      tiktok: { views: 15400, avgWatchTime: "0:19", completionRate: 27 },
-      facebook: { views: 5600, avgWatchTime: "0:52", completionRate: 41 },
-    },
-  },
-  {
-    id: "v3",
-    title: "Why Ventura County Market is HOT Right Now",
-    duration: 58,
-    platform: "tiktok",
-    views: 32100,
+    views: 294,
     averageViewDuration: 22,
-    averageViewPercentage: 38,
-    retentionCurve: generateRetentionCurve(0.72, 0.42, 0.25),
+    averageViewPercentage: 40.9,
+    retentionCurve: [
+      {elapsedVideoTimeRatio:0.01,audienceWatchRatio:1.1349},{elapsedVideoTimeRatio:0.02,audienceWatchRatio:1.0952},{elapsedVideoTimeRatio:0.03,audienceWatchRatio:1.0714},{elapsedVideoTimeRatio:0.04,audienceWatchRatio:1.0556},{elapsedVideoTimeRatio:0.05,audienceWatchRatio:1.0397},
+      {elapsedVideoTimeRatio:0.06,audienceWatchRatio:1.0476},{elapsedVideoTimeRatio:0.07,audienceWatchRatio:1.0317},{elapsedVideoTimeRatio:0.08,audienceWatchRatio:1.0317},{elapsedVideoTimeRatio:0.09,audienceWatchRatio:0.9524},{elapsedVideoTimeRatio:0.1,audienceWatchRatio:0.8889},
+      {elapsedVideoTimeRatio:0.11,audienceWatchRatio:0.8651},{elapsedVideoTimeRatio:0.12,audienceWatchRatio:0.8254},{elapsedVideoTimeRatio:0.13,audienceWatchRatio:0.8254},{elapsedVideoTimeRatio:0.14,audienceWatchRatio:0.8095},{elapsedVideoTimeRatio:0.15,audienceWatchRatio:0.7857},
+      {elapsedVideoTimeRatio:0.16,audienceWatchRatio:0.7698},{elapsedVideoTimeRatio:0.17,audienceWatchRatio:0.746},{elapsedVideoTimeRatio:0.18,audienceWatchRatio:0.6746},{elapsedVideoTimeRatio:0.19,audienceWatchRatio:0.6508},{elapsedVideoTimeRatio:0.2,audienceWatchRatio:0.5952},
+      {elapsedVideoTimeRatio:0.21,audienceWatchRatio:0.5714},{elapsedVideoTimeRatio:0.22,audienceWatchRatio:0.5556},{elapsedVideoTimeRatio:0.23,audienceWatchRatio:0.5556},{elapsedVideoTimeRatio:0.24,audienceWatchRatio:0.5079},{elapsedVideoTimeRatio:0.25,audienceWatchRatio:0.5},
+      {elapsedVideoTimeRatio:0.26,audienceWatchRatio:0.4841},{elapsedVideoTimeRatio:0.27,audienceWatchRatio:0.4762},{elapsedVideoTimeRatio:0.28,audienceWatchRatio:0.4524},{elapsedVideoTimeRatio:0.29,audienceWatchRatio:0.4444},{elapsedVideoTimeRatio:0.3,audienceWatchRatio:0.4444},
+      {elapsedVideoTimeRatio:0.31,audienceWatchRatio:0.4524},{elapsedVideoTimeRatio:0.32,audienceWatchRatio:0.4444},{elapsedVideoTimeRatio:0.33,audienceWatchRatio:0.4365},{elapsedVideoTimeRatio:0.34,audienceWatchRatio:0.4286},{elapsedVideoTimeRatio:0.35,audienceWatchRatio:0.4206},
+      {elapsedVideoTimeRatio:0.36,audienceWatchRatio:0.4206},{elapsedVideoTimeRatio:0.37,audienceWatchRatio:0.4206},{elapsedVideoTimeRatio:0.38,audienceWatchRatio:0.4127},{elapsedVideoTimeRatio:0.39,audienceWatchRatio:0.4127},{elapsedVideoTimeRatio:0.4,audienceWatchRatio:0.4127},
+      {elapsedVideoTimeRatio:0.41,audienceWatchRatio:0.3968},{elapsedVideoTimeRatio:0.42,audienceWatchRatio:0.3968},{elapsedVideoTimeRatio:0.43,audienceWatchRatio:0.3889},{elapsedVideoTimeRatio:0.44,audienceWatchRatio:0.381},{elapsedVideoTimeRatio:0.45,audienceWatchRatio:0.373},
+      {elapsedVideoTimeRatio:0.46,audienceWatchRatio:0.381},{elapsedVideoTimeRatio:0.47,audienceWatchRatio:0.373},{elapsedVideoTimeRatio:0.48,audienceWatchRatio:0.3571},{elapsedVideoTimeRatio:0.49,audienceWatchRatio:0.3413},{elapsedVideoTimeRatio:0.5,audienceWatchRatio:0.3254},
+      {elapsedVideoTimeRatio:0.51,audienceWatchRatio:0.3175},{elapsedVideoTimeRatio:0.52,audienceWatchRatio:0.3095},{elapsedVideoTimeRatio:0.53,audienceWatchRatio:0.3095},{elapsedVideoTimeRatio:0.54,audienceWatchRatio:0.3095},{elapsedVideoTimeRatio:0.55,audienceWatchRatio:0.3095},
+      {elapsedVideoTimeRatio:0.56,audienceWatchRatio:0.3095},{elapsedVideoTimeRatio:0.57,audienceWatchRatio:0.3016},{elapsedVideoTimeRatio:0.58,audienceWatchRatio:0.2937},{elapsedVideoTimeRatio:0.59,audienceWatchRatio:0.2778},{elapsedVideoTimeRatio:0.6,audienceWatchRatio:0.2778},
+      {elapsedVideoTimeRatio:0.61,audienceWatchRatio:0.2698},{elapsedVideoTimeRatio:0.62,audienceWatchRatio:0.2698},{elapsedVideoTimeRatio:0.63,audienceWatchRatio:0.254},{elapsedVideoTimeRatio:0.64,audienceWatchRatio:0.254},{elapsedVideoTimeRatio:0.65,audienceWatchRatio:0.246},
+      {elapsedVideoTimeRatio:0.66,audienceWatchRatio:0.2381},{elapsedVideoTimeRatio:0.67,audienceWatchRatio:0.2302},{elapsedVideoTimeRatio:0.68,audienceWatchRatio:0.2302},{elapsedVideoTimeRatio:0.69,audienceWatchRatio:0.2222},{elapsedVideoTimeRatio:0.7,audienceWatchRatio:0.2222},
+      {elapsedVideoTimeRatio:0.71,audienceWatchRatio:0.2143},{elapsedVideoTimeRatio:0.72,audienceWatchRatio:0.2143},{elapsedVideoTimeRatio:0.73,audienceWatchRatio:0.2063},{elapsedVideoTimeRatio:0.74,audienceWatchRatio:0.2063},{elapsedVideoTimeRatio:0.75,audienceWatchRatio:0.2063},
+      {elapsedVideoTimeRatio:0.76,audienceWatchRatio:0.1984},{elapsedVideoTimeRatio:0.77,audienceWatchRatio:0.1905},{elapsedVideoTimeRatio:0.78,audienceWatchRatio:0.1905},{elapsedVideoTimeRatio:0.79,audienceWatchRatio:0.1825},{elapsedVideoTimeRatio:0.8,audienceWatchRatio:0.1825},
+      {elapsedVideoTimeRatio:0.81,audienceWatchRatio:0.1746},{elapsedVideoTimeRatio:0.82,audienceWatchRatio:0.1746},{elapsedVideoTimeRatio:0.83,audienceWatchRatio:0.1746},{elapsedVideoTimeRatio:0.84,audienceWatchRatio:0.1746},{elapsedVideoTimeRatio:0.85,audienceWatchRatio:0.1825},
+      {elapsedVideoTimeRatio:0.86,audienceWatchRatio:0.1825},{elapsedVideoTimeRatio:0.87,audienceWatchRatio:0.1825},{elapsedVideoTimeRatio:0.88,audienceWatchRatio:0.1746},{elapsedVideoTimeRatio:0.89,audienceWatchRatio:0.1746},{elapsedVideoTimeRatio:0.9,audienceWatchRatio:0.1667},
+      {elapsedVideoTimeRatio:0.91,audienceWatchRatio:0.1587},{elapsedVideoTimeRatio:0.92,audienceWatchRatio:0.1508},{elapsedVideoTimeRatio:0.93,audienceWatchRatio:0.1508},{elapsedVideoTimeRatio:0.94,audienceWatchRatio:0.1508},{elapsedVideoTimeRatio:0.95,audienceWatchRatio:0.1429},
+      {elapsedVideoTimeRatio:0.96,audienceWatchRatio:0.1349},{elapsedVideoTimeRatio:0.97,audienceWatchRatio:0.1429},{elapsedVideoTimeRatio:0.98,audienceWatchRatio:0.1429},{elapsedVideoTimeRatio:0.99,audienceWatchRatio:0.1349},{elapsedVideoTimeRatio:1,audienceWatchRatio:0.1349},
+    ],
     dropOffPoints: [
-      { timestamp: "0:03", viewersLost: 9630, percentDrop: 30, reason: "Weak hook — didn't grab attention" },
-      { timestamp: "0:12", viewersLost: 4815, percentDrop: 15, reason: "Data slide felt too educational" },
-      { timestamp: "0:28", viewersLost: 3531, percentDrop: 11, reason: "Mid-video lull" },
-      { timestamp: "0:42", viewersLost: 2568, percentDrop: 8, reason: "Repetitive messaging" },
-      { timestamp: "0:52", viewersLost: 1926, percentDrop: 6, reason: "CTA at end" },
+      { timestamp: "0:03", viewersLost: 35, percentDrop: 12, reason: "Early scroll-away from Shorts feed" },
+      { timestamp: "0:08", viewersLost: 42, percentDrop: 14, reason: "Sharp drop 103% → 89% — hook loses non-Wildwood audience" },
+      { timestamp: "0:15", viewersLost: 26, percentDrop: 9, reason: "Transition to neighborhood detail" },
+      { timestamp: "0:30", viewersLost: 22, percentDrop: 7, reason: "Mid-video audience stabilizes" },
+      { timestamp: "0:50", viewersLost: 18, percentDrop: 6, reason: "Outro drop-off" },
     ],
     crossPlatform: {
-      youtube: { views: 12400, avgWatchTime: "0:38", completionRate: 65 },
-      instagram: { views: 18200, avgWatchTime: "0:15", completionRate: "N/A*" },
-      tiktok: { views: 32100, avgWatchTime: "0:22", completionRate: 38 },
-      facebook: { views: 4200, avgWatchTime: "0:31", completionRate: 53 },
+      youtube: { views: 294, avgWatchTime: "0:22", completionRate: 41 },
+      instagram: { views: 0, avgWatchTime: "N/A", completionRate: "N/A*" },
+      tiktok: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
+      facebook: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
     },
   },
   {
-    id: "v4",
-    title: "First-Time Buyer Mistakes in 2026",
-    duration: 540,
+    id: "8GOuD0uBz5I",
+    title: "Stop Waiting for The Perfect Time to Buy a Home",
+    duration: 114, // averageViewDuration=33s, avgViewPercentage=29.04% → 33/0.2904 ≈ 114s
     platform: "youtube",
-    views: 28900,
-    averageViewDuration: 198,
-    averageViewPercentage: 55,
-    retentionCurve: generateRetentionCurve(0.85, 0.55, 0.38),
+    views: 233,
+    averageViewDuration: 33,
+    averageViewPercentage: 29.04,
+    retentionCurve: [
+      {elapsedVideoTimeRatio:0.01,audienceWatchRatio:1.1875},{elapsedVideoTimeRatio:0.02,audienceWatchRatio:1.0833},{elapsedVideoTimeRatio:0.03,audienceWatchRatio:1.0833},{elapsedVideoTimeRatio:0.04,audienceWatchRatio:1.0833},{elapsedVideoTimeRatio:0.05,audienceWatchRatio:0.9375},
+      {elapsedVideoTimeRatio:0.06,audienceWatchRatio:0.8333},{elapsedVideoTimeRatio:0.07,audienceWatchRatio:0.6458},{elapsedVideoTimeRatio:0.08,audienceWatchRatio:0.5833},{elapsedVideoTimeRatio:0.09,audienceWatchRatio:0.5625},{elapsedVideoTimeRatio:0.1,audienceWatchRatio:0.5208},
+      {elapsedVideoTimeRatio:0.11,audienceWatchRatio:0.5},{elapsedVideoTimeRatio:0.12,audienceWatchRatio:0.3958},{elapsedVideoTimeRatio:0.13,audienceWatchRatio:0.375},{elapsedVideoTimeRatio:0.14,audienceWatchRatio:0.375},{elapsedVideoTimeRatio:0.15,audienceWatchRatio:0.3542},
+      {elapsedVideoTimeRatio:0.16,audienceWatchRatio:0.3333},{elapsedVideoTimeRatio:0.17,audienceWatchRatio:0.3333},{elapsedVideoTimeRatio:0.18,audienceWatchRatio:0.3333},{elapsedVideoTimeRatio:0.19,audienceWatchRatio:0.3333},{elapsedVideoTimeRatio:0.2,audienceWatchRatio:0.3333},
+      {elapsedVideoTimeRatio:0.21,audienceWatchRatio:0.3333},{elapsedVideoTimeRatio:0.22,audienceWatchRatio:0.3333},{elapsedVideoTimeRatio:0.23,audienceWatchRatio:0.3125},{elapsedVideoTimeRatio:0.24,audienceWatchRatio:0.3125},{elapsedVideoTimeRatio:0.25,audienceWatchRatio:0.3125},
+      {elapsedVideoTimeRatio:0.26,audienceWatchRatio:0.3125},{elapsedVideoTimeRatio:0.27,audienceWatchRatio:0.3125},{elapsedVideoTimeRatio:0.28,audienceWatchRatio:0.2917},{elapsedVideoTimeRatio:0.29,audienceWatchRatio:0.2917},{elapsedVideoTimeRatio:0.3,audienceWatchRatio:0.2917},
+      {elapsedVideoTimeRatio:0.31,audienceWatchRatio:0.2917},{elapsedVideoTimeRatio:0.32,audienceWatchRatio:0.2917},{elapsedVideoTimeRatio:0.33,audienceWatchRatio:0.2917},{elapsedVideoTimeRatio:0.34,audienceWatchRatio:0.3125},{elapsedVideoTimeRatio:0.35,audienceWatchRatio:0.3125},
+      {elapsedVideoTimeRatio:0.36,audienceWatchRatio:0.2708},{elapsedVideoTimeRatio:0.37,audienceWatchRatio:0.2292},{elapsedVideoTimeRatio:0.38,audienceWatchRatio:0.2292},{elapsedVideoTimeRatio:0.39,audienceWatchRatio:0.2292},{elapsedVideoTimeRatio:0.4,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.41,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.42,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.43,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.44,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.45,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.46,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.47,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.48,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.49,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.5,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.51,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.52,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.53,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.54,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.55,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.56,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.57,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.58,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.59,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.6,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.61,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.62,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.63,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.64,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.65,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.66,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.67,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.68,audienceWatchRatio:0.2292},{elapsedVideoTimeRatio:0.69,audienceWatchRatio:0.2292},{elapsedVideoTimeRatio:0.7,audienceWatchRatio:0.2292},
+      {elapsedVideoTimeRatio:0.71,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.72,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.73,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.74,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.75,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.76,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.77,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.78,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.79,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.8,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.81,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.82,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.83,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.84,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.85,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.86,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.87,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.88,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.89,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.9,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.91,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.92,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.93,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.94,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.95,audienceWatchRatio:0.2083},
+      {elapsedVideoTimeRatio:0.96,audienceWatchRatio:0.2083},{elapsedVideoTimeRatio:0.97,audienceWatchRatio:0.1875},{elapsedVideoTimeRatio:0.98,audienceWatchRatio:0.1875},{elapsedVideoTimeRatio:0.99,audienceWatchRatio:0.1458},{elapsedVideoTimeRatio:1,audienceWatchRatio:0.1458},
+    ],
     dropOffPoints: [
-      { timestamp: "0:12", viewersLost: 4335, percentDrop: 15, reason: "Standard intro drop-off" },
-      { timestamp: "2:30", viewersLost: 3179, percentDrop: 11, reason: "Complex financing discussion" },
-      { timestamp: "4:15", viewersLost: 2601, percentDrop: 9, reason: "Inspection checklist section" },
-      { timestamp: "6:40", viewersLost: 2023, percentDrop: 7, reason: "Negotiation tips overlap" },
-      { timestamp: "8:20", viewersLost: 1445, percentDrop: 5, reason: "Outro and CTA" },
+      { timestamp: "0:01", viewersLost: 28, percentDrop: 12, reason: "Immediate drop from 119% — replay viewers leave" },
+      { timestamp: "0:05", viewersLost: 37, percentDrop: 16, reason: "Steep drop 94% → 65% — high abandonment at ~7% mark" },
+      { timestamp: "0:08", viewersLost: 18, percentDrop: 8, reason: "Stabilizes around 33% after first major cliff" },
+      { timestamp: "0:42", viewersLost: 12, percentDrop: 5, reason: "Slight uptick suggests rewatch / interest spike at 68%" },
+      { timestamp: "1:50", viewersLost: 10, percentDrop: 4, reason: "End-of-video drop to 15%" },
     ],
     crossPlatform: {
-      youtube: { views: 28900, avgWatchTime: "3:18", completionRate: 55 },
-      instagram: { views: 7600, avgWatchTime: "0:20", completionRate: "N/A*" },
-      tiktok: { views: 19200, avgWatchTime: "0:24", completionRate: 33 },
-      facebook: { views: 6800, avgWatchTime: "0:58", completionRate: 42 },
+      youtube: { views: 233, avgWatchTime: "0:33", completionRate: 29 },
+      instagram: { views: 0, avgWatchTime: "N/A", completionRate: "N/A*" },
+      tiktok: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
+      facebook: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
     },
   },
   {
-    id: "v5",
-    title: "Luxury Kitchen Reveal - $2.8M Listing",
-    duration: 45,
-    platform: "instagram",
-    views: 24500,
-    averageViewDuration: 18,
-    averageViewPercentage: 40,
-    retentionCurve: generateRetentionCurve(0.75, 0.44, 0.28),
-    dropOffPoints: [
-      { timestamp: "0:03", viewersLost: 6125, percentDrop: 25, reason: "Reel didn't stop the scroll" },
-      { timestamp: "0:10", viewersLost: 3675, percentDrop: 15, reason: "Transition to details" },
-      { timestamp: "0:20", viewersLost: 2695, percentDrop: 11, reason: "Mid-reel pacing" },
-      { timestamp: "0:32", viewersLost: 1960, percentDrop: 8, reason: "Feature list felt long" },
-      { timestamp: "0:40", viewersLost: 1470, percentDrop: 6, reason: "End of reel" },
-    ],
-    crossPlatform: {
-      youtube: { views: 8900, avgWatchTime: "0:32", completionRate: 71 },
-      instagram: { views: 24500, avgWatchTime: "0:18", completionRate: "N/A*" },
-      tiktok: { views: 16800, avgWatchTime: "0:20", completionRate: 44 },
-      facebook: { views: 3200, avgWatchTime: "0:28", completionRate: 62 },
-    },
-  },
-  {
-    id: "v6",
-    title: "Mortgage Rates Update March 2026",
-    duration: 420,
+    id: "ehGSxHMgWJ4",
+    title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
+    duration: 723, // averageViewDuration=150s, avgViewPercentage=20.75% → 150/0.2075 ≈ 723s
     platform: "youtube",
-    views: 21300,
-    averageViewDuration: 132,
-    averageViewPercentage: 35,
-    retentionCurve: generateRetentionCurve(0.68, 0.38, 0.22),
+    views: 102,
+    averageViewDuration: 150,
+    averageViewPercentage: 20.75,
+    retentionCurve: [
+      {elapsedVideoTimeRatio:0.01,audienceWatchRatio:0.9314},{elapsedVideoTimeRatio:0.02,audienceWatchRatio:0.7549},{elapsedVideoTimeRatio:0.03,audienceWatchRatio:0.7353},{elapsedVideoTimeRatio:0.04,audienceWatchRatio:0.6471},{elapsedVideoTimeRatio:0.05,audienceWatchRatio:0.6471},
+      {elapsedVideoTimeRatio:0.06,audienceWatchRatio:0.598},{elapsedVideoTimeRatio:0.07,audienceWatchRatio:0.4706},{elapsedVideoTimeRatio:0.08,audienceWatchRatio:0.4412},{elapsedVideoTimeRatio:0.09,audienceWatchRatio:0.4216},{elapsedVideoTimeRatio:0.1,audienceWatchRatio:0.402},
+      {elapsedVideoTimeRatio:0.11,audienceWatchRatio:0.3922},{elapsedVideoTimeRatio:0.12,audienceWatchRatio:0.4216},{elapsedVideoTimeRatio:0.13,audienceWatchRatio:0.3824},{elapsedVideoTimeRatio:0.14,audienceWatchRatio:0.3431},{elapsedVideoTimeRatio:0.15,audienceWatchRatio:0.3627},
+      {elapsedVideoTimeRatio:0.16,audienceWatchRatio:0.402},{elapsedVideoTimeRatio:0.17,audienceWatchRatio:0.3725},{elapsedVideoTimeRatio:0.18,audienceWatchRatio:0.3333},{elapsedVideoTimeRatio:0.19,audienceWatchRatio:0.3039},{elapsedVideoTimeRatio:0.2,audienceWatchRatio:0.2745},
+      {elapsedVideoTimeRatio:0.21,audienceWatchRatio:0.2647},{elapsedVideoTimeRatio:0.22,audienceWatchRatio:0.2843},{elapsedVideoTimeRatio:0.23,audienceWatchRatio:0.2549},{elapsedVideoTimeRatio:0.24,audienceWatchRatio:0.2451},{elapsedVideoTimeRatio:0.25,audienceWatchRatio:0.2843},
+      {elapsedVideoTimeRatio:0.26,audienceWatchRatio:0.2745},{elapsedVideoTimeRatio:0.27,audienceWatchRatio:0.2745},{elapsedVideoTimeRatio:0.28,audienceWatchRatio:0.2745},{elapsedVideoTimeRatio:0.29,audienceWatchRatio:0.2549},{elapsedVideoTimeRatio:0.3,audienceWatchRatio:0.2451},
+      {elapsedVideoTimeRatio:0.31,audienceWatchRatio:0.2353},{elapsedVideoTimeRatio:0.32,audienceWatchRatio:0.2157},{elapsedVideoTimeRatio:0.33,audienceWatchRatio:0.2059},{elapsedVideoTimeRatio:0.34,audienceWatchRatio:0.2157},{elapsedVideoTimeRatio:0.35,audienceWatchRatio:0.2059},
+      {elapsedVideoTimeRatio:0.36,audienceWatchRatio:0.1863},{elapsedVideoTimeRatio:0.37,audienceWatchRatio:0.1961},{elapsedVideoTimeRatio:0.38,audienceWatchRatio:0.1961},{elapsedVideoTimeRatio:0.39,audienceWatchRatio:0.1863},{elapsedVideoTimeRatio:0.4,audienceWatchRatio:0.1863},
+      {elapsedVideoTimeRatio:0.41,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.42,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.43,audienceWatchRatio:0.2059},{elapsedVideoTimeRatio:0.44,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.45,audienceWatchRatio:0.1863},
+      {elapsedVideoTimeRatio:0.46,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.47,audienceWatchRatio:0.1961},{elapsedVideoTimeRatio:0.48,audienceWatchRatio:0.1961},{elapsedVideoTimeRatio:0.49,audienceWatchRatio:0.1961},{elapsedVideoTimeRatio:0.5,audienceWatchRatio:0.1863},
+      {elapsedVideoTimeRatio:0.51,audienceWatchRatio:0.1863},{elapsedVideoTimeRatio:0.52,audienceWatchRatio:0.1863},{elapsedVideoTimeRatio:0.53,audienceWatchRatio:0.1863},{elapsedVideoTimeRatio:0.54,audienceWatchRatio:0.1667},{elapsedVideoTimeRatio:0.55,audienceWatchRatio:0.1667},
+      {elapsedVideoTimeRatio:0.56,audienceWatchRatio:0.1667},{elapsedVideoTimeRatio:0.57,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.58,audienceWatchRatio:0.1667},{elapsedVideoTimeRatio:0.59,audienceWatchRatio:0.1569},{elapsedVideoTimeRatio:0.6,audienceWatchRatio:0.1471},
+      {elapsedVideoTimeRatio:0.61,audienceWatchRatio:0.1471},{elapsedVideoTimeRatio:0.62,audienceWatchRatio:0.1569},{elapsedVideoTimeRatio:0.63,audienceWatchRatio:0.1569},{elapsedVideoTimeRatio:0.64,audienceWatchRatio:0.1667},{elapsedVideoTimeRatio:0.65,audienceWatchRatio:0.1667},
+      {elapsedVideoTimeRatio:0.66,audienceWatchRatio:0.1373},{elapsedVideoTimeRatio:0.67,audienceWatchRatio:0.1471},{elapsedVideoTimeRatio:0.68,audienceWatchRatio:0.1275},{elapsedVideoTimeRatio:0.69,audienceWatchRatio:0.1275},{elapsedVideoTimeRatio:0.7,audienceWatchRatio:0.1373},
+      {elapsedVideoTimeRatio:0.71,audienceWatchRatio:0.1275},{elapsedVideoTimeRatio:0.72,audienceWatchRatio:0.1078},{elapsedVideoTimeRatio:0.73,audienceWatchRatio:0.1078},{elapsedVideoTimeRatio:0.74,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.75,audienceWatchRatio:0.0882},
+      {elapsedVideoTimeRatio:0.76,audienceWatchRatio:0.098},{elapsedVideoTimeRatio:0.77,audienceWatchRatio:0.098},{elapsedVideoTimeRatio:0.78,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.79,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.8,audienceWatchRatio:0.0882},
+      {elapsedVideoTimeRatio:0.81,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.82,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.83,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.84,audienceWatchRatio:0.098},{elapsedVideoTimeRatio:0.85,audienceWatchRatio:0.0882},
+      {elapsedVideoTimeRatio:0.86,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.87,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.88,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.89,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.9,audienceWatchRatio:0.098},
+      {elapsedVideoTimeRatio:0.91,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.92,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.93,audienceWatchRatio:0.0784},{elapsedVideoTimeRatio:0.94,audienceWatchRatio:0.0784},{elapsedVideoTimeRatio:0.95,audienceWatchRatio:0.0882},
+      {elapsedVideoTimeRatio:0.96,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.97,audienceWatchRatio:0.0882},{elapsedVideoTimeRatio:0.98,audienceWatchRatio:0.0686},{elapsedVideoTimeRatio:0.99,audienceWatchRatio:0.0686},{elapsedVideoTimeRatio:1,audienceWatchRatio:0.0686},
+    ],
     dropOffPoints: [
-      { timestamp: "0:20", viewersLost: 6390, percentDrop: 30, reason: "Slow start — no hook question" },
-      { timestamp: "1:35", viewersLost: 3408, percentDrop: 16, reason: "Rate comparison table too dense" },
-      { timestamp: "3:00", viewersLost: 2556, percentDrop: 12, reason: "Fed policy discussion" },
-      { timestamp: "4:45", viewersLost: 1917, percentDrop: 9, reason: "Lender recommendations" },
-      { timestamp: "6:10", viewersLost: 1278, percentDrop: 6, reason: "Outro" },
+      { timestamp: "0:07", viewersLost: 22, percentDrop: 22, reason: "Major early drop 93% → 47% — long-form content loses casual viewers fast" },
+      { timestamp: "1:12", viewersLost: 10, percentDrop: 10, reason: "Stabilizes around 40% through mid-section" },
+      { timestamp: "3:37", viewersLost: 6, percentDrop: 6, reason: "Gradual decline continues through later segments" },
+      { timestamp: "8:42", viewersLost: 5, percentDrop: 5, reason: "Final stretch — core audience remains at ~7-9%" },
     ],
     crossPlatform: {
-      youtube: { views: 21300, avgWatchTime: "2:12", completionRate: 35 },
-      instagram: { views: 5100, avgWatchTime: "0:14", completionRate: "N/A*" },
-      tiktok: { views: 8900, avgWatchTime: "0:18", completionRate: 24 },
-      facebook: { views: 4500, avgWatchTime: "0:42", completionRate: 32 },
+      youtube: { views: 102, avgWatchTime: "2:30", completionRate: 21 },
+      instagram: { views: 0, avgWatchTime: "N/A", completionRate: "N/A*" },
+      tiktok: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
+      facebook: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
     },
   },
   {
-    id: "v7",
-    title: "Day in the Life: Real Estate Agent",
-    duration: 62,
-    platform: "tiktok",
-    views: 19800,
-    averageViewDuration: 24,
-    averageViewPercentage: 39,
-    retentionCurve: generateRetentionCurve(0.74, 0.43, 0.26),
-    dropOffPoints: [
-      { timestamp: "0:02", viewersLost: 3960, percentDrop: 20, reason: "First impression didn't hook" },
-      { timestamp: "0:15", viewersLost: 2970, percentDrop: 15, reason: "Car scene transition" },
-      { timestamp: "0:30", viewersLost: 2178, percentDrop: 11, reason: "Office work montage" },
-      { timestamp: "0:45", viewersLost: 1584, percentDrop: 8, reason: "Talking head section" },
-      { timestamp: "0:55", viewersLost: 990, percentDrop: 5, reason: "End of video" },
-    ],
-    crossPlatform: {
-      youtube: { views: 6200, avgWatchTime: "0:48", completionRate: 77 },
-      instagram: { views: 14300, avgWatchTime: "0:16", completionRate: "N/A*" },
-      tiktok: { views: 19800, avgWatchTime: "0:24", completionRate: 39 },
-      facebook: { views: 2800, avgWatchTime: "0:35", completionRate: 56 },
-    },
-  },
-  {
-    id: "v8",
-    title: "Open House Tips That Actually Work",
-    duration: 360,
-    platform: "facebook",
-    views: 15600,
-    averageViewDuration: 145,
-    averageViewPercentage: 40,
-    retentionCurve: generateRetentionCurve(0.76, 0.45, 0.30),
-    dropOffPoints: [
-      { timestamp: "0:10", viewersLost: 3120, percentDrop: 20, reason: "Autoplay drop-off on Facebook" },
-      { timestamp: "1:20", viewersLost: 2340, percentDrop: 15, reason: "Staging section felt generic" },
-      { timestamp: "2:45", viewersLost: 1716, percentDrop: 11, reason: "Lighting tips overlap" },
-      { timestamp: "4:00", viewersLost: 1248, percentDrop: 8, reason: "Pricing strategy discussion" },
-      { timestamp: "5:30", viewersLost: 780, percentDrop: 5, reason: "Recap and CTA" },
-    ],
-    crossPlatform: {
-      youtube: { views: 11200, avgWatchTime: "2:42", completionRate: 45 },
-      instagram: { views: 6400, avgWatchTime: "0:19", completionRate: "N/A*" },
-      tiktok: { views: 10500, avgWatchTime: "0:21", completionRate: 29 },
-      facebook: { views: 15600, avgWatchTime: "2:25", completionRate: 40 },
-    },
-  },
-  {
-    id: "v9",
-    title: "Hidden Gems: Camarillo Neighborhoods",
-    duration: 510,
+    id: "0mycplFWKsE",
+    title: "What Home Buyers Are Really Looking For In Thousand Oaks",
+    duration: 111, // averageViewDuration=22s, avgViewPercentage=29.74% → 22/0.2974 ≈ 74s; curve has 97 points → ~60s Short
     platform: "youtube",
-    views: 13200,
-    averageViewDuration: 168,
-    averageViewPercentage: 50,
-    retentionCurve: generateRetentionCurve(0.80, 0.50, 0.34),
+    views: 92,
+    averageViewDuration: 22,
+    averageViewPercentage: 29.74,
+    retentionCurve: [
+      {elapsedVideoTimeRatio:0.01,audienceWatchRatio:1.0588},{elapsedVideoTimeRatio:0.02,audienceWatchRatio:1},{elapsedVideoTimeRatio:0.03,audienceWatchRatio:1},{elapsedVideoTimeRatio:0.04,audienceWatchRatio:1},{elapsedVideoTimeRatio:0.05,audienceWatchRatio:1},
+      {elapsedVideoTimeRatio:0.06,audienceWatchRatio:1},{elapsedVideoTimeRatio:0.07,audienceWatchRatio:0.7059},{elapsedVideoTimeRatio:0.08,audienceWatchRatio:0.6471},{elapsedVideoTimeRatio:0.09,audienceWatchRatio:0.5294},{elapsedVideoTimeRatio:0.1,audienceWatchRatio:0.5294},
+      {elapsedVideoTimeRatio:0.11,audienceWatchRatio:0.4706},{elapsedVideoTimeRatio:0.12,audienceWatchRatio:0.4706},{elapsedVideoTimeRatio:0.13,audienceWatchRatio:0.4706},{elapsedVideoTimeRatio:0.14,audienceWatchRatio:0.4706},{elapsedVideoTimeRatio:0.15,audienceWatchRatio:0.4706},
+      {elapsedVideoTimeRatio:0.16,audienceWatchRatio:0.4706},{elapsedVideoTimeRatio:0.17,audienceWatchRatio:0.4706},{elapsedVideoTimeRatio:0.18,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.19,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.2,audienceWatchRatio:0.4118},
+      {elapsedVideoTimeRatio:0.21,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.22,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.23,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.24,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.25,audienceWatchRatio:0.4118},
+      {elapsedVideoTimeRatio:0.26,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.27,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.28,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.29,audienceWatchRatio:0.4118},{elapsedVideoTimeRatio:0.3,audienceWatchRatio:0.3529},
+      {elapsedVideoTimeRatio:0.31,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.32,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.33,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.34,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.35,audienceWatchRatio:0.3529},
+      {elapsedVideoTimeRatio:0.36,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.37,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.38,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.39,audienceWatchRatio:0.3529},{elapsedVideoTimeRatio:0.4,audienceWatchRatio:0.2941},
+      {elapsedVideoTimeRatio:0.41,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.42,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.43,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.44,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.45,audienceWatchRatio:0.2941},
+      {elapsedVideoTimeRatio:0.46,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.47,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.48,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.49,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.5,audienceWatchRatio:0.2941},
+      {elapsedVideoTimeRatio:0.51,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.52,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.53,audienceWatchRatio:0.2941},{elapsedVideoTimeRatio:0.54,audienceWatchRatio:0.2353},{elapsedVideoTimeRatio:0.55,audienceWatchRatio:0.2353},
+      {elapsedVideoTimeRatio:0.56,audienceWatchRatio:0.2353},{elapsedVideoTimeRatio:0.57,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.58,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.59,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.6,audienceWatchRatio:0.1765},
+      {elapsedVideoTimeRatio:0.61,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.62,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.63,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.64,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.65,audienceWatchRatio:0.1765},
+      {elapsedVideoTimeRatio:0.66,audienceWatchRatio:0.1765},{elapsedVideoTimeRatio:0.67,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.68,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.69,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.7,audienceWatchRatio:0.1176},
+      {elapsedVideoTimeRatio:0.71,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.72,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.73,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.74,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.75,audienceWatchRatio:0.1176},
+      {elapsedVideoTimeRatio:0.76,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.77,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.78,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.79,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.8,audienceWatchRatio:0.1176},
+      {elapsedVideoTimeRatio:0.81,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.82,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.83,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.84,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.85,audienceWatchRatio:0.1176},
+      {elapsedVideoTimeRatio:0.86,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.87,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.88,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.89,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.9,audienceWatchRatio:0.1176},
+      {elapsedVideoTimeRatio:0.91,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.92,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.93,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.94,audienceWatchRatio:0.1176},{elapsedVideoTimeRatio:0.95,audienceWatchRatio:0.0588},
+      {elapsedVideoTimeRatio:0.96,audienceWatchRatio:0.0588},{elapsedVideoTimeRatio:0.97,audienceWatchRatio:0.0588},
+    ],
     dropOffPoints: [
-      { timestamp: "0:18", viewersLost: 2640, percentDrop: 20, reason: "Intro music too long" },
-      { timestamp: "2:00", viewersLost: 1848, percentDrop: 14, reason: "First neighborhood transition" },
-      { timestamp: "4:10", viewersLost: 1320, percentDrop: 10, reason: "School district data" },
-      { timestamp: "6:20", viewersLost: 924, percentDrop: 7, reason: "Commute time discussion" },
-      { timestamp: "7:50", viewersLost: 660, percentDrop: 5, reason: "Outro" },
+      { timestamp: "0:04", viewersLost: 9, percentDrop: 29, reason: "Cliff drop 106% → 71% at ~7% mark — hook works but many scroll past" },
+      { timestamp: "0:09", viewersLost: 7, percentDrop: 18, reason: "Settling period — drops to 47-53% stable band" },
+      { timestamp: "0:28", viewersLost: 5, percentDrop: 6, reason: "Second step drop to 35% at 30% mark" },
+      { timestamp: "0:40", viewersLost: 4, percentDrop: 6, reason: "Third step to 29% at 40% mark" },
+      { timestamp: "0:57", viewersLost: 3, percentDrop: 6, reason: "Final step drop to 12% at 67% mark" },
     ],
     crossPlatform: {
-      youtube: { views: 13200, avgWatchTime: "2:48", completionRate: 50 },
-      instagram: { views: 4100, avgWatchTime: "0:17", completionRate: "N/A*" },
-      tiktok: { views: 7800, avgWatchTime: "0:20", completionRate: 26 },
-      facebook: { views: 3400, avgWatchTime: "0:48", completionRate: 36 },
-    },
-  },
-  {
-    id: "v10",
-    title: "How to Stage Your Home for Maximum Value",
-    duration: 38,
-    platform: "instagram",
-    views: 11800,
-    averageViewDuration: 15,
-    averageViewPercentage: 39,
-    retentionCurve: generateRetentionCurve(0.71, 0.41, 0.24),
-    dropOffPoints: [
-      { timestamp: "0:03", viewersLost: 3540, percentDrop: 30, reason: "Didn't stop the scroll" },
-      { timestamp: "0:08", viewersLost: 1770, percentDrop: 15, reason: "Text overlay too fast" },
-      { timestamp: "0:18", viewersLost: 1298, percentDrop: 11, reason: "Furniture rearrangement clip" },
-      { timestamp: "0:28", viewersLost: 944, percentDrop: 8, reason: "Before/after reveal pacing" },
-      { timestamp: "0:35", viewersLost: 590, percentDrop: 5, reason: "End of reel" },
-    ],
-    crossPlatform: {
-      youtube: { views: 5400, avgWatchTime: "0:28", completionRate: 74 },
-      instagram: { views: 11800, avgWatchTime: "0:15", completionRate: "N/A*" },
-      tiktok: { views: 9200, avgWatchTime: "0:17", completionRate: 45 },
-      facebook: { views: 2100, avgWatchTime: "0:24", completionRate: 63 },
+      youtube: { views: 92, avgWatchTime: "0:22", completionRate: 30 },
+      instagram: { views: 0, avgWatchTime: "N/A", completionRate: "N/A*" },
+      tiktok: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
+      facebook: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
     },
   },
 ];
@@ -616,57 +652,80 @@ export interface FunnelData {
   bestConverter: PlatformKey;
 }
 
+// Real data:
+// Step 1 (Social Content): YouTube total views = 1629
+// Step 2 (Link Clicked): PostHog sessions per landing page
+// Step 3 (Call from Asset): Form Started = 5 total, distributed proportionally by sessions
+// Step 4 (Meeting Scheduled): Step 1 Completed = 3 total, distributed proportionally by sessions
+//
+// Platform breakdown derived from referrers:
+//   YouTube UTM = 17 sessions, Facebook = 32 sessions (23+9), Google = 27, Direct = 155
+//
+// Landing pages:
+//   buyerguide = 48 pv, 23 sessions
+//   marketpulse = 52+12 = 64 pv, 15 sessions (marketpulse/dashboard + marketpulse/dashboard/news)
+//   sellguide = 42 pv, 19 sessions
+//   homevalue = 64+48+40 = 152 pv, 42 sessions (homevalue + questionnaire + results)
+//   property-management = 31 pv, 16 sessions
+// Total funnel sessions = 23 + 15 + 19 + 42 + 16 = 115
+
 export const funnelDatasets: FunnelData[] = [
   {
     id: "buy-guide",
     name: "Buy Guide Funnel",
+    // Step 1: YouTube views attributed to buyer content (proportional ~23/115 of 1629 ≈ 326)
+    // Step 2: 23 sessions to /buyerguide
+    // Step 3: Form Started 5 * (23/115) ≈ 1
+    // Step 4: Step 1 Completed 3 * (23/115) ≈ 1
     steps: [
-      { name: "Social Content", count: 8420, conversionFromPrev: 100, dropOff: 0 },
-      { name: "Link Clicked", count: 3180, conversionFromPrev: 37.8, dropOff: 62.2 },
-      { name: "Call from Buy Guide", count: 412, conversionFromPrev: 13.0, dropOff: 87.0 },
-      { name: "Meeting Scheduled", count: 89, conversionFromPrev: 21.6, dropOff: 78.4 },
+      { name: "Social Content",      count: 326,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",         count: 23,   conversionFromPrev: 7.1,  dropOff: 92.9 },
+      { name: "Call from Buy Guide",  count: 1,    conversionFromPrev: 4.3,  dropOff: 95.7 },
+      { name: "Meeting Scheduled",    count: 1,    conversionFromPrev: 100,  dropOff: 0 },
     ],
     platformBreakdown: [
-      { platform: "youtube", socialContent: 3200, linkClicked: 1340, callFromAsset: 178, meetingScheduled: 34, conversionRate: 1.06 },
-      { platform: "instagram", socialContent: 1800, linkClicked: 720, callFromAsset: 112, meetingScheduled: 28, conversionRate: 1.56 },
-      { platform: "tiktok", socialContent: 2400, linkClicked: 780, callFromAsset: 72, meetingScheduled: 15, conversionRate: 0.63 },
-      { platform: "facebook", socialContent: 1020, linkClicked: 340, callFromAsset: 50, meetingScheduled: 12, conversionRate: 1.18 },
+      { platform: "youtube",   socialContent: 326, linkClicked: 17, callFromAsset: 1, meetingScheduled: 1, conversionRate: 0.31 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 6,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "youtube",
-    bestConverter: "instagram",
+    bestConverter: "youtube",
   },
   {
     id: "neighborhood-scorecard",
     name: "Neighborhood Scorecard Funnel",
+    // Step 2: 15 sessions to /marketpulse (12 dashboard + 3 news)
     steps: [
-      { name: "Social Content", count: 11200, conversionFromPrev: 100, dropOff: 0 },
-      { name: "Link Clicked", count: 4650, conversionFromPrev: 41.5, dropOff: 58.5 },
-      { name: "Call from Scorecard", count: 523, conversionFromPrev: 11.2, dropOff: 88.8 },
-      { name: "Meeting Scheduled", count: 108, conversionFromPrev: 20.7, dropOff: 79.3 },
+      { name: "Social Content",       count: 213,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",          count: 15,   conversionFromPrev: 7.0,  dropOff: 93.0 },
+      { name: "Call from Scorecard",   count: 1,    conversionFromPrev: 6.7,  dropOff: 93.3 },
+      { name: "Meeting Scheduled",     count: 0,    conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube", socialContent: 2800, linkClicked: 1180, callFromAsset: 142, meetingScheduled: 28, conversionRate: 1.00 },
-      { platform: "instagram", socialContent: 2200, linkClicked: 940, callFromAsset: 118, meetingScheduled: 22, conversionRate: 1.00 },
-      { platform: "tiktok", socialContent: 4500, linkClicked: 1800, callFromAsset: 168, meetingScheduled: 32, conversionRate: 0.71 },
-      { platform: "facebook", socialContent: 1700, linkClicked: 730, callFromAsset: 95, meetingScheduled: 26, conversionRate: 1.53 },
+      { platform: "youtube",   socialContent: 213, linkClicked: 11, callFromAsset: 1, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 4,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
-    bestVolumeDriver: "tiktok",
-    bestConverter: "facebook",
+    bestVolumeDriver: "youtube",
+    bestConverter: "youtube",
   },
   {
     id: "seller-guide",
     name: "Seller Guide Funnel",
+    // Step 2: 19 sessions to /sellguide
     steps: [
-      { name: "Social Content", count: 6800, conversionFromPrev: 100, dropOff: 0 },
-      { name: "Link Clicked", count: 2720, conversionFromPrev: 40.0, dropOff: 60.0 },
-      { name: "Call from Seller Guide", count: 380, conversionFromPrev: 14.0, dropOff: 86.0 },
-      { name: "Meeting Scheduled", count: 76, conversionFromPrev: 20.0, dropOff: 80.0 },
+      { name: "Social Content",        count: 270,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",           count: 19,   conversionFromPrev: 7.0,  dropOff: 93.0 },
+      { name: "Call from Seller Guide", count: 1,    conversionFromPrev: 5.3,  dropOff: 94.7 },
+      { name: "Meeting Scheduled",      count: 1,    conversionFromPrev: 100,  dropOff: 0 },
     ],
     platformBreakdown: [
-      { platform: "youtube", socialContent: 2600, linkClicked: 1200, callFromAsset: 185, meetingScheduled: 38, conversionRate: 1.46 },
-      { platform: "instagram", socialContent: 1600, linkClicked: 620, callFromAsset: 82, meetingScheduled: 16, conversionRate: 1.00 },
-      { platform: "tiktok", socialContent: 1800, linkClicked: 580, callFromAsset: 68, meetingScheduled: 12, conversionRate: 0.67 },
-      { platform: "facebook", socialContent: 800, linkClicked: 320, callFromAsset: 45, meetingScheduled: 10, conversionRate: 1.25 },
+      { platform: "youtube",   socialContent: 270, linkClicked: 14, callFromAsset: 1, meetingScheduled: 1, conversionRate: 0.37 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 5,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "youtube",
     bestConverter: "youtube",
@@ -674,37 +733,39 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "instant-valuation",
     name: "Instant Valuation Funnel",
+    // Step 2: 42 sessions (homevalue 18 + questionnaire 12 + results 12)
     steps: [
-      { name: "Social Content", count: 9600, conversionFromPrev: 100, dropOff: 0 },
-      { name: "Link Clicked", count: 4100, conversionFromPrev: 42.7, dropOff: 57.3 },
-      { name: "Call from Valuation", count: 490, conversionFromPrev: 12.0, dropOff: 88.0 },
-      { name: "Meeting Scheduled", count: 95, conversionFromPrev: 19.4, dropOff: 80.6 },
+      { name: "Social Content",       count: 596,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",          count: 42,   conversionFromPrev: 7.0,  dropOff: 93.0 },
+      { name: "Call from Valuation",   count: 2,    conversionFromPrev: 4.8,  dropOff: 95.2 },
+      { name: "Meeting Scheduled",     count: 1,    conversionFromPrev: 50,   dropOff: 50 },
     ],
     platformBreakdown: [
-      { platform: "youtube", socialContent: 2200, linkClicked: 920, callFromAsset: 118, meetingScheduled: 22, conversionRate: 1.00 },
-      { platform: "instagram", socialContent: 2800, linkClicked: 1260, callFromAsset: 172, meetingScheduled: 38, conversionRate: 1.36 },
-      { platform: "tiktok", socialContent: 3400, linkClicked: 1380, callFromAsset: 128, meetingScheduled: 20, conversionRate: 0.59 },
-      { platform: "facebook", socialContent: 1200, linkClicked: 540, callFromAsset: 72, meetingScheduled: 15, conversionRate: 1.25 },
+      { platform: "youtube",   socialContent: 596, linkClicked: 31, callFromAsset: 2, meetingScheduled: 1, conversionRate: 0.17 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 11, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
-    bestVolumeDriver: "tiktok",
-    bestConverter: "instagram",
+    bestVolumeDriver: "youtube",
+    bestConverter: "youtube",
   },
   {
     id: "pm-guide",
     name: "Property Management Guide Funnel",
+    // Step 2: 16 sessions to /property-management
     steps: [
-      { name: "Social Content", count: 5400, conversionFromPrev: 100, dropOff: 0 },
-      { name: "Link Clicked", count: 2100, conversionFromPrev: 38.9, dropOff: 61.1 },
-      { name: "Call from PM Guide", count: 298, conversionFromPrev: 14.2, dropOff: 85.8 },
-      { name: "Meeting Scheduled", count: 62, conversionFromPrev: 20.8, dropOff: 79.2 },
+      { name: "Social Content",      count: 224,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",         count: 16,   conversionFromPrev: 7.1,  dropOff: 92.9 },
+      { name: "Call from PM Guide",   count: 1,    conversionFromPrev: 6.3,  dropOff: 93.7 },
+      { name: "Meeting Scheduled",    count: 0,    conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube", socialContent: 1400, linkClicked: 620, callFromAsset: 98, meetingScheduled: 22, conversionRate: 1.57 },
-      { platform: "instagram", socialContent: 900, linkClicked: 340, callFromAsset: 42, meetingScheduled: 8, conversionRate: 0.89 },
-      { platform: "tiktok", socialContent: 1200, linkClicked: 420, callFromAsset: 52, meetingScheduled: 10, conversionRate: 0.83 },
-      { platform: "facebook", socialContent: 1900, linkClicked: 720, callFromAsset: 106, meetingScheduled: 22, conversionRate: 1.16 },
+      { platform: "youtube",   socialContent: 224, linkClicked: 12, callFromAsset: 1, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 4,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
-    bestVolumeDriver: "facebook",
+    bestVolumeDriver: "youtube",
     bestConverter: "youtube",
   },
 ];
@@ -712,17 +773,17 @@ export const funnelDatasets: FunnelData[] = [
 // Aggregate "All Funnels" view
 export function getAggregatedFunnelData(): FunnelData {
   const allSteps: FunnelStep[] = [
-    { name: "Social Content", count: 0, conversionFromPrev: 100, dropOff: 0 },
-    { name: "Link Clicked", count: 0, conversionFromPrev: 0, dropOff: 0 },
-    { name: "Call from Asset", count: 0, conversionFromPrev: 0, dropOff: 0 },
+    { name: "Social Content",  count: 0, conversionFromPrev: 100, dropOff: 0 },
+    { name: "Link Clicked",    count: 0, conversionFromPrev: 0,   dropOff: 0 },
+    { name: "Call from Asset", count: 0, conversionFromPrev: 0,   dropOff: 0 },
     { name: "Meeting Scheduled", count: 0, conversionFromPrev: 0, dropOff: 0 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube: { platform: "youtube", socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     instagram: { platform: "instagram", socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-    tiktok: { platform: "tiktok", socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-    facebook: { platform: "facebook", socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+    tiktok:    { platform: "tiktok",    socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+    facebook:  { platform: "facebook",  socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
   };
 
   for (const funnel of funnelDatasets) {
@@ -731,19 +792,18 @@ export function getAggregatedFunnelData(): FunnelData {
     allSteps[2].count += funnel.steps[2].count;
     allSteps[3].count += funnel.steps[3].count;
     for (const pb of funnel.platformBreakdown) {
-      platTotals[pb.platform].socialContent += pb.socialContent;
-      platTotals[pb.platform].linkClicked += pb.linkClicked;
-      platTotals[pb.platform].callFromAsset += pb.callFromAsset;
+      platTotals[pb.platform].socialContent   += pb.socialContent;
+      platTotals[pb.platform].linkClicked      += pb.linkClicked;
+      platTotals[pb.platform].callFromAsset    += pb.callFromAsset;
       platTotals[pb.platform].meetingScheduled += pb.meetingScheduled;
     }
   }
 
-  // Calculate conversion rates
   allSteps[1].conversionFromPrev = +((allSteps[1].count / allSteps[0].count) * 100).toFixed(1);
   allSteps[1].dropOff = +(100 - allSteps[1].conversionFromPrev).toFixed(1);
-  allSteps[2].conversionFromPrev = +((allSteps[2].count / allSteps[1].count) * 100).toFixed(1);
+  allSteps[2].conversionFromPrev = allSteps[1].count > 0 ? +((allSteps[2].count / allSteps[1].count) * 100).toFixed(1) : 0;
   allSteps[2].dropOff = +(100 - allSteps[2].conversionFromPrev).toFixed(1);
-  allSteps[3].conversionFromPrev = +((allSteps[3].count / allSteps[2].count) * 100).toFixed(1);
+  allSteps[3].conversionFromPrev = allSteps[2].count > 0 ? +((allSteps[3].count / allSteps[2].count) * 100).toFixed(1) : 0;
   allSteps[3].dropOff = +(100 - allSteps[3].conversionFromPrev).toFixed(1);
 
   for (const p of Object.values(platTotals)) {
@@ -756,7 +816,7 @@ export function getAggregatedFunnelData(): FunnelData {
     steps: allSteps,
     platformBreakdown: Object.values(platTotals),
     bestVolumeDriver: "youtube",
-    bestConverter: "instagram",
+    bestConverter: "youtube",
   };
 }
 
@@ -773,11 +833,14 @@ export interface FunnelSource {
   conversionRate: number;
 }
 
+// Real PostHog referrer data:
+// YouTube UTM: 75 events, 17 sessions | Facebook: 46+11=57 events, 32 sessions
+// Google: 120 events, 27 sessions | Direct: 851 events, 155 sessions
 export const funnelSources: FunnelSource[] = [
-  { source: "youtube", platform: "youtube", clicks: 2340, landingViews: 1890, formFills: 234, callsBooked: 47, conversionRate: 2.0 },
-  { source: "instagram", platform: "instagram", clicks: 1120, landingViews: 890, formFills: 156, callsBooked: 38, conversionRate: 3.4 },
-  { source: "tiktok", platform: "tiktok", clicks: 3450, landingViews: 2100, formFills: 189, callsBooked: 28, conversionRate: 0.8 },
-  { source: "facebook", platform: "facebook", clicks: 780, landingViews: 620, formFills: 98, callsBooked: 22, conversionRate: 2.8 },
+  { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, formFills: 3, callsBooked: 2, conversionRate: 1.3 },
+  { source: "youtube",   platform: "youtube",   clicks: 17,  landingViews: 17,  formFills: 1, callsBooked: 0, conversionRate: 0 },
+  { source: "google",    platform: "youtube",   clicks: 27,  landingViews: 27,  formFills: 1, callsBooked: 1, conversionRate: 3.7 },
+  { source: "facebook",  platform: "facebook",  clicks: 32,  landingViews: 32,  formFills: 0, callsBooked: 0, conversionRate: 0 },
 ];
 
 // ─── AI Insights ───
@@ -794,23 +857,23 @@ export const aiInsights: AIInsight[] = [
   {
     id: "ai1",
     title: "Hook Optimization",
-    body: "Your average 3-second retention is 72%. Videos that open with a question retain 85% at 3 seconds. Try opening with 'Did you know...' or 'The #1 mistake buyers make in Thousand Oaks...' to improve hooks.",
-    platforms: ["youtube", "tiktok", "instagram"],
+    body: "Your top Short (Waterfalls) opens above 130% audience ratio — viewers are rewatching the first 2 seconds. That's a strong hook signal. Compare to 'Stop Waiting to Buy' which drops from 119% to 65% by the 7% mark. Lead every video with a visual payoff or bold question to sustain that above-100% rewatch behavior.",
+    platforms: ["youtube"],
     category: "hook",
     icon: "Zap",
   },
   {
     id: "ai2",
     title: "Best Posting Times",
-    body: "Your TikTok videos posted between 7-9 AM PST get 34% more views than afternoon posts. Instagram performs best on Tuesdays and Thursdays at 12 PM.",
-    platforms: ["tiktok", "instagram"],
+    body: "Shorts dominate your channel — 1,275 of 1,629 total views (78%) came from the Shorts feed. Your subscriber traffic (75 views) and YouTube Search (62 views) are secondary but growing. Prioritize vertical short-form content under 60 seconds to keep riding the Shorts algorithm while your search presence builds.",
+    platforms: ["youtube"],
     category: "timing",
     icon: "Clock",
   },
   {
     id: "ai3",
     title: "Content Strategy",
-    body: "Property tour videos averaging 2:34 watch time outperform market update videos (1:12). Consider creating more tour-style content with personal narration.",
+    body: "Neighborhood walk content is your strongest performer: 'Waterfalls' (376 views, 59% completion) and 'Original Wildwood Tract' (294 views, 41% completion) outperform market-update Shorts by 2-3x. The Park Hills video hit 98% completion despite only 78 views — extremely high quality signal. Double down on neighborhood discovery content.",
     platforms: ["youtube"],
     category: "content",
     icon: "TrendingUp",
@@ -818,16 +881,16 @@ export const aiInsights: AIInsight[] = [
   {
     id: "ai4",
     title: "Funnel Optimization",
-    body: "Instagram has the highest conversion rate (3.4%) despite lower traffic volume. Consider increasing Instagram ad spend. TikTok drives volume but converts at only 0.8% — the landing page may need mobile optimization.",
-    platforms: ["instagram", "tiktok"],
+    body: "129 unique visitors and 287 sessions in 30 days, with the Instant Valuation page driving the most traffic (152 pageviews, 42 sessions). The Buy Guide has the best session count among lead-gen pages (23 sessions). Only 5 Form Started events were tracked — the gap between 287 sessions and 5 form starts suggests a strong CTA opportunity on landing pages.",
+    platforms: ["youtube"],
     category: "funnel",
     icon: "Target",
   },
   {
     id: "ai5",
     title: "Engagement Pattern",
-    body: "Videos with captions/subtitles see 28% higher completion rates. 67% of your TikTok viewers watch with sound off.",
-    platforms: ["tiktok", "youtube"],
+    body: "Your channel earned 7 subscribers and 27 total likes from 1,629 views — a 1.66% like rate. The Long-form 'Shadow Oaks & Eichler' video (102 views) drove 5 likes and 1 subscriber, the best engagement-per-view ratio among longer content. Short-form drives volume; long-form drives qualified engagement and subscribers.",
+    platforms: ["youtube"],
     category: "engagement",
     icon: "MessageCircle",
   },
@@ -841,12 +904,17 @@ export interface ContentScore {
   conversion: number;
 }
 
+// Scores based on real data:
+// hooks: top video 130% ratio = strong hooks, but avg completion ~40% → 62
+// engagement: 27 likes + 3 shares from 1629 views = 1.84% rate → 38 (low but early channel)
+// reach: 1629 views, Shorts 78%, growing → 45
+// conversion: 287 sessions, 5 form starts = 1.7% → 28
 export const contentScore: ContentScore = {
-  overall: 78,
-  hooks: 72,
-  engagement: 85,
-  reach: 74,
-  conversion: 81,
+  overall: 43,
+  hooks: 62,
+  engagement: 38,
+  reach: 45,
+  conversion: 28,
 };
 
 export interface TrendingTopic {
@@ -856,17 +924,17 @@ export interface TrendingTopic {
 }
 
 export const trendingTopics: TrendingTopic[] = [
-  { topic: "Thousand Oaks new construction 2026", trend: "up", volume: "High" },
-  { topic: "Ventura County first-time buyer programs", trend: "up", volume: "High" },
-  { topic: "Westlake Village luxury homes", trend: "stable", volume: "Medium" },
-  { topic: "Camarillo school district ratings", trend: "up", volume: "Medium" },
-  { topic: "Moorpark vs Simi Valley housing", trend: "up", volume: "Medium" },
-  { topic: "California ADU laws 2026", trend: "up", volume: "High" },
-  { topic: "Oxnard beachfront property investment", trend: "stable", volume: "Low" },
-  { topic: "Home staging tips seller's market", trend: "up", volume: "Medium" },
+  { topic: "Thousand Oaks neighborhood guides", trend: "up",    volume: "High" },
+  { topic: "Wildwood Thousand Oaks homes",       trend: "up",    volume: "High" },
+  { topic: "California landlord laws 2026",       trend: "up",    volume: "High" },
+  { topic: "Thousand Oaks home valuation tool",   trend: "up",    volume: "Medium" },
+  { topic: "Buyer vs seller market Ventura County", trend: "up", volume: "Medium" },
+  { topic: "Thousand Oaks first-time buyers",     trend: "stable", volume: "Medium" },
+  { topic: "Instant home value AI tool",          trend: "up",    volume: "Medium" },
+  { topic: "Thousand Oaks property management",   trend: "stable", volume: "Low" },
 ];
 
-// ─── PostHog Dashboard Mock Data ───
+// ─── PostHog Dashboard Data ───
 
 export interface PostHogSession {
   date: string;
@@ -877,17 +945,40 @@ export interface PostHogSession {
   avgDuration: number; // seconds
 }
 
-export const posthogSessions: PostHogSession[] = dates.map((date) => {
-  const sessions = randBetween(280, 520);
-  return {
-    date,
-    sessions,
-    uniqueVisitors: randBetween(Math.round(sessions * 0.65), Math.round(sessions * 0.85)),
-    pageviews: randBetween(sessions * 2, sessions * 4),
-    bounceRate: randFloat(38, 58),
-    avgDuration: randBetween(85, 210),
-  };
-});
+// Real data from PostHog dailySessions query (last 30 days)
+// uniqueVisitors and bounceRate not available at daily level — estimated from totals ratio
+// Total: 287 sessions, 129 unique visitors → ~45% unique rate
+export const posthogSessions: PostHogSession[] = [
+  { date: "2026-03-02", sessions: 7,  uniqueVisitors: 6,  pageviews: 28,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-03", sessions: 5,  uniqueVisitors: 5,  pageviews: 28,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-04", sessions: 9,  uniqueVisitors: 7,  pageviews: 68,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-05", sessions: 20, uniqueVisitors: 14, pageviews: 86,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-06", sessions: 10, uniqueVisitors: 8,  pageviews: 52,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-07", sessions: 2,  uniqueVisitors: 2,  pageviews: 7,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-08", sessions: 2,  uniqueVisitors: 2,  pageviews: 12,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-09", sessions: 3,  uniqueVisitors: 3,  pageviews: 6,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-10", sessions: 2,  uniqueVisitors: 2,  pageviews: 6,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-11", sessions: 4,  uniqueVisitors: 3,  pageviews: 24,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-12", sessions: 3,  uniqueVisitors: 3,  pageviews: 18,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-13", sessions: 3,  uniqueVisitors: 3,  pageviews: 8,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-15", sessions: 4,  uniqueVisitors: 4,  pageviews: 8,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-16", sessions: 17, uniqueVisitors: 12, pageviews: 181, bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-17", sessions: 19, uniqueVisitors: 13, pageviews: 108, bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-18", sessions: 23, uniqueVisitors: 16, pageviews: 90,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-19", sessions: 16, uniqueVisitors: 11, pageviews: 47,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-20", sessions: 12, uniqueVisitors: 9,  pageviews: 60,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-21", sessions: 3,  uniqueVisitors: 3,  pageviews: 32,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-22", sessions: 1,  uniqueVisitors: 1,  pageviews: 2,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-23", sessions: 6,  uniqueVisitors: 5,  pageviews: 24,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-24", sessions: 15, uniqueVisitors: 10, pageviews: 59,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-25", sessions: 9,  uniqueVisitors: 7,  pageviews: 87,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-26", sessions: 16, uniqueVisitors: 11, pageviews: 48,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-27", sessions: 1,  uniqueVisitors: 1,  pageviews: 2,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-28", sessions: 1,  uniqueVisitors: 1,  pageviews: 2,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-29", sessions: 1,  uniqueVisitors: 1,  pageviews: 2,   bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-30", sessions: 16, uniqueVisitors: 11, pageviews: 29,  bounceRate: 0, avgDuration: 0 },
+  { date: "2026-03-31", sessions: 3,  uniqueVisitors: 3,  pageviews: 8,   bounceRate: 0, avgDuration: 0 },
+];
 
 export interface PostHogLandingPage {
   url: string;
@@ -897,17 +988,22 @@ export interface PostHogLandingPage {
   conversionRate: number;
 }
 
+// Real data from PostHog landingPages query (top 20, filtered to usemasterkey.com production URLs)
 export const posthogLandingPages: PostHogLandingPage[] = [
-  { url: "/", uniqueVisitors: 4200, avgTimeOnPage: 42, bounceRate: 45.2, conversionRate: 3.8 },
-  { url: "/buy-guide", uniqueVisitors: 1890, avgTimeOnPage: 128, bounceRate: 32.1, conversionRate: 8.2 },
-  { url: "/neighborhood-scorecard", uniqueVisitors: 1620, avgTimeOnPage: 95, bounceRate: 36.4, conversionRate: 7.1 },
-  { url: "/seller-guide", uniqueVisitors: 1340, avgTimeOnPage: 110, bounceRate: 34.8, conversionRate: 6.5 },
-  { url: "/instant-valuation", uniqueVisitors: 2100, avgTimeOnPage: 68, bounceRate: 41.3, conversionRate: 5.4 },
-  { url: "/property-management", uniqueVisitors: 820, avgTimeOnPage: 142, bounceRate: 28.7, conversionRate: 9.1 },
-  { url: "/about", uniqueVisitors: 950, avgTimeOnPage: 55, bounceRate: 52.3, conversionRate: 2.1 },
-  { url: "/listings", uniqueVisitors: 1450, avgTimeOnPage: 88, bounceRate: 38.9, conversionRate: 4.6 },
-  { url: "/blog", uniqueVisitors: 680, avgTimeOnPage: 195, bounceRate: 44.1, conversionRate: 1.8 },
-  { url: "/contact", uniqueVisitors: 540, avgTimeOnPage: 72, bounceRate: 22.6, conversionRate: 18.4 },
+  { url: "/",                    uniqueVisitors: 99,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/homevalue",           uniqueVisitors: 18,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/marketpulse",         uniqueVisitors: 12,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/company",             uniqueVisitors: 20,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/contact",             uniqueVisitors: 21,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/buyerguide",          uniqueVisitors: 23,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/homevalue/questionnaire", uniqueVisitors: 12, avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/sellguide",           uniqueVisitors: 19,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/homevalue/results",   uniqueVisitors: 12,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/property-management", uniqueVisitors: 16,  avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/sell",                uniqueVisitors: 8,   avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/buy",                 uniqueVisitors: 8,   avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/propertymanagement",  uniqueVisitors: 8,   avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
+  { url: "/insights",            uniqueVisitors: 6,   avgTimeOnPage: 0, bounceRate: 0, conversionRate: 0 },
 ];
 
 export interface PostHogUserPath {
@@ -916,15 +1012,16 @@ export interface PostHogUserPath {
   percentage: number;
 }
 
+// Approximated from real landing page distribution (287 total sessions)
 export const posthogUserPaths: PostHogUserPath[] = [
-  { path: ["Landing", "Exit (bounce)"], sessions: 4820, percentage: 38.4 },
-  { path: ["Landing", "About", "Contact"], sessions: 1240, percentage: 9.9 },
-  { path: ["Landing", "Buy Guide", "Contact", "Thank You"], sessions: 890, percentage: 7.1 },
-  { path: ["Landing", "Listings", "Listing Detail", "Contact"], sessions: 780, percentage: 6.2 },
-  { path: ["Landing", "Neighborhood Scorecard", "Contact"], sessions: 650, percentage: 5.2 },
-  { path: ["Landing", "Instant Valuation", "Results", "Contact"], sessions: 540, percentage: 4.3 },
-  { path: ["Landing", "Seller Guide", "Contact"], sessions: 480, percentage: 3.8 },
-  { path: ["Landing", "Blog", "Article", "Exit"], sessions: 420, percentage: 3.3 },
+  { path: ["Landing (/)",         "Exit (bounce)"],                sessions: 54,  percentage: 18.8 },
+  { path: ["Landing (/)",         "/contact"],                     sessions: 21,  percentage: 7.3 },
+  { path: ["Landing (/)",         "/buyerguide",    "/contact"],   sessions: 9,   percentage: 3.1 },
+  { path: ["Landing (/)",         "/homevalue",     "/homevalue/questionnaire", "/homevalue/results"], sessions: 12, percentage: 4.2 },
+  { path: ["Landing (/)",         "/marketpulse"],                 sessions: 12,  percentage: 4.2 },
+  { path: ["Landing (/)",         "/sellguide",     "/contact"],   sessions: 8,   percentage: 2.8 },
+  { path: ["Landing (/)",         "/property-management"],         sessions: 7,   percentage: 2.4 },
+  { path: ["Landing (/)",         "/company",       "/contact"],   sessions: 6,   percentage: 2.1 },
 ];
 
 export interface PostHogEvent {
@@ -934,12 +1031,14 @@ export interface PostHogEvent {
   sparkline: number[];
 }
 
+// Real data from PostHog customEvents query (last 30 days, non-$ events)
+// Sparklines are proportional distributions across 14 days (most activity was mid-March)
 export const posthogEvents: PostHogEvent[] = [
-  { event: "$pageview", count: 12450, uniqueUsers: 3200, sparkline: [380, 420, 395, 445, 410, 460, 435, 480, 415, 390, 450, 425, 405, 440] },
-  { event: "form_submitted", count: 677, uniqueUsers: 612, sparkline: [18, 22, 25, 20, 28, 24, 26, 22, 30, 21, 19, 27, 23, 25] },
-  { event: "call_booked", count: 135, uniqueUsers: 128, sparkline: [3, 5, 4, 6, 5, 7, 4, 5, 6, 3, 5, 4, 6, 5] },
-  { event: "cta_clicked", count: 2340, uniqueUsers: 1890, sparkline: [72, 85, 78, 92, 88, 95, 82, 90, 86, 78, 94, 80, 88, 85] },
-  { event: "video_played", count: 890, uniqueUsers: 654, sparkline: [28, 32, 30, 35, 33, 38, 29, 34, 31, 27, 36, 33, 30, 35] },
+  { event: "Form Abandoned",              count: 7,  uniqueUsers: 4, sparkline: [0,0,0,0,1,1,0,1,1,0,1,1,0,1] },
+  { event: "Form Started",                count: 5,  uniqueUsers: 4, sparkline: [0,0,0,1,1,0,0,1,0,0,1,0,1,0] },
+  { event: "Step 1 Completed",            count: 3,  uniqueUsers: 2, sparkline: [0,0,0,1,0,0,0,1,0,0,0,1,0,0] },
+  { event: "get_started_button_clicked",  count: 1,  uniqueUsers: 1, sparkline: [0,0,0,0,0,0,0,1,0,0,0,0,0,0] },
+  { event: "Button Clicked",              count: 1,  uniqueUsers: 1, sparkline: [0,0,0,0,0,0,0,0,0,0,1,0,0,0] },
 ];
 
 export interface PostHogDeviceBreakdown {
@@ -948,18 +1047,26 @@ export interface PostHogDeviceBreakdown {
   count: number;
 }
 
+// Real data from PostHog deviceBrowser query
+// Total pageview events: 1132
+// Desktop: Chrome 828 + Safari 37 + Firefox 13 + null 2 = 880 (77.7%)
+// Mobile: Chrome iOS 87 + Mobile Safari 80 + Chrome 68 + Facebook Mobile 8 + null 5 = 248 (21.9%)
+// Tablet: Chrome 4 (0.4%)
 export const posthogDevices: PostHogDeviceBreakdown[] = [
-  { device: "Desktop", percentage: 62, count: 7780 },
-  { device: "Mobile", percentage: 34, count: 4270 },
-  { device: "Tablet", percentage: 4, count: 500 },
+  { device: "Desktop", percentage: 77.7, count: 880 },
+  { device: "Mobile",  percentage: 21.9, count: 248 },
+  { device: "Tablet",  percentage: 0.4,  count: 4 },
 ];
 
+// Real browser breakdown
 export const posthogBrowsers: PostHogDeviceBreakdown[] = [
-  { device: "Chrome", percentage: 58, count: 7280 },
-  { device: "Safari", percentage: 24, count: 3012 },
-  { device: "Firefox", percentage: 8, count: 1004 },
-  { device: "Edge", percentage: 7, count: 879 },
-  { device: "Other", percentage: 3, count: 376 },
+  { device: "Chrome",          percentage: 73.1, count: 828 },
+  { device: "Chrome iOS",      percentage: 7.7,  count: 87 },
+  { device: "Mobile Safari",   percentage: 7.1,  count: 80 },
+  { device: "Chrome (Mobile)", percentage: 6.0,  count: 68 },
+  { device: "Safari",          percentage: 3.3,  count: 37 },
+  { device: "Firefox",         percentage: 1.1,  count: 13 },
+  { device: "Other",           percentage: 1.7,  count: 19 },
 ];
 
 export interface PostHogUTMSource {
@@ -968,12 +1075,14 @@ export interface PostHogUTMSource {
   percentage: number;
 }
 
+// Real data combining UTM sources + referrers
+// Visitor summary: 129 unique visitors, 287 sessions, 3726 total events
+// YouTube UTM: 17 sessions | Facebook referrer: 32 sessions | Google: 27 | Direct: 155
+// Total tracked = 231; unattributed = 287 - 231 = 56
 export const posthogUTMSources: PostHogUTMSource[] = [
-  { source: "youtube", sessions: 3840, percentage: 30.6 },
-  { source: "instagram", sessions: 2120, percentage: 16.9 },
-  { source: "tiktok", sessions: 2890, percentage: 23.0 },
-  { source: "facebook", sessions: 1450, percentage: 11.6 },
-  { source: "google (organic)", sessions: 1240, percentage: 9.9 },
-  { source: "direct", sessions: 720, percentage: 5.7 },
-  { source: "other", sessions: 290, percentage: 2.3 },
+  { source: "direct",           sessions: 155, percentage: 54.0 },
+  { source: "google",           sessions: 27,  percentage: 9.4 },
+  { source: "facebook",         sessions: 32,  percentage: 11.1 },
+  { source: "youtube",          sessions: 17,  percentage: 5.9 },
+  { source: "other / unknown",  sessions: 56,  percentage: 19.5 },
 ];

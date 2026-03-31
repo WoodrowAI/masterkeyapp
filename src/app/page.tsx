@@ -130,7 +130,11 @@ export default function Dashboard() {
                   tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
+                  tickFormatter={(v: number) => {
+                    if (v === 0) return "0";
+                    if (v >= 1000) return `${(v / 1000).toFixed(1)}k`;
+                    return v.toLocaleString();
+                  }}
                 />
                 <Tooltip
                   contentStyle={{
@@ -145,7 +149,6 @@ export default function Dashboard() {
                     key={p}
                     type="monotone"
                     dataKey={p}
-                    stackId="1"
                     stroke={PLATFORM_COLORS[p]}
                     fill={`url(#grad-${p})`}
                     strokeWidth={2}
@@ -169,7 +172,11 @@ export default function Dashboard() {
                   tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
+                  tickFormatter={(v: number) => {
+                    if (v === 0) return "0";
+                    if (v >= 1000) return `${(v / 1000).toFixed(1)}k`;
+                    return v.toLocaleString();
+                  }}
                 />
                 <YAxis
                   type="category"
