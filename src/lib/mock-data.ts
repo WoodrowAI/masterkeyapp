@@ -1091,3 +1091,152 @@ export const posthogUTMSources: PostHogUTMSource[] = [
   { source: "linktree",         sessions: 2,   percentage: 0.7 },
   { source: "other / unknown",  sessions: 30,  percentage: 10.5 },
 ];
+
+// ─── Filtered data functions (date-range aware) ───
+import { filterByDateRange } from "./date-utils";
+
+/**
+ * Returns dailyViewsCombined filtered by the given date range key.
+ */
+export function getFilteredDailyViewsCombined(rangeKey: string): DailyViewsCombined[] {
+  return filterByDateRange(dailyViewsCombined as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as DailyViewsCombined[];
+}
+
+/**
+ * Returns aggregated KPIs computed only from the filtered date range.
+ */
+export function getFilteredKPIs(activePlatforms: PlatformKey[], rangeKey: string) {
+  const filteredYT = filterByDateRange(youtubeDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as YouTubeDailyMetric[];
+  const filteredIG = filterByDateRange(instagramDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as InstagramDailyMetric[];
+  const filteredTT = filterByDateRange(tiktokDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as TikTokDailyMetric[];
+  const filteredFB = filterByDateRange(facebookDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as FacebookDailyMetric[];
+
+  let totalViews = 0;
+  let totalWatchMinutes = 0;
+  let totalLikes = 0;
+  let totalComments = 0;
+  let totalShares = 0;
+  let totalSubscribers = 0;
+
+  if (activePlatforms.includes("youtube")) {
+    for (const d of filteredYT) {
+      totalViews += d.views;
+      totalWatchMinutes += d.estimatedMinutesWatched;
+      totalLikes += d.likes;
+      totalComments += d.comments;
+      totalShares += d.shares;
+      totalSubscribers += d.subscribersGained;
+    }
+  }
+  if (activePlatforms.includes("instagram")) {
+    for (const d of filteredIG) {
+      totalViews += d.impressions;
+      totalLikes += d.likes;
+      totalComments += d.comments;
+      totalShares += d.shares;
+    }
+  }
+  if (activePlatforms.includes("tiktok")) {
+    for (const d of filteredTT) {
+      totalViews += d.view_count;
+      totalLikes += d.like_count;
+      totalComments += d.comment_count;
+      totalShares += d.share_count;
+    }
+  }
+  if (activePlatforms.includes("facebook")) {
+    for (const d of filteredFB) {
+      totalViews += d.post_video_views;
+      totalLikes += d.post_reactions;
+    }
+  }
+
+  const engagementRate =
+    totalViews > 0
+      ? +(((totalLikes + totalComments + totalShares) / totalViews) * 100).toFixed(2)
+      : 0;
+
+  const avgViewDuration = activePlatforms.includes("youtube") && filteredYT.length > 0
+    ? Math.round(
+        filteredYT
+          .filter((d) => d.averageViewDuration > 0)
+          .reduce((s, d) => s + d.averageViewDuration, 0) /
+          (filteredYT.filter((d) => d.averageViewDuration > 0).length || 1)
+      )
+    : 0;
+
+  const ctr = activePlatforms.includes("youtube") && filteredYT.length > 0
+    ? +(
+        filteredYT.reduce((s, d) => s + d.videoThumbnailImpressionsClickRate, 0) /
+        filteredYT.length
+      ).toFixed(2)
+    : 0;
+
+  return {
+    totalViews,
+    totalWatchHours: +(totalWatchMinutes / 60).toFixed(1),
+    engagementRate,
+    newFollowers: totalSubscribers,
+    avgViewDuration,
+    ctr,
+  };
+}
+
+/**
+ * Returns topContent filtered by publishedDate within the given date range.
+ */
+export function getFilteredTopContent(rangeKey: string): TopContent[] {
+  return filterByDateRange(topContent as unknown as Record<string, unknown>[], "publishedDate", rangeKey) as unknown as TopContent[];
+}
+
+/**
+ * Returns engagement by platform computed from the filtered date range.
+ */
+export function getFilteredEngagement(rangeKey: string) {
+  const filteredYT = filterByDateRange(youtubeDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as YouTubeDailyMetric[];
+  return [
+    {
+      platform: "YouTube",
+      likes: filteredYT.reduce((s, d) => s + d.likes, 0),
+      comments: filteredYT.reduce((s, d) => s + d.comments, 0),
+      shares: filteredYT.reduce((s, d) => s + d.shares, 0),
+    },
+    { platform: "Instagram", likes: 0, comments: 0, shares: 0 },
+    { platform: "TikTok",    likes: 0, comments: 0, shares: 0 },
+    { platform: "Facebook",  likes: 0, comments: 0, shares: 0 },
+  ];
+}
+
+/**
+ * Returns sparkline data for a metric, filtered to the given date range.
+ */
+export function getFilteredSparklineData(metricKey: string, rangeKey: string, platform?: PlatformKey): number[] {
+  const filteredYT = filterByDateRange(youtubeDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as YouTubeDailyMetric[];
+  const filteredIG = filterByDateRange(instagramDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as InstagramDailyMetric[];
+  const filteredTT = filterByDateRange(tiktokDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as TikTokDailyMetric[];
+  const filteredFB = filterByDateRange(facebookDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as FacebookDailyMetric[];
+
+  if (platform === "youtube") return filteredYT.map((d) => ((d as unknown) as Record<string, unknown>)[metricKey] as number ?? 0);
+  if (platform === "instagram") return filteredIG.map((d) => ((d as unknown) as Record<string, unknown>)[metricKey] as number ?? 0);
+  if (platform === "tiktok") return filteredTT.map((d) => ((d as unknown) as Record<string, unknown>)[metricKey] as number ?? 0);
+  if (platform === "facebook") return filteredFB.map((d) => ((d as unknown) as Record<string, unknown>)[metricKey] as number ?? 0);
+
+  // Aggregate views across all platforms per-day (align by date)
+  if (metricKey === "views") {
+    // Build a map of date → combined views
+    const dateMap = new Map<string, number>();
+    for (const d of filteredYT) { dateMap.set(d.date, (dateMap.get(d.date) ?? 0) + d.views); }
+    for (const d of filteredIG) { dateMap.set(d.date, (dateMap.get(d.date) ?? 0) + d.impressions); }
+    for (const d of filteredTT) { dateMap.set(d.date, (dateMap.get(d.date) ?? 0) + d.view_count); }
+    for (const d of filteredFB) { dateMap.set(d.date, (dateMap.get(d.date) ?? 0) + d.post_video_views); }
+    return Array.from(dateMap.values());
+  }
+  return filteredYT.map((d) => ((d as unknown) as Record<string, unknown>)[metricKey] as number ?? 0);
+}
+
+/**
+ * Returns posthogSessions filtered by the given date range key.
+ */
+export function getFilteredPosthogSessions(rangeKey: string): PostHogSession[] {
+  return filterByDateRange(posthogSessions as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as PostHogSession[];
+}

@@ -27,57 +27,73 @@ import {
 } from "recharts";
 import { KPICard } from "@/components/kpi-card";
 import {
-  posthogSessions,
   posthogLandingPages,
   posthogUserPaths,
   posthogEvents,
   posthogDevices,
   posthogBrowsers,
   posthogUTMSources,
+  getFilteredPosthogSessions,
 } from "@/lib/mock-data";
-import { Info, ArrowRight, ExternalLink } from "lucide-react";
+import { useDateRange } from "@/lib/date-range-context";
+import { getDateRangeLabel, getDaysInRange } from "@/lib/date-utils";
+import { Info, ArrowRight, ExternalLink, AlertTriangle } from "lucide-react";
 
 export default function PostHogDashboards() {
-  // Summary KPIs
   const mounted = useMounted();
+  const { dateRange } = useDateRange();
+  const rangeLabel = getDateRangeLabel(dateRange);
+  const daysInRange = getDaysInRange(dateRange);
+  const showGranularityWarning = daysInRange > 30;
+
+  const filteredSessions = useMemo(
+    () => getFilteredPosthogSessions(dateRange),
+    [dateRange]
+  );
+
+  // Summary KPIs — computed from filtered sessions
   const totalSessions = useMemo(
-    () => posthogSessions.reduce((s, d) => s + d.sessions, 0),
-    []
+    () => filteredSessions.reduce((s, d) => s + d.sessions, 0),
+    [filteredSessions]
   );
   const totalUniqueVisitors = useMemo(
-    () => posthogSessions.reduce((s, d) => s + d.uniqueVisitors, 0),
-    []
+    () => filteredSessions.reduce((s, d) => s + d.uniqueVisitors, 0),
+    [filteredSessions]
   );
   const totalPageviews = useMemo(
-    () => posthogSessions.reduce((s, d) => s + d.pageviews, 0),
-    []
+    () => filteredSessions.reduce((s, d) => s + d.pageviews, 0),
+    [filteredSessions]
   );
   const avgBounceRate = useMemo(
     () =>
-      +(posthogSessions.reduce((s, d) => s + d.bounceRate, 0) / posthogSessions.length).toFixed(1),
-    []
+      filteredSessions.length > 0
+        ? +(filteredSessions.reduce((s, d) => s + d.bounceRate, 0) / filteredSessions.length).toFixed(1)
+        : 0,
+    [filteredSessions]
   );
   const avgSessionDuration = useMemo(
     () =>
-      Math.round(
-        posthogSessions.reduce((s, d) => s + d.avgDuration, 0) / posthogSessions.length
-      ),
-    []
+      filteredSessions.length > 0
+        ? Math.round(
+            filteredSessions.reduce((s, d) => s + d.avgDuration, 0) / filteredSessions.length
+          )
+        : 0,
+    [filteredSessions]
   );
 
   const sessionsChartData = useMemo(
     () =>
-      posthogSessions.map((d) => ({
+      filteredSessions.map((d) => ({
         date: d.date.slice(5),
         sessions: d.sessions,
         uniqueVisitors: d.uniqueVisitors,
       })),
-    []
+    [filteredSessions]
   );
 
   const sessionsSparkline = useMemo(
-    () => posthogSessions.slice(-14).map((d) => d.sessions),
-    []
+    () => filteredSessions.slice(-14).map((d) => d.sessions),
+    [filteredSessions]
   );
 
   return (
@@ -104,10 +120,23 @@ export default function PostHogDashboards() {
         </a>
       </div>
 
+      {/* Granularity warning for large date ranges */}
+      {showGranularityWarning && (
+        <div
+          className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-600 dark:text-amber-400"
+          data-testid="granularity-warning"
+        >
+          <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+          <span>
+            Granular session data is only available for the last 30 days. The selected range ({daysInRange}d) may not reflect full historical data.
+          </span>
+        </div>
+      )}
+
       {/* 1. Traffic Overview KPIs */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
         <KPICard
-          title="Sessions (30d)"
+          title={`Sessions (${rangeLabel})`}
           value={totalSessions.toLocaleString()}
           delta={8.5}
           sparklineData={sessionsSparkline}

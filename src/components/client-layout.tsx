@@ -8,6 +8,7 @@ import { DateRangeSelector } from "@/components/date-range-selector";
 import { Separator } from "@/components/ui/separator";
 import { Moon, Sun } from "lucide-react";
 import { platformKeys, type PlatformKey } from "@/lib/platforms";
+import { DateRangeProvider, useDateRange } from "@/lib/date-range-context";
 
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -25,7 +26,7 @@ function ThemeToggle() {
 
 function LayoutInner({ children }: { children: React.ReactNode }) {
   const [activePlatforms, setActivePlatforms] = useState<PlatformKey[]>([...platformKeys]);
-  const [dateRange, setDateRange] = useState("30D");
+  const { dateRange, setDateRange } = useDateRange();
 
   const togglePlatform = useCallback((p: PlatformKey) => {
     setActivePlatforms((prev) => {
@@ -45,7 +46,7 @@ function LayoutInner({ children }: { children: React.ReactNode }) {
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="h-5" />
           <div className="flex-1" />
-          <DateRangeSelector value={dateRange} onValueChange={setDateRange} />
+          <DateRangeSelector value={dateRange} onValueChange={(v) => setDateRange(v as import("@/lib/date-range-context").DateRangeKey)} />
           <ThemeToggle />
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-6">
@@ -59,7 +60,9 @@ function LayoutInner({ children }: { children: React.ReactNode }) {
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
-      <LayoutInner>{children}</LayoutInner>
+      <DateRangeProvider>
+        <LayoutInner>{children}</LayoutInner>
+      </DateRangeProvider>
     </ThemeProvider>
   );
 }

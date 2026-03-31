@@ -26,13 +26,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  getAggregatedKPIs,
-  dailyViewsCombined,
-  getEngagementByPlatform,
-  topContent,
-  getSparklineData,
+  getFilteredDailyViewsCombined,
+  getFilteredKPIs,
+  getFilteredEngagement,
+  getFilteredTopContent,
+  getFilteredSparklineData,
 } from "@/lib/mock-data";
 import { platforms, platformKeys, type PlatformKey } from "@/lib/platforms";
+import { useDateRange } from "@/lib/date-range-context";
 
 const PLATFORM_COLORS: Record<string, string> = {
   youtube: "var(--color-chart-1)",
@@ -43,19 +44,23 @@ const PLATFORM_COLORS: Record<string, string> = {
 
 export default function Dashboard() {
   const mounted = useMounted();
+  const { dateRange } = useDateRange();
   const activePlatforms = platformKeys;
-  const kpis = useMemo(() => getAggregatedKPIs(activePlatforms), [activePlatforms]);
-  const engagement = useMemo(() => getEngagementByPlatform(), []);
-  const viewsSparkline = useMemo(() => getSparklineData("views"), []);
+
+  const kpis = useMemo(() => getFilteredKPIs(activePlatforms, dateRange), [activePlatforms, dateRange]);
+  const engagement = useMemo(() => getFilteredEngagement(dateRange), [dateRange]);
+  const viewsSparkline = useMemo(() => getFilteredSparklineData("views", dateRange), [dateRange]);
 
   const filteredViews = useMemo(
     () =>
-      dailyViewsCombined.map((d) => ({
+      getFilteredDailyViewsCombined(dateRange).map((d) => ({
         date: d.date.slice(5),
-        ...Object.fromEntries(activePlatforms.map((p) => [p, d[p]])),
+        ...Object.fromEntries(activePlatforms.map((p) => [p, d[p as keyof typeof d]])),
       })),
-    [activePlatforms]
+    [activePlatforms, dateRange]
   );
+
+  const filteredTopContent = useMemo(() => getFilteredTopContent(dateRange), [dateRange]);
 
   return (
     <div className="space-y-6" data-testid="dashboard-page">
@@ -219,37 +224,45 @@ export default function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {topContent.slice(0, 10).map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium text-sm max-w-[250px] truncate">
-                    {item.title}
-                  </TableCell>
-                  <TableCell>
-                    <PlatformIcon platform={item.platform} />
-                  </TableCell>
-                  <TableCell
-                    className="text-right tabular-nums"
-                    style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
-                  >
-                    {item.views.toLocaleString()}
-                  </TableCell>
-                  <TableCell
-                    className="text-right tabular-nums"
-                    style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
-                  >
-                    {item.engagementRate}%
-                  </TableCell>
-                  <TableCell
-                    className="text-right tabular-nums"
-                    style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
-                  >
-                    {item.avgWatchPercent > 0 ? `${item.avgWatchPercent}%` : "—"}
-                  </TableCell>
-                  <TableCell className="text-right text-muted-foreground text-xs">
-                    {item.publishedDate}
+              {filteredTopContent.length > 0 ? (
+                filteredTopContent.slice(0, 10).map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium text-sm max-w-[250px] truncate">
+                      {item.title}
+                    </TableCell>
+                    <TableCell>
+                      <PlatformIcon platform={item.platform} />
+                    </TableCell>
+                    <TableCell
+                      className="text-right tabular-nums"
+                      style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
+                    >
+                      {item.views.toLocaleString()}
+                    </TableCell>
+                    <TableCell
+                      className="text-right tabular-nums"
+                      style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
+                    >
+                      {item.engagementRate}%
+                    </TableCell>
+                    <TableCell
+                      className="text-right tabular-nums"
+                      style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
+                    >
+                      {item.avgWatchPercent > 0 ? `${item.avgWatchPercent}%` : "—"}
+                    </TableCell>
+                    <TableCell className="text-right text-muted-foreground text-xs">
+                      {item.publishedDate}
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-muted-foreground text-sm py-6">
+                    No content published in this date range
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </div>
