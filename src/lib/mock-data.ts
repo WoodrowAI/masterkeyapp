@@ -833,14 +833,15 @@ export interface FunnelSource {
   conversionRate: number;
 }
 
-// Real PostHog referrer data:
-// YouTube UTM: 75 events, 17 sessions | Facebook: 46+11=57 events, 32 sessions
-// Google: 120 events, 27 sessions | Direct: 851 events, 155 sessions
+// Real PostHog referrer data (updated with 90-day UTM query):
+// YouTube UTM: 39 sessions | Facebook: 32 sessions | Google: 29 sessions | Direct: 155 sessions
+// Linktree UTM: 2 sessions (buyer guide → /buyerguide, seller guide → /sellguide)
 export const funnelSources: FunnelSource[] = [
   { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, formFills: 3, callsBooked: 2, conversionRate: 1.3 },
-  { source: "youtube",   platform: "youtube",   clicks: 17,  landingViews: 17,  formFills: 1, callsBooked: 0, conversionRate: 0 },
-  { source: "google",    platform: "youtube",   clicks: 27,  landingViews: 27,  formFills: 1, callsBooked: 1, conversionRate: 3.7 },
+  { source: "youtube",   platform: "youtube",   clicks: 39,  landingViews: 39,  formFills: 1, callsBooked: 0, conversionRate: 0 },
   { source: "facebook",  platform: "facebook",  clicks: 32,  landingViews: 32,  formFills: 0, callsBooked: 0, conversionRate: 0 },
+  { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  formFills: 1, callsBooked: 1, conversionRate: 3.4 },
+  { source: "linktree",  platform: "youtube",   clicks: 2,   landingViews: 2,   formFills: 0, callsBooked: 0, conversionRate: 0 },
 ];
 
 // ─── AI Insights ───
@@ -1075,14 +1076,18 @@ export interface PostHogUTMSource {
   percentage: number;
 }
 
-// Real data combining UTM sources + referrers
+// Real data combining UTM sources + referrers (updated with 90-day UTM query)
 // Visitor summary: 129 unique visitors, 287 sessions, 3726 total events
-// YouTube UTM: 17 sessions | Facebook referrer: 32 sessions | Google: 27 | Direct: 155
-// Total tracked = 231; unattributed = 287 - 231 = 56
+// YouTube UTM: 39 sessions (wildwood-guide 39 + scorecard 2 + thousand-oaks-guide 1 = 42, deduped ~39)
+// Linktree UTM: 2 sessions (buyer guide 1 + seller guide 1)
+// Facebook referrer: 32 sessions | Google: 27 (+2 PPC) | Direct: 155
+// ChatGPT referrer: 1 session
+// Total tracked = 256; unattributed = 287 - 256 = 31
 export const posthogUTMSources: PostHogUTMSource[] = [
   { source: "direct",           sessions: 155, percentage: 54.0 },
-  { source: "google",           sessions: 27,  percentage: 9.4 },
+  { source: "youtube",          sessions: 39,  percentage: 13.6 },
   { source: "facebook",         sessions: 32,  percentage: 11.1 },
-  { source: "youtube",          sessions: 17,  percentage: 5.9 },
-  { source: "other / unknown",  sessions: 56,  percentage: 19.5 },
+  { source: "google",           sessions: 29,  percentage: 10.1 },
+  { source: "linktree",         sessions: 2,   percentage: 0.7 },
+  { source: "other / unknown",  sessions: 30,  percentage: 10.5 },
 ];

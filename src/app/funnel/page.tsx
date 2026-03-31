@@ -29,7 +29,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { PlatformIcon } from "@/components/platform-badge";
-import { funnelDatasets, getAggregatedFunnelData, type FunnelData } from "@/lib/mock-data";
+import { funnelDatasets, getAggregatedFunnelData, funnelSources, type FunnelData } from "@/lib/mock-data";
 import { platforms, type PlatformKey } from "@/lib/platforms";
 import { ArrowRight, Info, Trophy } from "lucide-react";
 
@@ -361,6 +361,72 @@ export default function FunnelAnalysis() {
         </div>
       </Card>
 
+      {/* Traffic Source Breakdown */}
+      <Card className="p-4 border border-border" data-testid="traffic-source-table">
+        <h3 className="text-sm font-semibold mb-3">Traffic Source Breakdown</h3>
+        <p className="text-xs text-muted-foreground mb-3">Sessions attributed by UTM source and referrer (PostHog)</p>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Source</TableHead>
+                <TableHead className="text-right">Sessions</TableHead>
+                <TableHead className="text-right">Landing Views</TableHead>
+                <TableHead className="text-right">Form Fills</TableHead>
+                <TableHead className="text-right">Calls Booked</TableHead>
+                <TableHead className="text-right">Conv. Rate</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {funnelSources.map((fs) => (
+                <TableRow key={fs.source}>
+                  <TableCell>
+                    <span className="font-medium capitalize">{fs.source}</span>
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                    {fs.clicks.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                    {fs.landingViews.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                    {fs.formFills}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                    {fs.callsBooked}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums font-medium" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                    {fs.conversionRate}%
+                  </TableCell>
+                </TableRow>
+              ))}
+              <TableRow className="border-t-2">
+                <TableCell className="font-semibold">Total</TableCell>
+                <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                  {funnelSources.reduce((s, r) => s + r.clicks, 0).toLocaleString()}
+                </TableCell>
+                <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                  {funnelSources.reduce((s, r) => s + r.landingViews, 0).toLocaleString()}
+                </TableCell>
+                <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                  {funnelSources.reduce((s, r) => s + r.formFills, 0)}
+                </TableCell>
+                <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                  {funnelSources.reduce((s, r) => s + r.callsBooked, 0)}
+                </TableCell>
+                <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                  {(
+                    (funnelSources.reduce((s, r) => s + r.callsBooked, 0) /
+                      funnelSources.reduce((s, r) => s + r.clicks, 0)) *
+                    100
+                  ).toFixed(1)}%
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </Card>
+
       {/* PostHog Integration Note */}
       <div
         className="flex items-start gap-2 rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground"
@@ -369,7 +435,7 @@ export default function FunnelAnalysis() {
         <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
         <div>
           <span className="font-medium text-foreground">Connected to PostHog</span>{" "}
-          (Project: 234009) — Tracking via UTM parameters and click IDs ($fbclid, $ttclid, $igshid)
+          (Project: 234009) — Tracking via UTM parameters and click IDs. Linktree campaigns tracked: buyer guide, seller guide.
         </div>
       </div>
     </div>
