@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeProvider, useTheme } from "@/components/theme-provider";
 import { AppSidebar } from "@/components/app-sidebar";
 import { DateRangeSelector } from "@/components/date-range-selector";
 import { Separator } from "@/components/ui/separator";
 import { Moon, Sun } from "lucide-react";
-import { platformKeys, type PlatformKey } from "@/lib/platforms";
 import { DateRangeProvider, useDateRange } from "@/lib/date-range-context";
+import { ActivePlatformsProvider, useActivePlatforms } from "@/lib/active-platforms-context";
 
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -25,18 +24,8 @@ function ThemeToggle() {
 }
 
 function LayoutInner({ children }: { children: React.ReactNode }) {
-  const [activePlatforms, setActivePlatforms] = useState<PlatformKey[]>([...platformKeys]);
+  const { activePlatforms, togglePlatform } = useActivePlatforms();
   const { dateRange, setDateRange } = useDateRange();
-
-  const togglePlatform = useCallback((p: PlatformKey) => {
-    setActivePlatforms((prev) => {
-      if (prev.includes(p)) {
-        if (prev.length === 1) return prev;
-        return prev.filter((x) => x !== p);
-      }
-      return [...prev, p];
-    });
-  }, []);
 
   return (
     <SidebarProvider>
@@ -61,7 +50,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <DateRangeProvider>
-        <LayoutInner>{children}</LayoutInner>
+        <ActivePlatformsProvider>
+          <LayoutInner>{children}</LayoutInner>
+        </ActivePlatformsProvider>
       </DateRangeProvider>
     </ThemeProvider>
   );

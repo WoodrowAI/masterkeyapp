@@ -32,8 +32,9 @@ import {
   getFilteredTopContent,
   getFilteredSparklineData,
 } from "@/lib/mock-data";
-import { platforms, platformKeys, type PlatformKey } from "@/lib/platforms";
+import { platforms, type PlatformKey } from "@/lib/platforms";
 import { useDateRange } from "@/lib/date-range-context";
+import { useActivePlatforms } from "@/lib/active-platforms-context";
 
 const PLATFORM_COLORS: Record<string, string> = {
   youtube: "var(--color-chart-1)",
@@ -45,7 +46,7 @@ const PLATFORM_COLORS: Record<string, string> = {
 export default function Dashboard() {
   const mounted = useMounted();
   const { dateRange } = useDateRange();
-  const activePlatforms = platformKeys;
+  const { activePlatforms } = useActivePlatforms();
 
   const kpis = useMemo(() => getFilteredKPIs(activePlatforms, dateRange), [activePlatforms, dateRange]);
   const engagement = useMemo(() => getFilteredEngagement(dateRange), [dateRange]);
