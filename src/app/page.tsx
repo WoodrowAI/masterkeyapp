@@ -13,6 +13,7 @@ import {
   CartesianGrid,
   BarChart,
   Bar,
+  Cell,
   Tooltip,
   ResponsiveContainer,
   Legend,
@@ -31,7 +32,10 @@ import {
   getFilteredEngagement,
   getFilteredTopContent,
   getFilteredSparklineData,
+  posthogWebsiteTraffic,
 } from "@/lib/mock-data";
+import { Globe, Info } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { platforms, type PlatformKey } from "@/lib/platforms";
 import { useDateRange } from "@/lib/date-range-context";
 import { useActivePlatforms } from "@/lib/active-platforms-context";
@@ -266,6 +270,77 @@ export default function Dashboard() {
               )}
             </TableBody>
           </Table>
+        </div>
+      </Card>
+
+      {/* Website Traffic Sources (PostHog) */}
+      <Card className="p-4 border border-border" data-testid="chart-website-traffic">
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="text-sm font-semibold">Website Traffic by Source</h3>
+          <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1">
+            <Globe className="h-3 w-3" />
+            PostHog
+          </Badge>
+        </div>
+        <p className="text-xs text-muted-foreground mb-3">Pageviews attributed via referrer tracking (90 days)</p>
+        <div className="h-[280px] w-full">
+          {mounted && (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={posthogWebsiteTraffic.filter((s) => s.pageviews > 0)}
+                layout="vertical"
+                margin={{ left: 10, right: 20, top: 4, bottom: 4 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" horizontal={false} />
+                <XAxis
+                  type="number"
+                  tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                  axisLine={false}
+                  tickLine={false}
+                  tickFormatter={(v: number) => {
+                    if (v === 0) return "0";
+                    if (v >= 1000) return `${(v / 1000).toFixed(1)}k`;
+                    return v.toLocaleString();
+                  }}
+                />
+                <YAxis
+                  type="category"
+                  dataKey="source"
+                  tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                  axisLine={false}
+                  tickLine={false}
+                  width={90}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "var(--color-card)",
+                    border: "1px solid var(--color-border)",
+                    borderRadius: "8px",
+                    fontSize: "12px",
+                  }}
+                  formatter={(value) => [typeof value === "number" ? value.toLocaleString() : value, "Pageviews"]}
+                />
+                <Bar dataKey="pageviews" radius={[0, 4, 4, 0]} barSize={18} name="Pageviews">
+                  {posthogWebsiteTraffic
+                    .filter((s) => s.pageviews > 0)
+                    .map((entry) => {
+                      let color: string;
+                      if (entry.platform === "facebook") color = "var(--color-chart-5)";
+                      else if (entry.platform === "youtube") color = "var(--color-chart-1)";
+                      else color = "var(--color-chart-3)";
+                      return <Cell key={entry.source} fill={color} />;
+                    })}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+        <div className="flex items-start gap-2 mt-3 rounded-md border border-border bg-muted/30 p-2.5 text-xs text-muted-foreground">
+          <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+          <span>
+            <strong className="text-foreground">Facebook</strong> tracked via referrer domain (75 pageviews).{" "}
+            <strong className="text-foreground">Instagram &amp; TikTok</strong> require UTM-tagged links in Linktree — their in-app browsers strip referrer data.
+          </span>
         </div>
       </Card>
     </div>

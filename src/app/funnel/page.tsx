@@ -314,6 +314,15 @@ export default function FunnelAnalysis() {
                           Top Volume
                         </Badge>
                       )}
+                      {pb.platform === "youtube" && (
+                        <Badge variant="secondary" className="text-[9px] h-3.5 px-1 font-normal">API</Badge>
+                      )}
+                      {pb.platform === "facebook" && (
+                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal">PostHog</Badge>
+                      )}
+                      {(pb.platform === "instagram" || pb.platform === "tiktok") && (
+                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal text-muted-foreground">Needs UTM</Badge>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
@@ -435,7 +444,7 @@ export default function FunnelAnalysis() {
         <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
         <div>
           <span className="font-medium text-foreground">Connected to PostHog</span>{" "}
-          (Project: 234009) — Tracking via UTM parameters and click IDs. Linktree campaigns tracked: buyer guide, seller guide.
+          (Project: 234009) — Facebook traffic tracked via referrer domain (75 pageviews from facebook.com). Instagram &amp; TikTok require UTM-tagged links — their in-app browsers strip referrer headers. Linktree campaigns active: buyer guide, seller guide.
         </div>
       </div>
     </div>

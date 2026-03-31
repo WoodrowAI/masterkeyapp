@@ -933,6 +933,43 @@ export const funnelSources: FunnelSource[] = [
   { source: "linktree",  platform: "youtube",   clicks: 2,   landingViews: 2,   formFills: 0, callsBooked: 0, conversionRate: 0 },
 ];
 
+// ─── PostHog Website Traffic by Source (90-day referrer data) ───
+// Real data from PostHog HogQL query on pageview $referring_domain
+export interface PostHogTrafficSource {
+  source: string;
+  pageviews: number;
+  platform: PlatformKey | "other";
+  dataSource: "posthog-referrer" | "posthog-utm";
+}
+
+export const posthogWebsiteTraffic: PostHogTrafficSource[] = [
+  { source: "Direct",       pageviews: 1541, platform: "other",     dataSource: "posthog-referrer" },
+  { source: "Google",       pageviews: 215,  platform: "other",     dataSource: "posthog-referrer" },  // 211 organic + 4 PPC
+  { source: "Facebook",     pageviews: 75,   platform: "facebook",  dataSource: "posthog-referrer" },  // 62 www + 13 mobile
+  { source: "YouTube UTM",  pageviews: 82,   platform: "youtube",   dataSource: "posthog-utm" },
+  { source: "Bing",         pageviews: 14,   platform: "other",     dataSource: "posthog-referrer" },
+  { source: "Perplexity",   pageviews: 10,   platform: "other",     dataSource: "posthog-referrer" },
+  { source: "ChatGPT",      pageviews: 10,   platform: "other",     dataSource: "posthog-utm" },
+  { source: "Linktree",     pageviews: 4,    platform: "other",     dataSource: "posthog-utm" },
+  { source: "Brave Search", pageviews: 4,    platform: "other",     dataSource: "posthog-referrer" },
+  { source: "Instagram",    pageviews: 0,    platform: "instagram", dataSource: "posthog-referrer" },
+  { source: "TikTok",       pageviews: 0,    platform: "tiktok",   dataSource: "posthog-referrer" },
+];
+
+// Facebook landing page breakdown (real PostHog data)
+export interface FacebookLandingPage {
+  page: string;
+  pageviews: number;
+  hasUtm: boolean;
+}
+
+export const facebookLandingPages: FacebookLandingPage[] = [
+  { page: "/landing/listing-presentation", pageviews: 42, hasUtm: false },
+  { page: "/landing/thousand-oaks-guide",  pageviews: 22, hasUtm: true },
+  { page: "/",                              pageviews: 6,  hasUtm: false },
+  { page: "/homevalue",                     pageviews: 5,  hasUtm: false },
+];
+
 // ─── AI Insights ───
 export interface AIInsight {
   id: string;
