@@ -339,7 +339,8 @@ export default function Dashboard() {
           <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
           <span>
             <strong className="text-foreground">Facebook</strong> tracked via referrer domain (75 pageviews).{" "}
-            <strong className="text-foreground">Instagram &amp; TikTok</strong> require UTM-tagged links in Linktree — their in-app browsers strip referrer data.
+            <strong className="text-foreground">Instagram UTM</strong> live (13 pageviews via Linktree).{" "}
+            <strong className="text-foreground">TikTok</strong> Linktree set up, awaiting first traffic data.
           </span>
         </div>
       </Card>

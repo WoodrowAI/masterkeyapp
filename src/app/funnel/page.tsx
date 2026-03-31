@@ -317,11 +317,11 @@ export default function FunnelAnalysis() {
                       {pb.platform === "youtube" && (
                         <Badge variant="secondary" className="text-[9px] h-3.5 px-1 font-normal">API</Badge>
                       )}
-                      {pb.platform === "facebook" && (
-                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal">PostHog</Badge>
+                      {(pb.platform === "facebook" || pb.platform === "instagram") && (
+                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal">PostHog UTM</Badge>
                       )}
-                      {(pb.platform === "instagram" || pb.platform === "tiktok") && (
-                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal text-muted-foreground">Needs UTM</Badge>
+                      {pb.platform === "tiktok" && (
+                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal text-muted-foreground">Awaiting Data</Badge>
                       )}
                     </div>
                   </TableCell>
@@ -444,7 +444,7 @@ export default function FunnelAnalysis() {
         <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
         <div>
           <span className="font-medium text-foreground">Connected to PostHog</span>{" "}
-          (Project: 234009) — Facebook traffic tracked via referrer domain (75 pageviews from facebook.com). Instagram &amp; TikTok require UTM-tagged links — their in-app browsers strip referrer headers. Linktree campaigns active: buyer guide, seller guide.
+          (Project: 234009) — UTM tracking live across all platforms via Linktree. Instagram: 13 pageviews via UTM (6 Buy Guide, 3 Scorecard, 2 Seller, 2 PM). YouTube: 88 pageviews via UTM. Facebook: 75 pageviews via referrer. TikTok: Linktree set up, awaiting first traffic data.
         </div>
       </div>
     </div>

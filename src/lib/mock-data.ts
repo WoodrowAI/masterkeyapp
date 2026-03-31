@@ -743,12 +743,16 @@ export interface FunnelData {
 
 // Real data:
 // Step 1 (Social Content): YouTube total views = 1629
-// Step 2 (Link Clicked): PostHog sessions per landing page
+// Step 2 (Link Clicked): PostHog pageviews per landing page (from UTM + referrer data)
 // Step 3 (Call from Asset): Form Started = 5 total, distributed proportionally by sessions
 // Step 4 (Meeting Scheduled): Step 1 Completed = 3 total, distributed proportionally by sessions
 //
-// Platform breakdown derived from referrers:
-//   YouTube UTM = 17 sessions, Facebook = 32 sessions (23+9), Google = 27, Direct = 155
+// Platform link clicks derived from UTM query (2026-03-31):
+//   Instagram UTM: buyerguide(6), scorecard(3), pm_guide(2), seller_guide(2) = 13 total
+//   YouTube UTM: various pages = 88 total (allocated per funnel below)
+//   Facebook referrer: 75 total (allocated per funnel from landing page data)
+//   Linktree UTM: buyerguide(2), sellguide(2) = 4 total
+//   Google: 29 sessions | Direct: 155 sessions
 //
 // Landing pages:
 //   buyerguide = 48 pv, 23 sessions
@@ -763,18 +767,18 @@ export const funnelDatasets: FunnelData[] = [
     id: "buy-guide",
     name: "Buy Guide Funnel",
     // Step 1: YouTube views attributed to buyer content (proportional ~23/115 of 1629 ≈ 326)
-    // Step 2: 23 sessions to /buyerguide
+    // Step 2: 23 sessions + IG UTM(6) = 29 link clicks to /buyerguide
     // Step 3: Form Started 5 * (23/115) ≈ 1
     // Step 4: Step 1 Completed 3 * (23/115) ≈ 1
     steps: [
       { name: "Social Content",      count: 326,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",         count: 23,   conversionFromPrev: 7.1,  dropOff: 92.9 },
-      { name: "Call from Buy Guide",  count: 1,    conversionFromPrev: 4.3,  dropOff: 95.7 },
+      { name: "Link Clicked",         count: 29,   conversionFromPrev: 8.9,  dropOff: 91.1 },
+      { name: "Call from Buy Guide",  count: 1,    conversionFromPrev: 3.4,  dropOff: 96.6 },
       { name: "Meeting Scheduled",    count: 1,    conversionFromPrev: 100,  dropOff: 0 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 326, linkClicked: 17, callFromAsset: 1, meetingScheduled: 1, conversionRate: 0.31 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 6,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 6,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
@@ -784,16 +788,16 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "neighborhood-scorecard",
     name: "Neighborhood Scorecard Funnel",
-    // Step 2: 15 sessions to /marketpulse (12 dashboard + 3 news)
+    // Step 2: 15 sessions + IG UTM(3) = 18 link clicks to scorecard/thousand-oaks-guide
     steps: [
       { name: "Social Content",       count: 213,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",          count: 15,   conversionFromPrev: 7.0,  dropOff: 93.0 },
-      { name: "Call from Scorecard",   count: 1,    conversionFromPrev: 6.7,  dropOff: 93.3 },
+      { name: "Link Clicked",          count: 18,   conversionFromPrev: 8.5,  dropOff: 91.5 },
+      { name: "Call from Scorecard",   count: 1,    conversionFromPrev: 5.6,  dropOff: 94.4 },
       { name: "Meeting Scheduled",     count: 0,    conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 213, linkClicked: 11, callFromAsset: 1, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 3,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 4,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
@@ -803,16 +807,16 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "seller-guide",
     name: "Seller Guide Funnel",
-    // Step 2: 19 sessions to /sellguide
+    // Step 2: 19 sessions + IG UTM(2) = 21 link clicks to /sellguide
     steps: [
       { name: "Social Content",        count: 270,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",           count: 19,   conversionFromPrev: 7.0,  dropOff: 93.0 },
-      { name: "Call from Seller Guide", count: 1,    conversionFromPrev: 5.3,  dropOff: 94.7 },
+      { name: "Link Clicked",           count: 21,   conversionFromPrev: 7.8,  dropOff: 92.2 },
+      { name: "Call from Seller Guide", count: 1,    conversionFromPrev: 4.8,  dropOff: 95.2 },
       { name: "Meeting Scheduled",      count: 1,    conversionFromPrev: 100,  dropOff: 0 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 270, linkClicked: 14, callFromAsset: 1, meetingScheduled: 1, conversionRate: 0.37 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 2,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 5,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
@@ -841,16 +845,16 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "pm-guide",
     name: "Property Management Guide Funnel",
-    // Step 2: 16 sessions to /property-management
+    // Step 2: 16 sessions + IG UTM(2) = 18 link clicks to /propertymanagement
     steps: [
       { name: "Social Content",      count: 224,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",         count: 16,   conversionFromPrev: 7.1,  dropOff: 92.9 },
-      { name: "Call from PM Guide",   count: 1,    conversionFromPrev: 6.3,  dropOff: 93.7 },
+      { name: "Link Clicked",         count: 18,   conversionFromPrev: 8.0,  dropOff: 92.0 },
+      { name: "Call from PM Guide",   count: 1,    conversionFromPrev: 5.6,  dropOff: 94.4 },
       { name: "Meeting Scheduled",    count: 0,    conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 224, linkClicked: 12, callFromAsset: 1, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,   linkClicked: 2,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 4,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
     ],
@@ -922,19 +926,28 @@ export interface FunnelSource {
   conversionRate: number;
 }
 
-// Real PostHog referrer data (updated with 90-day UTM query):
-// YouTube UTM: 39 sessions | Facebook: 32 sessions | Google: 29 sessions | Direct: 155 sessions
-// Linktree UTM: 2 sessions (buyer guide → /buyerguide, seller guide → /sellguide)
+// Real PostHog referrer + UTM data (updated 2026-03-31 with 90-day UTM query):
+// Direct: 155 sessions | YouTube UTM: 88 pageviews | Facebook referrer: 75 pageviews
+// Instagram UTM: 13 pageviews | Google: 29 sessions | Linktree UTM: 4 pageviews
 export const funnelSources: FunnelSource[] = [
   { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, formFills: 3, callsBooked: 2, conversionRate: 1.3 },
-  { source: "youtube",   platform: "youtube",   clicks: 39,  landingViews: 39,  formFills: 1, callsBooked: 0, conversionRate: 0 },
-  { source: "facebook",  platform: "facebook",  clicks: 32,  landingViews: 32,  formFills: 0, callsBooked: 0, conversionRate: 0 },
+  { source: "youtube",   platform: "youtube",   clicks: 88,  landingViews: 88,  formFills: 1, callsBooked: 0, conversionRate: 0 },
+  { source: "facebook",  platform: "facebook",  clicks: 75,  landingViews: 75,  formFills: 0, callsBooked: 0, conversionRate: 0 },
   { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  formFills: 1, callsBooked: 1, conversionRate: 3.4 },
-  { source: "linktree",  platform: "youtube",   clicks: 2,   landingViews: 2,   formFills: 0, callsBooked: 0, conversionRate: 0 },
+  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  formFills: 0, callsBooked: 0, conversionRate: 0 },
+  { source: "linktree",  platform: "youtube",   clicks: 4,   landingViews: 4,   formFills: 0, callsBooked: 0, conversionRate: 0 },
+  { source: "tiktok",    platform: "tiktok",    clicks: 0,   landingViews: 0,   formFills: 0, callsBooked: 0, conversionRate: 0 },
 ];
 
-// ─── PostHog Website Traffic by Source (90-day referrer data) ───
-// Real data from PostHog HogQL query on pageview $referring_domain
+// ─── PostHog Website Traffic by Source (90-day referrer + UTM data) ───
+// Real data from PostHog HogQL queries on $referring_domain and utm_source
+// UTM data updated 2026-03-31 from 90-day query:
+//   instagram UTM: buyerguide(6) + scorecard(3) + pm_guide(2) + seller_guide(2) = 13
+//   youtube UTM: wildwood-thousand-oaks-guide(60+8+4+2+2) + scorecard(4) + thousand-oaks-guide(4) + wildwood-scorecard(4) = 88
+//   linktree UTM: sellguide(2) + buyerguide(2) = 4
+//   google UTM: PPC campaign(4) = 4
+//   facebook UTM: 0 (tracked via referrer domain instead — 75 pageviews)
+//   tiktok UTM: 0 (Linktree just set up, awaiting first data)
 export interface PostHogTrafficSource {
   source: string;
   pageviews: number;
@@ -943,17 +956,18 @@ export interface PostHogTrafficSource {
 }
 
 export const posthogWebsiteTraffic: PostHogTrafficSource[] = [
-  { source: "Direct",       pageviews: 1541, platform: "other",     dataSource: "posthog-referrer" },
-  { source: "Google",       pageviews: 215,  platform: "other",     dataSource: "posthog-referrer" },  // 211 organic + 4 PPC
-  { source: "Facebook",     pageviews: 75,   platform: "facebook",  dataSource: "posthog-referrer" },  // 62 www + 13 mobile
-  { source: "YouTube UTM",  pageviews: 82,   platform: "youtube",   dataSource: "posthog-utm" },
-  { source: "Bing",         pageviews: 14,   platform: "other",     dataSource: "posthog-referrer" },
-  { source: "Perplexity",   pageviews: 10,   platform: "other",     dataSource: "posthog-referrer" },
-  { source: "ChatGPT",      pageviews: 10,   platform: "other",     dataSource: "posthog-utm" },
-  { source: "Linktree",     pageviews: 4,    platform: "other",     dataSource: "posthog-utm" },
-  { source: "Brave Search", pageviews: 4,    platform: "other",     dataSource: "posthog-referrer" },
-  { source: "Instagram",    pageviews: 0,    platform: "instagram", dataSource: "posthog-referrer" },
-  { source: "TikTok",       pageviews: 0,    platform: "tiktok",   dataSource: "posthog-referrer" },
+  { source: "Direct",        pageviews: 1541, platform: "other",     dataSource: "posthog-referrer" },
+  { source: "Google",        pageviews: 215,  platform: "other",     dataSource: "posthog-referrer" },  // 211 organic + 4 PPC via UTM
+  { source: "YouTube UTM",   pageviews: 88,   platform: "youtube",   dataSource: "posthog-utm" },      // 88 pageviews from utm_source=youtube
+  { source: "Facebook",      pageviews: 75,   platform: "facebook",  dataSource: "posthog-referrer" },  // 62 www + 13 mobile
+  { source: "Bing",          pageviews: 14,   platform: "other",     dataSource: "posthog-referrer" },
+  { source: "Instagram UTM", pageviews: 13,   platform: "instagram", dataSource: "posthog-utm" },      // 13 pageviews from utm_source=instagram
+  { source: "Perplexity",    pageviews: 10,   platform: "other",     dataSource: "posthog-referrer" },
+  { source: "ChatGPT",       pageviews: 10,   platform: "other",     dataSource: "posthog-utm" },
+  { source: "Linktree UTM",  pageviews: 4,    platform: "other",     dataSource: "posthog-utm" },      // 4 pageviews from utm_source=linktree
+  { source: "Google PPC",    pageviews: 4,    platform: "other",     dataSource: "posthog-utm" },      // 4 pageviews from utm_source=google
+  { source: "Brave Search",  pageviews: 4,    platform: "other",     dataSource: "posthog-referrer" },
+  { source: "TikTok UTM",    pageviews: 0,    platform: "tiktok",   dataSource: "posthog-utm" },      // Linktree set up, awaiting first data
 ];
 
 // Facebook landing page breakdown (real PostHog data)
@@ -1008,8 +1022,8 @@ export const aiInsights: AIInsight[] = [
   {
     id: "ai4",
     title: "Funnel Optimization",
-    body: "129 unique visitors and 287 sessions in 30 days, with the Instant Valuation page driving the most traffic (152 pageviews, 42 sessions). The Buy Guide has the best session count among lead-gen pages (23 sessions). Only 5 Form Started events were tracked — the gap between 287 sessions and 5 form starts suggests a strong CTA opportunity on landing pages.",
-    platforms: ["youtube"],
+    body: "UTM tracking is now live across all platforms. Instagram drove 13 link clicks via Linktree UTMs (6 to Buy Guide, 3 to Scorecard, 2 each to Seller Guide and PM Guide). YouTube UTMs drove 88 pageviews, mostly to the Thousand Oaks guide. Facebook delivered 75 pageviews via referrer. With only 5 Form Started events across 287+ sessions, the biggest opportunity is optimizing landing page CTAs — your traffic is there but conversion needs work.",
+    platforms: ["youtube", "instagram", "facebook"],
     category: "funnel",
     icon: "Target",
   },
