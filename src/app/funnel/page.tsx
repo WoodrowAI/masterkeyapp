@@ -80,7 +80,7 @@ export default function FunnelAnalysis() {
     () =>
       activeFunnel.platformBreakdown.map((pb) => ({
         platform: platforms[pb.platform].name,
-        "Social Content": pb.socialContent,
+        "Social Media Views": pb.socialContent,
         "Link Clicked": pb.linkClicked,
         "Leads": pb.leads,
         "Consult Booked": pb.consultBooked,
@@ -143,60 +143,106 @@ export default function FunnelAnalysis() {
         <h3 className="text-sm font-semibold mb-5">
           {activeFunnel.name} — Conversion Funnel
         </h3>
-        <div className="space-y-3">
-          {activeFunnel.steps.map((step, i) => {
-            const widthPct = Math.max((step.count / maxCount) * 100, 8);
-            return (
-              <div key={step.name} className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-muted-foreground w-4">
-                      {i + 1}
-                    </span>
-                    <span className="text-sm font-medium">{step.name}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs">
-                    <span
-                      className="font-semibold tabular-nums"
-                      style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
-                    >
-                      {step.count.toLocaleString()}
-                    </span>
-                    {i > 0 && step.conversionFromPrev <= 100 && (
-                      <span
-                        className="text-muted-foreground tabular-nums"
-                        style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
+        {(() => {
+          const steps = activeFunnel.steps;
+          const n = steps.length;
+          const segH = 64;
+          const gapH = 28;
+          const totalH = n * segH + (n - 1) * gapH;
+          const maxW = 90; // widest segment as % of container
+          const minW = 25; // narrowest segment (or 0-count floor)
+
+          // Compute width % for each step proportional to count
+          const widths = steps.map((step) => {
+            if (maxCount === 0) return minW;
+            const raw = (step.count / maxCount) * maxW;
+            return Math.max(raw, minW);
+          });
+
+          return (
+            <div className="flex flex-col items-center w-full">
+              <svg
+                viewBox={`0 0 400 ${totalH}`}
+                className="w-full"
+                style={{ maxWidth: 560 }}
+                preserveAspectRatio="xMidYMid meet"
+              >
+                {steps.map((step, i) => {
+                  const y = i * (segH + gapH);
+                  const topW = (widths[i] / 100) * 400;
+                  const botW = i < n - 1 ? (widths[i + 1] / 100) * 400 : topW * 0.7;
+                  const cx = 200;
+                  const topL = cx - topW / 2;
+                  const topR = cx + topW / 2;
+                  const botL = cx - botW / 2;
+                  const botR = cx + botW / 2;
+
+                  const points = `${topL},${y} ${topR},${y} ${botR},${y + segH} ${botL},${y + segH}`;
+                  const color = stepColors[Math.min(i, stepColors.length - 1)];
+
+                  return (
+                    <g key={step.name}>
+                      {/* Trapezoid segment */}
+                      <polygon
+                        points={points}
+                        fill={color}
+                        opacity={0.85}
+                      />
+                      {/* Step name — left-aligned inside trapezoid */}
+                      <text
+                        x={cx}
+                        y={y + segH / 2 - 7}
+                        textAnchor="middle"
+                        fill="white"
+                        fontSize="13"
+                        fontWeight="600"
+                        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}
                       >
-                        {step.conversionFromPrev.toFixed(1)}% from prev
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="relative h-8 w-full rounded-md bg-muted/30 overflow-hidden">
-                  <div
-                    className="h-full rounded-md transition-all duration-500"
-                    style={{
-                      width: `${widthPct}%`,
-                      backgroundColor: stepColors[i],
-                      opacity: 0.8,
-                    }}
-                  />
-                </div>
-                {i < activeFunnel.steps.length - 1 && (
-                  <div className="flex items-center gap-1 pl-6 text-[11px] text-muted-foreground">
-                    <ArrowRight className="h-3 w-3" />
-                    <span
-                      className="tabular-nums"
-                      style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
-                    >
-                      {activeFunnel.steps[i + 1].dropOff > 0 ? `${activeFunnel.steps[i + 1].dropOff.toFixed(1)}% drop-off` : ""}
-                    </span>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                        {step.name}
+                      </text>
+                      {/* Count */}
+                      <text
+                        x={cx}
+                        y={y + segH / 2 + 12}
+                        textAnchor="middle"
+                        fill="white"
+                        fontSize="16"
+                        fontWeight="700"
+                        style={{ fontVariantNumeric: "tabular-nums lining-nums", textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}
+                      >
+                        {step.count.toLocaleString()}
+                      </text>
+                      {/* Drop-off label between segments */}
+                      {i < n - 1 && steps[i + 1].dropOff > 0 && (
+                        <text
+                          x={cx}
+                          y={y + segH + gapH / 2 + 4}
+                          textAnchor="middle"
+                          fill="var(--color-muted-foreground)"
+                          fontSize="10"
+                        >
+                          ↓ {steps[i + 1].dropOff.toFixed(1)}% drop-off
+                        </text>
+                      )}
+                      {/* Conversion from prev on the right side */}
+                      {i > 0 && step.conversionFromPrev <= 100 && (
+                        <text
+                          x={topR + 6}
+                          y={y + segH / 2 + 4}
+                          textAnchor="start"
+                          fill="var(--color-muted-foreground)"
+                          fontSize="10"
+                        >
+                          {step.conversionFromPrev.toFixed(1)}%
+                        </text>
+                      )}
+                    </g>
+                  );
+                })}
+              </svg>
+            </div>
+          );
+        })()}
       </Card>
 
       {/* GHL Pipeline Stages (individual funnel) */}
@@ -420,7 +466,7 @@ export default function FunnelAnalysis() {
                     fontSize: "12px",
                   }}
                 />
-                <Bar dataKey="Social Content" fill={stepColors[0]} radius={[4, 4, 0, 0]} barSize={18} />
+                <Bar dataKey="Social Media Views" fill={stepColors[0]} radius={[4, 4, 0, 0]} barSize={18} />
                 <Bar dataKey="Leads" fill={stepColors[2]} radius={[4, 4, 0, 0]} barSize={18} />
               </BarChart>
             </ResponsiveContainer>}
@@ -474,7 +520,7 @@ export default function FunnelAnalysis() {
             <TableHeader>
               <TableRow>
                 <TableHead>Platform</TableHead>
-                <TableHead className="text-right">Social Content</TableHead>
+                <TableHead className="text-right">Social Media Views</TableHead>
                 <TableHead className="text-right">Link Clicked</TableHead>
                 <TableHead className="text-right">Leads</TableHead>
                 <TableHead className="text-right">Consult Booked</TableHead>

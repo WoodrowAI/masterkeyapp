@@ -878,7 +878,7 @@ export const funnelDatasets: FunnelData[] = [
     // Leads: 2 (GHL buyguide-lead tag), Consult Booked: 0
     // Views: YT buyer content (325) + IG buyer content (457) + TT buyer content (6,369)
     steps: [
-      { name: "Social Content",  count: 7151,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 7151,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 29,    conversionFromPrev: 0.4,  dropOff: 99.6 },
       { name: "Leads",           count: 2,     conversionFromPrev: 6.9,  dropOff: 93.1 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -898,7 +898,7 @@ export const funnelDatasets: FunnelData[] = [
     // Leads: 6 (GHL lm-scorecard-requested tag, all 6 delivered), Consult Booked: 1 (Todd Shillington)
     // Views: YT neighborhood content (1,131) + IG neighborhood content (1,352) + TT neighborhood content (2,212)
     steps: [
-      { name: "Social Content",  count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
       { name: "Leads",           count: 6,     conversionFromPrev: 33.3, dropOff: 66.7 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
@@ -918,7 +918,7 @@ export const funnelDatasets: FunnelData[] = [
     // Leads: 3 (GHL newsletter-seller tag as proxy), Consult Booked: 1
     // Views: YT seller content (91) + IG seller content (159) + TT seller content (6,369 — shared w/ buyer)
     steps: [
-      { name: "Social Content",  count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
       { name: "Leads",           count: 3,     conversionFromPrev: 14.3, dropOff: 85.7 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
@@ -938,7 +938,7 @@ export const funnelDatasets: FunnelData[] = [
     // Leads: 0 (no GHL tag for home value tool yet), Consult Booked: 0
     // Views: YT (28) + IG (480) + TT (101)
     steps: [
-      { name: "Social Content",  count: 609,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 609,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 42,    conversionFromPrev: 6.9,  dropOff: 93.1 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -958,7 +958,7 @@ export const funnelDatasets: FunnelData[] = [
     // Leads: 2 (GHL newsletter-landlord tag), Consult Booked: 0
     // Views: YT (26) + IG (0) + TT (0)
     steps: [
-      { name: "Social Content",  count: 26,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 26,    conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 18,    conversionFromPrev: 69.2, dropOff: 30.8 },
       { name: "Leads",           count: 2,     conversionFromPrev: 11.1, dropOff: 88.9 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -979,7 +979,7 @@ export const funnelDatasets: FunnelData[] = [
     // Views: YT market update content (54) + IG market update content (674) + TT market content (0)
     // PostHog: marketpulse landing = 64 pv, 15 sessions
     steps: [
-      { name: "Social Content",  count: 728,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 728,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
       { name: "Leads",           count: 8,     conversionFromPrev: 53.3, dropOff: 46.7 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
@@ -1003,7 +1003,7 @@ export function getAggregatedFunnelData(): FunnelData {
   // Leads: 21 total GHL pipeline leads
   // Consult Booked: 3 (Seller 1 + Scorecard 1 + MarketPulse 1)
   const allSteps: FunnelStep[] = [
-    { name: "Social Content",  count: 13433, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Social Media Views",  count: 13433, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Link Clicked",    count: 287,   conversionFromPrev: 2.1,   dropOff: 97.9 },
     { name: "Leads",           count: 21,    conversionFromPrev: 7.3,   dropOff: 92.7 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,  dropOff: 100 },
