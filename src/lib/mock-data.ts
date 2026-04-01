@@ -71,7 +71,7 @@ export const youtubeDailyMetrics: YouTubeDailyMetric[] = [
   { date: "2026-03-28", views: 9,   estimatedMinutesWatched: 22,  averageViewDuration: 149, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 1,  videoThumbnailImpressionsClickRate: 0 },
 ];
 
-// ─── Instagram daily metrics — no data available ───
+// ─── Instagram daily metrics — real data from Instagram Insights API ───
 export interface InstagramDailyMetric {
   date: string;
   impressions: number;
@@ -84,17 +84,44 @@ export interface InstagramDailyMetric {
   follower_count: number;
 }
 
-export const instagramDailyMetrics: InstagramDailyMetric[] = dates.map((date) => ({
-  date,
-  impressions: 0,
-  reach: 0,
-  likes: 0,
-  comments: 0,
-  shares: 0,
-  saves: 0,
-  profile_views: 0,
-  follower_count: 0,
-}));
+// Real Instagram post-level data aggregated by publish date
+// Total: 3,122 views, 2,492 reach, 148 likes, 11 comments, 12 shares across 19 posts
+const igPostsByDate: Record<string, { impressions: number; reach: number; likes: number; comments: number; shares: number; saves: number }> = {
+  "2025-12-17": { impressions: 45, reach: 28, likes: 12, comments: 1, shares: 0, saves: 0 },
+  "2026-01-29": { impressions: 335, reach: 218, likes: 15, comments: 0, shares: 6, saves: 0 },
+  "2026-02-21": { impressions: 171, reach: 130, likes: 12, comments: 0, shares: 1, saves: 0 },
+  "2026-02-24": { impressions: 328, reach: 262, likes: 8, comments: 0, shares: 1, saves: 0 },
+  "2026-02-25": { impressions: 17, reach: 17, likes: 6, comments: 0, shares: 0, saves: 0 },
+  "2026-02-26": { impressions: 165, reach: 119, likes: 6, comments: 0, shares: 0, saves: 0 },
+  "2026-03-02": { impressions: 17, reach: 17, likes: 4, comments: 2, shares: 0, saves: 0 },
+  "2026-03-04": { impressions: 223, reach: 191, likes: 8, comments: 2, shares: 0, saves: 0 },
+  "2026-03-06": { impressions: 191, reach: 161, likes: 7, comments: 0, shares: 0, saves: 0 },
+  "2026-03-09": { impressions: 24, reach: 24, likes: 4, comments: 0, shares: 0, saves: 0 },
+  "2026-03-11": { impressions: 248, reach: 221, likes: 8, comments: 0, shares: 0, saves: 0 },
+  "2026-03-13": { impressions: 47, reach: 30, likes: 9, comments: 0, shares: 0, saves: 0 },
+  "2026-03-17": { impressions: 23, reach: 23, likes: 5, comments: 0, shares: 0, saves: 0 },
+  "2026-03-18": { impressions: 210, reach: 147, likes: 14, comments: 0, shares: 0, saves: 0 },
+  "2026-03-20": { impressions: 480, reach: 362, likes: 11, comments: 5, shares: 3, saves: 0 },
+  "2026-03-21": { impressions: 159, reach: 132, likes: 6, comments: 1, shares: 0, saves: 0 },
+  "2026-03-24": { impressions: 110, reach: 93, likes: 4, comments: 0, shares: 0, saves: 0 },
+  "2026-03-26": { impressions: 124, reach: 98, likes: 5, comments: 0, shares: 0, saves: 0 },
+  "2026-03-27": { impressions: 286, reach: 219, likes: 8, comments: 0, shares: 1, saves: 0 },
+};
+
+export const instagramDailyMetrics: InstagramDailyMetric[] = dates.map((date) => {
+  const d = igPostsByDate[date];
+  return {
+    date,
+    impressions: d?.impressions ?? 0,
+    reach: d?.reach ?? 0,
+    likes: d?.likes ?? 0,
+    comments: d?.comments ?? 0,
+    shares: d?.shares ?? 0,
+    saves: d?.saves ?? 0,
+    profile_views: 0,
+    follower_count: 46,
+  };
+});
 
 // ─── TikTok daily metrics — no data available ───
 export interface TikTokDailyMetric {
@@ -278,6 +305,9 @@ export function getEngagementByPlatform() {
 }
 
 // ─── Top performing content ───
+export type ContentCategory = "Neighborhood" | "Market Update" | "Lead Magnet" | "General";
+export type FormatTag = "Long-Form" | "Short-Form" | "Carousel";
+
 export interface TopContent {
   id: string;
   title: string;
@@ -286,6 +316,8 @@ export interface TopContent {
   engagementRate: number;
   avgWatchPercent: number;
   publishedDate: string;
+  contentType?: ContentCategory;
+  formatTag?: FormatTag;
 }
 
 // Real data from YouTube Analytics topVideos rows
@@ -299,6 +331,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((6 + 0 + 1) / 376 * 100).toFixed(2),
     avgWatchPercent: 59.17,
     publishedDate: "2026-02-26",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "zOdjiJH33VE",
@@ -308,6 +342,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((5 + 0 + 0) / 294 * 100).toFixed(2),
     avgWatchPercent: 40.9,
     publishedDate: "2026-03-13",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "8GOuD0uBz5I",
@@ -317,6 +353,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((3 + 0 + 1) / 233 * 100).toFixed(2),
     avgWatchPercent: 29.04,
     publishedDate: "2026-02-21",
+    contentType: "Market Update",
+    formatTag: "Long-Form",
   },
   {
     id: "ehGSxHMgWJ4",
@@ -326,6 +364,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((5 + 0 + 0) / 102 * 100).toFixed(2),
     avgWatchPercent: 20.75,
     publishedDate: "2026-03-06",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "0mycplFWKsE",
@@ -335,6 +375,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((0 + 0 + 0) / 92 * 100).toFixed(2),
     avgWatchPercent: 29.74,
     publishedDate: "2026-03-19",
+    contentType: "Market Update",
+    formatTag: "Long-Form",
   },
   {
     id: "XJg8zyUo_qA",
@@ -344,6 +386,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((0 + 0 + 0) / 91 * 100).toFixed(2),
     avgWatchPercent: 7.08,
     publishedDate: "2026-03-17",
+    contentType: "Market Update",
+    formatTag: "Long-Form",
   },
   {
     id: "_tneSFg1Eu8",
@@ -353,6 +397,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((0 + 0 + 0) / 78 * 100).toFixed(2),
     avgWatchPercent: 98.23,
     publishedDate: "2026-03-06",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "h0hKN-VpBns",
@@ -362,6 +408,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((3 + 0 + 1) / 74 * 100).toFixed(2),
     avgWatchPercent: 8.27,
     publishedDate: "2026-02-18",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "CNrOek_2nIw",
@@ -371,6 +419,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((0 + 0 + 0) / 70 * 100).toFixed(2),
     avgWatchPercent: 45.25,
     publishedDate: "2026-03-11",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "iA6A6tgDqyk",
@@ -380,6 +430,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((1 + 0 + 0) / 65 * 100).toFixed(2),
     avgWatchPercent: 44.79,
     publishedDate: "2026-02-24",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "UQQaKx81Trw",
@@ -389,6 +441,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((1 + 0 + 0) / 64 * 100).toFixed(2),
     avgWatchPercent: 34.01,
     publishedDate: "2026-03-04",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "hxRBEm1GFy4",
@@ -398,6 +452,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((0 + 0 + 0) / 28 * 100).toFixed(2),
     avgWatchPercent: 29.84,
     publishedDate: "2026-03-20",
+    contentType: "Lead Magnet",
+    formatTag: "Long-Form",
   },
   {
     id: "eWhT6g-VEt0",
@@ -407,6 +463,8 @@ export const topContent: TopContent[] = [
     engagementRate: +((3 + 0 + 0) / 26 * 100).toFixed(2),
     avgWatchPercent: 21.13,
     publishedDate: "2026-03-26",
+    contentType: "Market Update",
+    formatTag: "Long-Form",
   },
   {
     id: "57dW51ak-Vo",
@@ -416,6 +474,8 @@ export const topContent: TopContent[] = [
     engagementRate: 0,
     avgWatchPercent: 85.99,
     publishedDate: "2026-03-24",
+    contentType: "Neighborhood",
+    formatTag: "Long-Form",
   },
   {
     id: "nkBf3uUmmOQ",
@@ -425,7 +485,29 @@ export const topContent: TopContent[] = [
     engagementRate: 0,
     avgWatchPercent: 0,
     publishedDate: "2026-03-30",
+    contentType: "Market Update",
+    formatTag: "Long-Form",
   },
+  // ─── Instagram posts (real data from Instagram Insights API, March 2026) ───
+  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 480, engagementRate: 5.52, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
+  { id: "18039349031729514", title: "How Buyers Get Connected to Agents", platform: "instagram", views: 335, engagementRate: 9.63, avgWatchPercent: 0, publishedDate: "2026-01-29", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 328, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 286, engagementRate: 4.57, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17895071457423081", title: "Wildflower Tract - Largest in Wildwood", platform: "instagram", views: 248, engagementRate: 3.62, avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "17878895649489300", title: "Kendall Ridge - Only 69 Homes with Views", platform: "instagram", views: 223, engagementRate: 5.24, avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18091011452164518", title: "Shadow Oaks - Most Architecturally Interesting", platform: "instagram", views: 210, engagementRate: 10.2, avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18122889313583675", title: "Wildwood Park Tract / Park Hills", platform: "instagram", views: 191, engagementRate: 4.35, avgWatchPercent: 0, publishedDate: "2026-03-06", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18564967411052930", title: "Stop Waiting for The Perfect Time to Buy", platform: "instagram", views: 171, engagementRate: 10.0, avgWatchPercent: 0, publishedDate: "2026-02-21", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17980921469963444", title: "Thousand Oaks Trails - Waterfalls & Mountains", platform: "instagram", views: 165, engagementRate: 5.04, avgWatchPercent: 0, publishedDate: "2026-02-26", contentType: "General", formatTag: "Short-Form" },
+  { id: "18059569052697879", title: "75% of Listings Have Price Cuts", platform: "instagram", views: 159, engagementRate: 6.06, avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "18145494928468475", title: "Shadow Oaks & Eichler Area Score", platform: "instagram", views: 124, engagementRate: 5.1, avgWatchPercent: 0, publishedDate: "2026-03-26", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18097908715970400", title: "Hidden Eichler Homes in Thousand Oaks", platform: "instagram", views: 110, engagementRate: 4.3, avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18158007157430305", title: "Original Wildwood Tract History", platform: "instagram", views: 47, engagementRate: 33.33, avgWatchPercent: 0, publishedDate: "2026-03-13", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18367552120094294", title: "Early Instagram Reel", platform: "instagram", views: 45, engagementRate: 46.43, avgWatchPercent: 0, publishedDate: "2025-12-17", contentType: "General", formatTag: "Short-Form" },
+  { id: "18098910148746828", title: "Geopolitics & Home Buying", platform: "instagram", views: 24, engagementRate: 16.67, avgWatchPercent: 0, publishedDate: "2026-03-09", contentType: "Market Update", formatTag: "Carousel" },
+  { id: "18002420036885515", title: "Best Time to List - Spring Myth", platform: "instagram", views: 23, engagementRate: 30.43, avgWatchPercent: 0, publishedDate: "2026-03-17", contentType: "Market Update", formatTag: "Carousel" },
+  { id: "18037016363563066", title: "Wildwood Lifestyle Overview", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-03-02", contentType: "Neighborhood", formatTag: "Carousel" },
+  { id: "18103160624507374", title: "Wildwood Neighborhoods Breakdown", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-02-25", contentType: "Neighborhood", formatTag: "Carousel" },
 ];
 
 // ─── Video retention data ───
@@ -1035,6 +1117,22 @@ export const aiInsights: AIInsight[] = [
     category: "engagement",
     icon: "MessageCircle",
   },
+  {
+    id: "ai6",
+    title: "Instagram Cross-Post Performance",
+    body: "Your 15 Instagram Reels averaged 196 views and 6.1% engagement rate — significantly higher engagement than YouTube (1.7%). The MasterKey Home Value Tool demo leads with 480 views and 5.5% engagement. Neighborhood content averages 179 views on IG. Practical market advice posts like 'How Buyers Get Connected' (9.6%) and Shadow Oaks (10.2%) drive the highest engagement. Instagram Carousels get fewer views (avg 20) but much higher engagement rates (avg 29%).",
+    platforms: ["instagram"],
+    category: "content",
+    icon: "TrendingUp",
+  },
+  {
+    id: "ai7",
+    title: "Content Type Analysis",
+    body: "Neighborhood content dominates your library (57% of posts) and performs consistently on both platforms. Market Update content drives higher engagement (avg 6.2% vs 4.1% for Neighborhood). Your 2 Lead Magnet posts have the highest combined views (480 IG + 28 YT = 508 total) and drive the most funnel traffic via UTMs. Recommendation: increase lead magnet content from 1/month to 2/month — they outperform all other content types in funnel conversion.",
+    platforms: ["youtube", "instagram"],
+    category: "content",
+    icon: "TrendingUp",
+  },
 ];
 
 export interface ContentScore {
@@ -1045,16 +1143,16 @@ export interface ContentScore {
   conversion: number;
 }
 
-// Scores based on real data:
-// hooks: top video 130% ratio = strong hooks, but avg completion ~40% → 62
-// engagement: 27 likes + 3 shares from 1629 views = 1.84% rate → 38 (low but early channel)
-// reach: 1629 views, Shorts 78%, growing → 45
+// Scores based on real data (YouTube + Instagram):
+// hooks: top video 130% ratio = strong hooks, avg completion ~40% → 62
+// engagement: 27 YT likes + 148 IG likes + 12 shares = 3.9% combined rate → 48
+// reach: 1,629 YT views + 3,122 IG views = 4,751 total views across 2 platforms → 52
 // conversion: 287 sessions, 5 form starts = 1.7% → 28
 export const contentScore: ContentScore = {
-  overall: 43,
+  overall: 48,
   hooks: 62,
-  engagement: 38,
-  reach: 45,
+  engagement: 48,
+  reach: 52,
   conversion: 28,
 };
 
@@ -1326,7 +1424,8 @@ export function getFilteredKPIs(activePlatforms: PlatformKey[], rangeKey: string
  * Returns topContent filtered by publishedDate within the given date range.
  */
 export function getFilteredTopContent(rangeKey: string): TopContent[] {
-  return filterByDateRange(topContent as unknown as Record<string, unknown>[], "publishedDate", rangeKey) as unknown as TopContent[];
+  const filtered = filterByDateRange(topContent as unknown as Record<string, unknown>[], "publishedDate", rangeKey) as unknown as TopContent[];
+  return [...filtered].sort((a, b) => b.views - a.views);
 }
 
 /**
@@ -1334,6 +1433,7 @@ export function getFilteredTopContent(rangeKey: string): TopContent[] {
  */
 export function getFilteredEngagement(rangeKey: string) {
   const filteredYT = filterByDateRange(youtubeDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as YouTubeDailyMetric[];
+  const filteredIG = filterByDateRange(instagramDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as InstagramDailyMetric[];
   return [
     {
       platform: "YouTube",
@@ -1341,7 +1441,12 @@ export function getFilteredEngagement(rangeKey: string) {
       comments: filteredYT.reduce((s, d) => s + d.comments, 0),
       shares: filteredYT.reduce((s, d) => s + d.shares, 0),
     },
-    { platform: "Instagram", likes: 0, comments: 0, shares: 0 },
+    {
+      platform: "Instagram",
+      likes: filteredIG.reduce((s, d) => s + d.likes, 0),
+      comments: filteredIG.reduce((s, d) => s + d.comments, 0),
+      shares: filteredIG.reduce((s, d) => s + d.shares, 0),
+    },
     { platform: "TikTok",    likes: 0, comments: 0, shares: 0 },
     { platform: "Facebook",  likes: 0, comments: 0, shares: 0 },
   ];

@@ -33,12 +33,39 @@ import {
   getFilteredTopContent,
   getFilteredSparklineData,
   posthogWebsiteTraffic,
+  type ContentCategory,
+  type FormatTag,
 } from "@/lib/mock-data";
 import { Globe, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { platforms, type PlatformKey } from "@/lib/platforms";
 import { useDateRange } from "@/lib/date-range-context";
 import { useActivePlatforms } from "@/lib/active-platforms-context";
+
+const CONTENT_TYPE_STYLES: Record<string, string> = {
+  Neighborhood: "border-blue-300 text-blue-700 dark:border-blue-700 dark:text-blue-400",
+  "Market Update": "border-amber-300 text-amber-700 dark:border-amber-700 dark:text-amber-400",
+  "Lead Magnet": "border-emerald-300 text-emerald-700 dark:border-emerald-700 dark:text-emerald-400",
+  General: "border-zinc-300 text-zinc-600 dark:border-zinc-600 dark:text-zinc-400",
+};
+
+function ContentTypeBadge({ type }: { type?: ContentCategory }) {
+  if (!type) return <span className="text-xs text-muted-foreground">—</span>;
+  return (
+    <span className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-medium ${CONTENT_TYPE_STYLES[type] ?? CONTENT_TYPE_STYLES.General}`}>
+      {type}
+    </span>
+  );
+}
+
+function FormatBadge({ format }: { format?: FormatTag }) {
+  if (!format) return <span className="text-xs text-muted-foreground">—</span>;
+  return (
+    <span className="inline-flex items-center rounded-md border border-border px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+      {format}
+    </span>
+  );
+}
 
 const PLATFORM_COLORS: Record<string, string> = {
   youtube: "var(--color-chart-1)",
@@ -222,6 +249,8 @@ export default function Dashboard() {
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead className="w-20">Platform</TableHead>
+                <TableHead className="w-28">Type</TableHead>
+                <TableHead className="w-24">Format</TableHead>
                 <TableHead className="text-right w-24">Views</TableHead>
                 <TableHead className="text-right w-28">Engagement</TableHead>
                 <TableHead className="text-right w-24">Avg Watch %</TableHead>
@@ -230,13 +259,19 @@ export default function Dashboard() {
             </TableHeader>
             <TableBody>
               {filteredTopContent.length > 0 ? (
-                filteredTopContent.slice(0, 10).map((item) => (
+                filteredTopContent.slice(0, 15).map((item) => (
                   <TableRow key={item.id}>
                     <TableCell className="font-medium text-sm max-w-[250px] truncate">
                       {item.title}
                     </TableCell>
                     <TableCell>
                       <PlatformIcon platform={item.platform} />
+                    </TableCell>
+                    <TableCell>
+                      <ContentTypeBadge type={item.contentType} />
+                    </TableCell>
+                    <TableCell>
+                      <FormatBadge format={item.formatTag} />
                     </TableCell>
                     <TableCell
                       className="text-right tabular-nums"
@@ -263,7 +298,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-muted-foreground text-sm py-6">
+                  <TableCell colSpan={8} className="text-center text-muted-foreground text-sm py-6">
                     No content published in this date range
                   </TableCell>
                 </TableRow>
