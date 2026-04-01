@@ -15,7 +15,13 @@ import { Settings, ExternalLink, RefreshCw, CheckCircle2, XCircle, AlertCircle }
 import { useMounted } from "@/hooks/use-mounted";
 
 const TIKTOK_CLIENT_KEY = "7623599459196207105";
-const TIKTOK_AUTH_URL = `https://www.tiktok.com/v2/auth/authorize/?client_key=${TIKTOK_CLIENT_KEY}&scope=user.info.basic,video.list&response_type=code&redirect_uri=${encodeURIComponent("https://masterkeyapp-5ho6.vercel.app/auth/tiktok/callback")}&state=masterkey`;
+const VERCEL_CALLBACK = encodeURIComponent("https://masterkeyapp-5ho6.vercel.app/auth/tiktok/callback");
+
+// Content API — Login Kit (organic video data, user insights)
+const TIKTOK_CONTENT_AUTH_URL = `https://www.tiktok.com/v2/auth/authorize/?client_key=${TIKTOK_CLIENT_KEY}&scope=user.info.basic,user.info.username,user.info.stats,user.info.profile,user.account.type,user.insights,video.list,video.insights,comment.list,comment.list.manage,video.publish,video.upload,biz.spark.auth,discovery.search.words,biz.brand.insights&response_type=code&redirect_uri=${VERCEL_CALLBACK}&state=masterkey_content`;
+
+// Business API — Advertiser (ads performance, spend, reporting)
+const TIKTOK_ADS_AUTH_URL = `https://business-api.tiktok.com/portal/auth?app_id=${TIKTOK_CLIENT_KEY}&state=masterkey_business&redirect_uri=${VERCEL_CALLBACK}`;
 
 interface TikTokStatus {
   connected: boolean;
@@ -25,6 +31,12 @@ interface TikTokStatus {
   expires_at?: string;
   needs_refresh?: boolean;
   needs_reauth?: boolean;
+  message?: string;
+}
+
+interface TikTokAdsStatus {
+  connected: boolean;
+  advertiser_ids?: string[];
   message?: string;
 }
 
@@ -41,11 +53,13 @@ interface Connection {
 export default function SettingsPage() {
   const mounted = useMounted();
   const [tiktokStatus, setTiktokStatus] = useState<TikTokStatus | null>(null);
+  const [tiktokAdsStatus, setTiktokAdsStatus] = useState<TikTokAdsStatus | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if (mounted) {
       checkTikTokStatus();
+      checkTikTokAdsStatus();
     }
   }, [mounted]);
 
@@ -56,6 +70,16 @@ export default function SettingsPage() {
       setTiktokStatus(data);
     } catch {
       setTiktokStatus({ connected: false, message: "Could not check status" });
+    }
+  }
+
+  async function checkTikTokAdsStatus() {
+    try {
+      const res = await fetch("/api/auth/tiktok/ads-status");
+      const data = await res.json();
+      setTiktokAdsStatus(data);
+    } catch {
+      setTiktokAdsStatus({ connected: false, message: "Could not check status" });
     }
   }
 
@@ -81,17 +105,32 @@ export default function SettingsPage() {
     return "connected";
   }
 
+  function getTikTokAdsStatus(): Connection["status"] {
+    if (!tiktokAdsStatus) return "loading";
+    return tiktokAdsStatus.connected ? "connected" : "disconnected";
+  }
+
   const connections: Connection[] = [
     {
-      name: "TikTok",
+      name: "TikTok Content",
       icon: SiTiktok,
       color: "#000000",
       status: getTikTokConnectionStatus(),
       description: tiktokStatus?.connected
-        ? `Scopes: ${tiktokStatus.scope || "N/A"} · Expires: ${tiktokStatus.expires_at ? new Date(tiktokStatus.expires_at).toLocaleDateString() : "N/A"}`
-        : "Connect your TikTok account to pull video analytics",
-      authUrl: TIKTOK_AUTH_URL,
+        ? `Organic video data · Expires: ${tiktokStatus.expires_at ? new Date(tiktokStatus.expires_at).toLocaleDateString() : "N/A"}`
+        : "Connect to pull organic video views, likes, comments, and insights",
+      authUrl: TIKTOK_CONTENT_AUTH_URL,
       onRefresh: tiktokStatus?.needs_refresh ? refreshTikTokToken : undefined,
+    },
+    {
+      name: "TikTok Ads",
+      icon: SiTiktok,
+      color: "#000000",
+      status: getTikTokAdsStatus(),
+      description: tiktokAdsStatus?.connected
+        ? `Advertiser IDs: ${tiktokAdsStatus.advertiser_ids?.join(", ") || "N/A"}`
+        : "Connect your ad account for spend, CPM, CPC, conversions, and ROAS",
+      authUrl: TIKTOK_ADS_AUTH_URL,
     },
     {
       name: "Instagram",
