@@ -83,7 +83,7 @@ export default function FunnelAnalysis() {
         "Social Content": pb.socialContent,
         "Link Clicked": pb.linkClicked,
         "Leads": pb.leads,
-        "Opportunities": pb.opportunities,
+        "Consult Booked": pb.consultBooked,
       })),
     [activeFunnel]
   );
@@ -197,16 +197,6 @@ export default function FunnelAnalysis() {
             );
           })}
         </div>
-        {/* Note about step 3→4 jump */}
-        {selectedFunnelId === "all" && (
-          <div className="flex items-start gap-2 mt-4 rounded-md border border-border bg-muted/20 p-2.5 text-xs text-muted-foreground">
-            <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
-            <span>
-              Leads (10) → Opportunities (84) jumps because most opportunities came from non-social sources (CRM, direct mail, referrals).
-              Social-to-opportunity conversion: <strong className="text-foreground">43 social leads → 1 opportunity</strong>.
-            </span>
-          </div>
-        )}
       </Card>
 
       {/* GHL Pipeline Stages (individual funnel) */}
@@ -216,7 +206,7 @@ export default function FunnelAnalysis() {
             <div>
               <h3 className="text-sm font-semibold">{activePipeline.name} — Stage Breakdown</h3>
               <p className="text-xs text-muted-foreground mt-0.5">
-                {activePipeline.totalOpportunities} total opportunities across {activePipeline.stages.length} stages
+                {activePipeline.totalOpportunities} total leads across {activePipeline.stages.length} stages
               </p>
             </div>
             <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1">
@@ -262,7 +252,7 @@ export default function FunnelAnalysis() {
           {activePipeline.totalOpportunities === 0 && (
             <div className="flex items-start gap-2 mt-3 rounded-md border border-amber-500/30 bg-amber-500/5 p-2 text-xs text-muted-foreground">
               <AlertTriangle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-amber-500" />
-              <span>This pipeline has no opportunities yet. Add a GHL tag to start tracking conversions.</span>
+              <span>This pipeline has no leads yet. Add a GHL tag to start tracking conversions.</span>
             </div>
           )}
         </Card>
@@ -275,7 +265,7 @@ export default function FunnelAnalysis() {
             <div>
               <h3 className="text-sm font-semibold">GHL Pipeline Comparison</h3>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Lead magnet pipelines — opportunities by stage
+                Lead magnet pipelines — leads by stage
               </p>
             </div>
             <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1">
@@ -487,7 +477,7 @@ export default function FunnelAnalysis() {
                 <TableHead className="text-right">Social Content</TableHead>
                 <TableHead className="text-right">Link Clicked</TableHead>
                 <TableHead className="text-right">Leads</TableHead>
-                <TableHead className="text-right">Opportunities</TableHead>
+                <TableHead className="text-right">Consult Booked</TableHead>
                 <TableHead className="text-right">Conv. Rate</TableHead>
               </TableRow>
             </TableHeader>
@@ -532,7 +522,7 @@ export default function FunnelAnalysis() {
                     {pb.leads.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                    {pb.opportunities}
+                    {pb.consultBooked}
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-medium" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
                     {pb.conversionRate}%
@@ -552,12 +542,12 @@ export default function FunnelAnalysis() {
                   {activeFunnel.platformBreakdown.reduce((s, r) => s + r.leads, 0).toLocaleString()}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {activeFunnel.platformBreakdown.reduce((s, r) => s + r.opportunities, 0)}
+                  {activeFunnel.platformBreakdown.reduce((s, r) => s + r.consultBooked, 0)}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
                   {(() => {
                     const totalContent = activeFunnel.platformBreakdown.reduce((s, r) => s + r.socialContent, 0);
-                    const totalOpps = activeFunnel.platformBreakdown.reduce((s, r) => s + r.opportunities, 0);
+                    const totalOpps = activeFunnel.platformBreakdown.reduce((s, r) => s + r.consultBooked, 0);
                     return totalContent > 0 ? ((totalOpps / totalContent) * 100).toFixed(2) : "0";
                   })()}%
                 </TableCell>
@@ -579,7 +569,7 @@ export default function FunnelAnalysis() {
                 <TableHead className="text-right">Sessions</TableHead>
                 <TableHead className="text-right">Landing Views</TableHead>
                 <TableHead className="text-right">Leads</TableHead>
-                <TableHead className="text-right">Opportunities</TableHead>
+                <TableHead className="text-right">Consult Booked</TableHead>
                 <TableHead className="text-right">Conv. Rate</TableHead>
               </TableRow>
             </TableHeader>
@@ -599,7 +589,7 @@ export default function FunnelAnalysis() {
                     {fs.leads}
                   </TableCell>
                   <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                    {fs.opportunities}
+                    {fs.consultBooked}
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-medium" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
                     {fs.conversionRate}%
@@ -618,12 +608,12 @@ export default function FunnelAnalysis() {
                   {funnelSources.reduce((s, r) => s + r.leads, 0)}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {funnelSources.reduce((s, r) => s + r.opportunities, 0)}
+                  {funnelSources.reduce((s, r) => s + r.consultBooked, 0)}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
                   {(() => {
                     const totalClicks = funnelSources.reduce((s, r) => s + r.clicks, 0);
-                    const totalOpps = funnelSources.reduce((s, r) => s + r.opportunities, 0);
+                    const totalOpps = funnelSources.reduce((s, r) => s + r.consultBooked, 0);
                     return totalClicks > 0 ? ((totalOpps / totalClicks) * 100).toFixed(1) : "0";
                   })()}%
                 </TableCell>
@@ -654,7 +644,7 @@ export default function FunnelAnalysis() {
         <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
         <div>
           <span className="font-medium text-foreground">Data Sources:</span>{" "}
-          GoHighLevel CRM (leads, opportunities, tags) + PostHog (UTM tracking, sessions) + YouTube/Instagram/TikTok APIs (content views).
+          GoHighLevel CRM (leads, pipelines, tags) + PostHog (UTM tracking, sessions) + YouTube/Instagram/TikTok APIs (content views).
           Instagram: 13 pageviews via UTM, 43 GHL leads. YouTube: 88 pageviews via UTM, 0 GHL leads. Facebook: 75 pageviews via referrer. TikTok: awaiting UTM setup.
         </div>
       </div>

@@ -843,7 +843,7 @@ export interface FunnelPlatformBreakdown {
   socialContent: number;
   linkClicked: number;
   leads: number;
-  opportunities: number;
+  consultBooked: number;
   conversionRate: number;
 }
 
@@ -859,11 +859,10 @@ export interface FunnelData {
 // Real data from GoHighLevel CRM + PostHog + platform APIs:
 // Step 1 (Social Content): YouTube 1,629 + Instagram 3,122 + TikTok 8,682 = 13,433 total views
 // Step 2 (Link Clicked): PostHog 287 landing page sessions (88 YouTube UTM, 13 Instagram UTM, 75 Facebook referrer, 4 Linktree, rest direct/google)
-// Step 3 (Leads): GHL tagged contacts — 6 scorecard + 2 buyguide + 8 market-updates + 8 newsletter-buyer + 3 newsletter-seller + 2 newsletter-landlord ≈ 10 unique lead magnet conversions
-// Step 4 (Opportunities): 84 total GHL opportunities (8 Buyer Leads, 74 Marketing Pipeline, 1 Seller, 1 Nurture); 1 social-attributed
+// Step 3 (Leads): GHL tagged contacts — 6 scorecard + 2 buyguide + 8 market-updates + 3 seller + 2 landlord = 21 total pipeline leads
+// Step 4 (Consult Booked): 3 total from GHL pipelines (Seller Guide 1 + Neighborhood Scorecard 1 + MarketPulse 1)
 //
-// Platform attribution: 43 social media leads, ALL from Instagram. 0 from TikTok/YouTube (no UTM tracking yet).
-// Social → opportunity: 43 social leads → 1 opportunity (Michael Mathias)
+// Platform attribution: all social leads came from Instagram. 0 from TikTok/YouTube (no UTM tracking yet).
 //
 // Landing pages (PostHog):
 //   buyerguide = 48 pv, 23 sessions
@@ -876,19 +875,19 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "buy-guide",
     name: "Buy Guide Funnel",
-    // Leads: 2 (GHL buyguide-lead tag)
+    // Leads: 2 (GHL buyguide-lead tag), Consult Booked: 0
     // Views: YT buyer content (325) + IG buyer content (457) + TT buyer content (6,369)
     steps: [
-      { name: "Social Content", count: 7151,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",   count: 29,    conversionFromPrev: 0.4,  dropOff: 99.6 },
-      { name: "Leads",          count: 2,     conversionFromPrev: 6.9,  dropOff: 93.1 },
-      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Social Content",  count: 7151,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",    count: 29,    conversionFromPrev: 0.4,  dropOff: 99.6 },
+      { name: "Leads",           count: 2,     conversionFromPrev: 6.9,  dropOff: 93.1 },
+      { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 325, linkClicked: 17, leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 457, linkClicked: 6,  leads: 2, opportunities: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 6369, linkClicked: 0, leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 6,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 325, linkClicked: 17, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 457, linkClicked: 6,  leads: 2, consultBooked: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 6369, linkClicked: 0, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 6,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "tiktok",
     bestConverter: "instagram",
@@ -896,19 +895,19 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "neighborhood-scorecard",
     name: "Neighborhood Scorecard Funnel",
-    // Leads: 6 (GHL lm-scorecard-requested tag, all 6 delivered)
+    // Leads: 6 (GHL lm-scorecard-requested tag, all 6 delivered), Consult Booked: 1 (Todd Shillington)
     // Views: YT neighborhood content (1,131) + IG neighborhood content (1,352) + TT neighborhood content (2,212)
     steps: [
-      { name: "Social Content", count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",   count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
-      { name: "Leads",          count: 6,     conversionFromPrev: 33.3, dropOff: 66.7 },
-      { name: "Opportunities",  count: 1,     conversionFromPrev: 16.7, dropOff: 83.3 },
+      { name: "Social Content",  count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",    count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
+      { name: "Leads",           count: 6,     conversionFromPrev: 33.3, dropOff: 66.7 },
+      { name: "Consult Booked",  count: 1,     conversionFromPrev: 16.7, dropOff: 83.3 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 1131, linkClicked: 11, leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 1352, linkClicked: 3,  leads: 6, opportunities: 1, conversionRate: 0.07 },
-      { platform: "tiktok",    socialContent: 2212, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,    linkClicked: 4,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 1131, linkClicked: 11, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 1352, linkClicked: 3,  leads: 6, consultBooked: 1, conversionRate: 0.07 },
+      { platform: "tiktok",    socialContent: 2212, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,    linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "tiktok",
     bestConverter: "instagram",
@@ -916,19 +915,19 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "seller-guide",
     name: "Seller Guide Funnel",
-    // Leads: 3 (GHL newsletter-seller tag as proxy)
+    // Leads: 3 (GHL newsletter-seller tag as proxy), Consult Booked: 1
     // Views: YT seller content (91) + IG seller content (159) + TT seller content (6,369 — shared w/ buyer)
     steps: [
-      { name: "Social Content", count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",   count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
-      { name: "Leads",          count: 3,     conversionFromPrev: 14.3, dropOff: 85.7 },
-      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Social Content",  count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",    count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
+      { name: "Leads",           count: 3,     conversionFromPrev: 14.3, dropOff: 85.7 },
+      { name: "Consult Booked",  count: 1,     conversionFromPrev: 33.3, dropOff: 66.7 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 91,   linkClicked: 14, leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 159,  linkClicked: 2,  leads: 3, opportunities: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 6369, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,    linkClicked: 5,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 91,   linkClicked: 14, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 159,  linkClicked: 2,  leads: 3, consultBooked: 1, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 6369, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,    linkClicked: 5,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "tiktok",
     bestConverter: "instagram",
@@ -936,19 +935,19 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "instant-valuation",
     name: "Instant Valuation Funnel",
-    // Leads: 0 (no GHL tag for home value tool yet)
+    // Leads: 0 (no GHL tag for home value tool yet), Consult Booked: 0
     // Views: YT (28) + IG (480) + TT (101)
     steps: [
-      { name: "Social Content", count: 609,   conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",   count: 42,    conversionFromPrev: 6.9,  dropOff: 93.1 },
-      { name: "Leads",          count: 0,     conversionFromPrev: 0,    dropOff: 100 },
-      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Social Content",  count: 609,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",    count: 42,    conversionFromPrev: 6.9,  dropOff: 93.1 },
+      { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 28,  linkClicked: 31, leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 480, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 101, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 11, leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 28,  linkClicked: 31, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 480, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 101, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 11, leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "instagram",
     bestConverter: "youtube",
@@ -956,19 +955,19 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "pm-guide",
     name: "Property Management Guide Funnel",
-    // Leads: 2 (GHL newsletter-landlord tag)
+    // Leads: 2 (GHL newsletter-landlord tag), Consult Booked: 0
     // Views: YT (26) + IG (0) + TT (0)
     steps: [
-      { name: "Social Content", count: 26,    conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",   count: 18,    conversionFromPrev: 69.2, dropOff: 30.8 },
-      { name: "Leads",          count: 2,     conversionFromPrev: 11.1, dropOff: 88.9 },
-      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Social Content",  count: 26,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",    count: 18,    conversionFromPrev: 69.2, dropOff: 30.8 },
+      { name: "Leads",           count: 2,     conversionFromPrev: 11.1, dropOff: 88.9 },
+      { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 26, linkClicked: 12, leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 0,  linkClicked: 2,  leads: 2, opportunities: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 0,  linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,  linkClicked: 4,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 26, linkClicked: 12, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,  linkClicked: 2,  leads: 2, consultBooked: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,  linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,  linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "youtube",
     bestConverter: "instagram",
@@ -976,20 +975,20 @@ export const funnelDatasets: FunnelData[] = [
   {
     id: "marketpulse",
     name: "MarketPulse Funnel",
-    // Leads: 8 (GHL market-updates-optin tag)
+    // Leads: 8 (GHL market-updates-optin tag), Consult Booked: 1
     // Views: YT market update content (54) + IG market update content (674) + TT market content (0)
     // PostHog: marketpulse landing = 64 pv, 15 sessions
     steps: [
-      { name: "Social Content", count: 728,   conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",   count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
-      { name: "Leads",          count: 8,     conversionFromPrev: 53.3, dropOff: 46.7 },
-      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Social Content",  count: 728,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",    count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
+      { name: "Leads",           count: 8,     conversionFromPrev: 53.3, dropOff: 46.7 },
+      { name: "Consult Booked",  count: 1,     conversionFromPrev: 12.5, dropOff: 87.5 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 54,  linkClicked: 3,  leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 674, linkClicked: 8,  leads: 8, opportunities: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 4,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 54,  linkClicked: 3,  leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 674, linkClicked: 8,  leads: 8, consultBooked: 1, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "instagram",
     bestConverter: "instagram",
@@ -1001,20 +1000,20 @@ export function getAggregatedFunnelData(): FunnelData {
   // Use real totals instead of summing per-funnel (avoids double-counting shared videos)
   // Social Content: YT 1,629 + IG 3,122 + TT 8,682 = 13,433
   // Link Clicked: 287 PostHog sessions
-  // Leads: ~10 unique (GHL tags, deduplicated)
-  // Opportunities: 84 total in GHL pipelines (1 social-attributed)
+  // Leads: 21 total GHL pipeline leads
+  // Consult Booked: 3 (Seller 1 + Scorecard 1 + MarketPulse 1)
   const allSteps: FunnelStep[] = [
-    { name: "Social Content", count: 13433, conversionFromPrev: 100,  dropOff: 0 },
-    { name: "Link Clicked",   count: 287,   conversionFromPrev: 2.1,  dropOff: 97.9 },
-    { name: "Leads",          count: 10,    conversionFromPrev: 3.5,  dropOff: 96.5 },
-    { name: "Opportunities",  count: 84,    conversionFromPrev: 840,  dropOff: 0 },
+    { name: "Social Content",  count: 13433, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Link Clicked",    count: 287,   conversionFromPrev: 2.1,   dropOff: 97.9 },
+    { name: "Leads",           count: 21,    conversionFromPrev: 7.3,   dropOff: 92.7 },
+    { name: "Consult Booked",  count: 3,     conversionFromPrev: 14.3,  dropOff: 85.7 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube:   { platform: "youtube",   socialContent: 1629,  linkClicked: 88,  leads: 0,  opportunities: 0, conversionRate: 0 },
-    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 43, opportunities: 1, conversionRate: 0.03 },
-    tiktok:    { platform: "tiktok",    socialContent: 8682,  linkClicked: 0,   leads: 0,  opportunities: 0, conversionRate: 0 },
-    facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 75,  leads: 0,  opportunities: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 1629,  linkClicked: 88,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 43, consultBooked: 3, conversionRate: 0.07 },
+    tiktok:    { platform: "tiktok",    socialContent: 8682,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
+    facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 75,  leads: 0,  consultBooked: 0, conversionRate: 0 },
   };
 
   return {
@@ -1036,7 +1035,7 @@ export interface FunnelSource {
   clicks: number;
   landingViews: number;
   leads: number;
-  opportunities: number;
+  consultBooked: number;
   conversionRate: number;
 }
 
@@ -1045,13 +1044,13 @@ export interface FunnelSource {
 // Instagram UTM: 13 pageviews | Google: 29 sessions | Linktree UTM: 4 pageviews
 // GHL leads: 43 social media leads (all Instagram), 10 unique lead magnet conversions
 export const funnelSources: FunnelSource[] = [
-  { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, leads: 3,  opportunities: 2,  conversionRate: 1.3 },
-  { source: "youtube",   platform: "youtube",   clicks: 88,  landingViews: 88,  leads: 0,  opportunities: 0,  conversionRate: 0 },
-  { source: "facebook",  platform: "facebook",  clicks: 75,  landingViews: 75,  leads: 0,  opportunities: 0,  conversionRate: 0 },
-  { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  leads: 1,  opportunities: 1,  conversionRate: 3.4 },
-  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  leads: 43, opportunities: 1,  conversionRate: 7.7 },
-  { source: "linktree",  platform: "youtube",   clicks: 4,   landingViews: 4,   leads: 0,  opportunities: 0,  conversionRate: 0 },
-  { source: "tiktok",    platform: "tiktok",    clicks: 0,   landingViews: 0,   leads: 0,  opportunities: 0,  conversionRate: 0 },
+  { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, leads: 3,  consultBooked: 0,  conversionRate: 0 },
+  { source: "youtube",   platform: "youtube",   clicks: 88,  landingViews: 88,  leads: 0,  consultBooked: 0,  conversionRate: 0 },
+  { source: "facebook",  platform: "facebook",  clicks: 75,  landingViews: 75,  leads: 0,  consultBooked: 0,  conversionRate: 0 },
+  { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  leads: 1,  consultBooked: 0,  conversionRate: 0 },
+  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  leads: 43, consultBooked: 3,  conversionRate: 23.1 },
+  { source: "linktree",  platform: "youtube",   clicks: 4,   landingViews: 4,   leads: 0,  consultBooked: 0,  conversionRate: 0 },
+  { source: "tiktok",    platform: "tiktok",    clicks: 0,   landingViews: 0,   leads: 0,  consultBooked: 0,  conversionRate: 0 },
 ];
 
 // ─── PostHog Website Traffic by Source (90-day referrer + UTM data) ───
