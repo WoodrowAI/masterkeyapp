@@ -879,7 +879,7 @@ export const funnelDatasets: FunnelData[] = [
     // Views: YT buyer content (325) + IG buyer content (457) + TT buyer content (6,369)
     steps: [
       { name: "Social Media Views",  count: 7151,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",    count: 29,    conversionFromPrev: 0.4,  dropOff: 99.6 },
+      { name: "Landing Page Visits",    count: 29,    conversionFromPrev: 0.4,  dropOff: 99.6 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,  dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
@@ -899,7 +899,7 @@ export const funnelDatasets: FunnelData[] = [
     // Views: YT neighborhood content (1,131) + IG neighborhood content (1,352) + TT neighborhood content (2,212)
     steps: [
       { name: "Social Media Views",  count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",    count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
+      { name: "Landing Page Visits",    count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
@@ -919,7 +919,7 @@ export const funnelDatasets: FunnelData[] = [
     // Views: YT seller content (91) + IG seller content (159) + TT seller content (6,369 — shared w/ buyer)
     steps: [
       { name: "Social Media Views",  count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",    count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
+      { name: "Landing Page Visits",    count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
@@ -939,7 +939,7 @@ export const funnelDatasets: FunnelData[] = [
     // Views: YT (28) + IG (480) + TT (101)
     steps: [
       { name: "Social Media Views",  count: 609,   conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",    count: 42,    conversionFromPrev: 6.9,  dropOff: 93.1 },
+      { name: "Landing Page Visits",    count: 42,    conversionFromPrev: 6.9,  dropOff: 93.1 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
@@ -959,7 +959,7 @@ export const funnelDatasets: FunnelData[] = [
     // Views: YT (84) + IG (0) + TT (0)
     steps: [
       { name: "Social Media Views",  count: 84,    conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",    count: 18,    conversionFromPrev: 21.4, dropOff: 78.6 },
+      { name: "Landing Page Visits",    count: 18,    conversionFromPrev: 21.4, dropOff: 78.6 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
@@ -980,7 +980,7 @@ export const funnelDatasets: FunnelData[] = [
     // PostHog: marketpulse landing = 64 pv, 15 sessions
     steps: [
       { name: "Social Media Views",  count: 728,   conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",    count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
+      { name: "Landing Page Visits",    count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
@@ -1004,7 +1004,7 @@ export function getAggregatedFunnelData(): FunnelData {
   // Consult Booked: 3 (Seller 1 + Scorecard 1 + MarketPulse 1)
   const allSteps: FunnelStep[] = [
     { name: "Social Media Views",  count: 13563, conversionFromPrev: 100,   dropOff: 0 },
-    { name: "Link Clicked",    count: 287,   conversionFromPrev: 2.1,   dropOff: 97.9 },
+    { name: "Landing Page Visits",    count: 287,   conversionFromPrev: 2.1,   dropOff: 97.9 },
     { name: "Leads",           count: 0,    conversionFromPrev: 0,   dropOff: 100 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,  dropOff: 100 },
   ];

@@ -63,7 +63,7 @@ export default function FunnelAnalysis() {
       activeFunnel.platformBreakdown.map((pb) => ({
         platform: platforms[pb.platform].name,
         "Social Media Views": pb.socialContent,
-        "Link Clicked": pb.linkClicked,
+        "Landing Page Visits": pb.linkClicked,
         "Leads": pb.leads,
         "Consult Booked": pb.consultBooked,
       })),
@@ -228,7 +228,7 @@ export default function FunnelAnalysis() {
         <div className="mt-4 space-y-1 text-[11px] text-muted-foreground leading-relaxed">
           <p className="font-medium text-foreground text-xs mb-1.5">Data Sources</p>
           <p><span className="font-medium">Social Media Views</span> — Total video views from YouTube Analytics API, Instagram Graph API, and TikTok Content API</p>
-          <p><span className="font-medium">Link Clicked</span> — Landing page sessions tracked by PostHog (UTM-attributed visits from social media)</p>
+          <p><span className="font-medium">Landing Page Visits</span> — Sessions on your lead magnet landing pages tracked by PostHog, attributed by UTM params and Linktree referrers</p>
           <p><span className="font-medium">Leads</span> — Contacts who downloaded a lead magnet, tracked via GoHighLevel form submissions and pipeline data</p>
           <p><span className="font-medium">Consult Booked</span> — Contacts who reached the &quot;Consult Booked&quot; stage in their GoHighLevel lead magnet pipeline</p>
         </div>
@@ -451,7 +451,7 @@ export default function FunnelAnalysis() {
               <TableRow>
                 <TableHead>Platform</TableHead>
                 <TableHead className="text-right">Social Media Views</TableHead>
-                <TableHead className="text-right">Link Clicked</TableHead>
+                <TableHead className="text-right">Landing Page Visits</TableHead>
                 <TableHead className="text-right">Leads</TableHead>
                 <TableHead className="text-right">Consult Booked</TableHead>
                 <TableHead className="text-right">Conv. Rate</TableHead>
