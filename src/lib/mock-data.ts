@@ -880,12 +880,12 @@ export const funnelDatasets: FunnelData[] = [
     steps: [
       { name: "Social Media Views",  count: 7151,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 29,    conversionFromPrev: 0.4,  dropOff: 99.6 },
-      { name: "Leads",           count: 2,     conversionFromPrev: 6.9,  dropOff: 93.1 },
+      { name: "Leads",           count: 0,     conversionFromPrev: 0,  dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 325, linkClicked: 17, leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 457, linkClicked: 6,  leads: 2, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 457, linkClicked: 6,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 6369, linkClicked: 0, leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 6,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -900,12 +900,12 @@ export const funnelDatasets: FunnelData[] = [
     steps: [
       { name: "Social Media Views",  count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
-      { name: "Leads",           count: 6,     conversionFromPrev: 33.3, dropOff: 66.7 },
+      { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 1131, linkClicked: 11, leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 1352, linkClicked: 3,  leads: 6, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 1352, linkClicked: 3,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 2212, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,    linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -920,12 +920,12 @@ export const funnelDatasets: FunnelData[] = [
     steps: [
       { name: "Social Media Views",  count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
-      { name: "Leads",           count: 3,     conversionFromPrev: 14.3, dropOff: 85.7 },
+      { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 91,   linkClicked: 14, leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 159,  linkClicked: 2,  leads: 3, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 159,  linkClicked: 2,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 6369, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,    linkClicked: 5,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -960,12 +960,12 @@ export const funnelDatasets: FunnelData[] = [
     steps: [
       { name: "Social Media Views",  count: 84,    conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 18,    conversionFromPrev: 21.4, dropOff: 78.6 },
-      { name: "Leads",           count: 2,     conversionFromPrev: 11.1, dropOff: 88.9 },
+      { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 84, linkClicked: 12, leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 0,  linkClicked: 2,  leads: 2, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,  linkClicked: 2,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,  linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,  linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -981,12 +981,12 @@ export const funnelDatasets: FunnelData[] = [
     steps: [
       { name: "Social Media Views",  count: 728,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
-      { name: "Leads",           count: 8,     conversionFromPrev: 53.3, dropOff: 46.7 },
+      { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 54,  linkClicked: 3,  leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 674, linkClicked: 8,  leads: 8, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 674, linkClicked: 8,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -1005,13 +1005,13 @@ export function getAggregatedFunnelData(): FunnelData {
   const allSteps: FunnelStep[] = [
     { name: "Social Media Views",  count: 13563, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Link Clicked",    count: 287,   conversionFromPrev: 2.1,   dropOff: 97.9 },
-    { name: "Leads",           count: 21,    conversionFromPrev: 7.3,   dropOff: 92.7 },
+    { name: "Leads",           count: 0,    conversionFromPrev: 0,   dropOff: 100 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,  dropOff: 100 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
     youtube:   { platform: "youtube",   socialContent: 1736,  linkClicked: 88,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 43, consultBooked: 0, conversionRate: 0 },
+    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 0, consultBooked: 0, conversionRate: 0 },
     tiktok:    { platform: "tiktok",    socialContent: 8682,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
     facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 75,  leads: 0,  consultBooked: 0, conversionRate: 0 },
   };
@@ -1044,11 +1044,11 @@ export interface FunnelSource {
 // Instagram UTM: 13 pageviews | Google: 29 sessions | Linktree UTM: 4 pageviews
 // GHL leads: 43 social media leads (all Instagram), 10 unique lead magnet conversions
 export const funnelSources: FunnelSource[] = [
-  { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, leads: 3,  consultBooked: 0,  conversionRate: 0 },
+  { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, leads: 0,  consultBooked: 0,  conversionRate: 0 },
   { source: "youtube",   platform: "youtube",   clicks: 88,  landingViews: 88,  leads: 0,  consultBooked: 0,  conversionRate: 0 },
   { source: "facebook",  platform: "facebook",  clicks: 75,  landingViews: 75,  leads: 0,  consultBooked: 0,  conversionRate: 0 },
-  { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  leads: 1,  consultBooked: 0,  conversionRate: 0 },
-  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  leads: 43, consultBooked: 0,  conversionRate: 0 },
+  { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  leads: 0,  consultBooked: 0,  conversionRate: 0 },
+  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  leads: 0, consultBooked: 0,  conversionRate: 0 },
   { source: "linktree",  platform: "youtube",   clicks: 4,   landingViews: 4,   leads: 0,  consultBooked: 0,  conversionRate: 0 },
   { source: "tiktok",    platform: "tiktok",    clicks: 0,   landingViews: 0,   leads: 0,  consultBooked: 0,  conversionRate: 0 },
 ];
