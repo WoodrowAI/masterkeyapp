@@ -77,11 +77,15 @@ export async function GET(request: NextRequest) {
         updated_at: new Date().toISOString(),
       };
 
-      await fs.writeFile(
-        BUSINESS_TOKEN_FILE,
-        JSON.stringify(businessTokens, null, 2),
-        "utf-8"
-      );
+      try {
+        await fs.writeFile(
+          BUSINESS_TOKEN_FILE,
+          JSON.stringify(businessTokens, null, 2),
+          "utf-8"
+        );
+      } catch {
+        console.log("Could not write business token file (expected on Vercel)");
+      }
 
       console.log("TikTok Business tokens saved! Advertiser IDs:", businessTokens.advertiser_ids);
 
@@ -140,7 +144,11 @@ export async function GET(request: NextRequest) {
         updated_at: new Date().toISOString(),
       };
 
-      await saveTokens(tokens);
+      try {
+        await saveTokens(tokens);
+      } catch {
+        console.log("Could not write content token file (expected on Vercel)");
+      }
       console.log("TikTok Content tokens saved!");
 
       // Return tokens in response so they can be saved as env vars
