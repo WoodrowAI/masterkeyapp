@@ -123,7 +123,7 @@ export const instagramDailyMetrics: InstagramDailyMetric[] = dates.map((date) =>
   };
 });
 
-// ─── TikTok daily metrics — no data available ───
+// ─── TikTok daily metrics — real data from TikTok API ───
 export interface TikTokDailyMetric {
   date: string;
   view_count: number;
@@ -132,13 +132,33 @@ export interface TikTokDailyMetric {
   share_count: number;
 }
 
-export const tiktokDailyMetrics: TikTokDailyMetric[] = dates.map((date) => ({
-  date,
-  view_count: 0,
-  like_count: 0,
-  comment_count: 0,
-  share_count: 0,
-}));
+// Real TikTok post-level data aggregated by publish date
+// Total: 8,682 views, 449 likes, 8 comments, 5 shares across 12 videos
+const ttPostsByDate: Record<string, { view_count: number; like_count: number; comment_count: number; share_count: number }> = {
+  "2026-02-24": { view_count: 18, like_count: 3, comment_count: 0, share_count: 0 },
+  "2026-02-26": { view_count: 451, like_count: 113, comment_count: 0, share_count: 1 },
+  "2026-03-04": { view_count: 456, like_count: 10, comment_count: 0, share_count: 1 },
+  "2026-03-06": { view_count: 147, like_count: 0, comment_count: 0, share_count: 0 },
+  "2026-03-11": { view_count: 396, like_count: 10, comment_count: 0, share_count: 0 },
+  "2026-03-13": { view_count: 534, like_count: 6, comment_count: 2, share_count: 1 },
+  "2026-03-18": { view_count: 207, like_count: 7, comment_count: 0, share_count: 0 },
+  "2026-03-20": { view_count: 101, like_count: 1, comment_count: 1, share_count: 0 },
+  "2026-03-21": { view_count: 4487, like_count: 224, comment_count: 1, share_count: 0 },
+  "2026-03-24": { view_count: 90, like_count: 3, comment_count: 3, share_count: 0 },
+  "2026-03-28": { view_count: 0, like_count: 0, comment_count: 0, share_count: 0 },
+};
+// Note: video 7623170002312596750 (1795 views, 72 likes, 1 comment, 2 shares) published 2026-03-30 is outside the date range
+
+export const tiktokDailyMetrics: TikTokDailyMetric[] = dates.map((date) => {
+  const d = ttPostsByDate[date];
+  return {
+    date,
+    view_count: d?.view_count ?? 0,
+    like_count: d?.like_count ?? 0,
+    comment_count: d?.comment_count ?? 0,
+    share_count: d?.share_count ?? 0,
+  };
+});
 
 // ─── Facebook daily metrics — no data available ───
 export interface FacebookDailyMetric {
@@ -169,8 +189,8 @@ export interface DailyViewsCombined {
 export const dailyViewsCombined: DailyViewsCombined[] = dates.map((date, i) => ({
   date,
   youtube: youtubeDailyMetrics[i].views,
-  instagram: 0,
-  tiktok: 0,
+  instagram: instagramDailyMetrics[i].impressions,
+  tiktok: tiktokDailyMetrics[i].view_count,
   facebook: 0,
 }));
 
@@ -285,15 +305,15 @@ export function getEngagementByPlatform() {
     },
     {
       platform: "Instagram",
-      likes: 0,
-      comments: 0,
-      shares: 0,
+      likes: instagramDailyMetrics.reduce((s, d) => s + d.likes, 0),
+      comments: instagramDailyMetrics.reduce((s, d) => s + d.comments, 0),
+      shares: instagramDailyMetrics.reduce((s, d) => s + d.shares, 0),
     },
     {
       platform: "TikTok",
-      likes: 0,
-      comments: 0,
-      shares: 0,
+      likes: tiktokDailyMetrics.reduce((s, d) => s + d.like_count, 0),
+      comments: tiktokDailyMetrics.reduce((s, d) => s + d.comment_count, 0),
+      shares: tiktokDailyMetrics.reduce((s, d) => s + d.share_count, 0),
     },
     {
       platform: "Facebook",
@@ -508,6 +528,19 @@ export const topContent: TopContent[] = [
   { id: "18002420036885515", title: "Best Time to List - Spring Myth", platform: "instagram", views: 23, engagementRate: 30.43, avgWatchPercent: 0, publishedDate: "2026-03-17", contentType: "Market Update", formatTag: "Carousel" },
   { id: "18037016363563066", title: "Wildwood Lifestyle Overview", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-03-02", contentType: "Neighborhood", formatTag: "Carousel" },
   { id: "18103160624507374", title: "Wildwood Neighborhoods Breakdown", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-02-25", contentType: "Neighborhood", formatTag: "Carousel" },
+  // ─── TikTok posts (real data from TikTok API, Feb–Mar 2026) ───
+  { id: "7619493217565723917", title: "75% of Thousand Oaks Listings Have Price Cuts", platform: "tiktok", views: 4487, engagementRate: +((224 + 1 + 0) / 4487 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "7623170002312596750", title: "How to Know if It's a Buyer's or Seller's Market", platform: "tiktok", views: 1795, engagementRate: +((72 + 1 + 2) / 1795 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-30", contentType: "Market Update", formatTag: "Long-Form" },
+  { id: "7616809115884588301", title: "The Wildwood Tract — Where It All Started", platform: "tiktok", views: 534, engagementRate: +((6 + 2 + 1) / 534 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-13", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "7613485184947604766", title: "Kendall Ridge — Only 69 Homes With These Views", platform: "tiktok", views: 456, engagementRate: +((10 + 0 + 1) / 456 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Long-Form" },
+  { id: "7611185204689947917", title: "Thousand Oaks Trails — Waterfalls & Ridge Views", platform: "tiktok", views: 451, engagementRate: +((113 + 0 + 1) / 451 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-26", contentType: "General", formatTag: "Short-Form" },
+  { id: "7616067074313522445", title: "Wildflower Tract — Largest Section of Wildwood", platform: "tiktok", views: 396, engagementRate: +((10 + 0 + 0) / 396 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "7614227151407156493", title: "Wildwood Park Tract (Park Hills)", platform: "tiktok", views: 147, engagementRate: +((0 + 0 + 0) / 147 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-06", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "7618716243888999693", title: "Shadow Oaks & Eichler — Most Underrated Neighborhood", platform: "tiktok", views: 120, engagementRate: +((5 + 0 + 0) / 120 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Long-Form" },
+  { id: "7619132302437698830", title: "MasterKey Home Value Tool Demo", platform: "tiktok", views: 101, engagementRate: +((1 + 1 + 0) / 101 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Long-Form" },
+  { id: "7620941823049075982", title: "Hidden Eichler Homes in Thousand Oaks", platform: "tiktok", views: 90, engagementRate: +((3 + 3 + 0) / 90 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Long-Form" },
+  { id: "7618380074324217118", title: "Best Time to List — Spring Myth Debunked", platform: "tiktok", views: 87, engagementRate: +((2 + 0 + 0) / 87 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "7610537998756678926", title: "Neighborhood Scorecard for Home Buyers", platform: "tiktok", views: 18, engagementRate: +((3 + 0 + 0) / 18 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Lead Magnet", formatTag: "Short-Form" },
 ];
 
 // ─── Video retention data ───
@@ -1434,6 +1467,7 @@ export function getFilteredTopContent(rangeKey: string): TopContent[] {
 export function getFilteredEngagement(rangeKey: string) {
   const filteredYT = filterByDateRange(youtubeDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as YouTubeDailyMetric[];
   const filteredIG = filterByDateRange(instagramDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as InstagramDailyMetric[];
+  const filteredTT = filterByDateRange(tiktokDailyMetrics as unknown as Record<string, unknown>[], "date", rangeKey) as unknown as TikTokDailyMetric[];
   return [
     {
       platform: "YouTube",
@@ -1447,7 +1481,12 @@ export function getFilteredEngagement(rangeKey: string) {
       comments: filteredIG.reduce((s, d) => s + d.comments, 0),
       shares: filteredIG.reduce((s, d) => s + d.shares, 0),
     },
-    { platform: "TikTok",    likes: 0, comments: 0, shares: 0 },
+    {
+      platform: "TikTok",
+      likes: filteredTT.reduce((s, d) => s + d.like_count, 0),
+      comments: filteredTT.reduce((s, d) => s + d.comment_count, 0),
+      shares: filteredTT.reduce((s, d) => s + d.share_count, 0),
+    },
     { platform: "Facebook",  likes: 0, comments: 0, shares: 0 },
   ];
 }
