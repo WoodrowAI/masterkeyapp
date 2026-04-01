@@ -9,6 +9,7 @@ import {
   BarChart3,
   Lightbulb,
   Magnet,
+  Settings,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,6 +34,7 @@ const navItems = [
   { href: "/leads", label: "Lead Magnets", icon: Magnet },
   { href: "/posthog", label: "PostHog", icon: BarChart3 },
   { href: "/insights", label: "AI Insights", icon: Lightbulb },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 function MasterkeyLogo() {
