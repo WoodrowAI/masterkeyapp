@@ -973,6 +973,27 @@ export const funnelDatasets: FunnelData[] = [
     bestVolumeDriver: "youtube",
     bestConverter: "instagram",
   },
+  {
+    id: "marketpulse",
+    name: "MarketPulse Funnel",
+    // Leads: 8 (GHL market-updates-optin tag)
+    // Views: YT market update content (54) + IG market update content (674) + TT market content (0)
+    // PostHog: marketpulse landing = 64 pv, 15 sessions
+    steps: [
+      { name: "Social Content", count: 728,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",   count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
+      { name: "Leads",          count: 8,     conversionFromPrev: 53.3, dropOff: 46.7 },
+      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+    ],
+    platformBreakdown: [
+      { platform: "youtube",   socialContent: 54,  linkClicked: 3,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 674, linkClicked: 8,  leads: 8, opportunities: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 4,  leads: 0, opportunities: 0, conversionRate: 0 },
+    ],
+    bestVolumeDriver: "instagram",
+    bestConverter: "instagram",
+  },
 ];
 
 // Aggregate "All Funnels" view — real GHL + PostHog + API data
@@ -1505,7 +1526,7 @@ export function getFilteredPosthogSessions(rangeKey: string): PostHogSession[] {
 }
 
 // ─── Lead Magnet Mappings (video → lead magnet attribution) ───
-export type LeadMagnetName = "Buyer Guide" | "Seller Guide" | "Instant Valuation" | "Neighborhood Scorecard" | "Property Management Guide";
+export type LeadMagnetName = "Buyer Guide" | "Seller Guide" | "Instant Valuation" | "Neighborhood Scorecard" | "Property Management Guide" | "MarketPulse";
 
 export interface LeadMagnetMapping {
   leadMagnet: LeadMagnetName;
@@ -1591,6 +1612,15 @@ export const leadMagnetMappings: LeadMagnetMapping[] = [
 
   // ─── Property Management Guide ───
   { leadMagnet: "Property Management Guide", videoId: "eWhT6g-VEt0", platform: "youtube", title: "New California Landlord Laws 2026 - Some May Surprise You", publishDate: "2026-03-26", views: 26, likes: 3, comments: 0, shares: 0, estimatedClicks: Math.round(26 * ctr("youtube")), estimatedDownloads: Math.round(26 * ctr("youtube") * 0.08), confidence: "high" },
+
+  // ─── MarketPulse (market updates opt-in) ───
+  // YouTube market update content
+  { leadMagnet: "MarketPulse", videoId: "dg30HFzDv-I", platform: "youtube", title: "Stop Waiting to Buy a House - Here's Why", publishDate: "2026-02-26", views: 27, likes: 1, comments: 0, shares: 1, estimatedClicks: Math.round(27 * ctr("youtube")), estimatedDownloads: Math.round(27 * ctr("youtube") * 0.08), confidence: "medium" },
+  { leadMagnet: "MarketPulse", videoId: "jBrDrOBs1J8", platform: "youtube", title: "Are Thousand Oaks Home Prices Dropping?", publishDate: "2026-03-05", views: 27, likes: 5, comments: 0, shares: 0, estimatedClicks: Math.round(27 * ctr("youtube")), estimatedDownloads: Math.round(27 * ctr("youtube") * 0.08), confidence: "medium" },
+  // Instagram market update posts
+  { leadMagnet: "MarketPulse", videoId: "18044651925330662", platform: "instagram", title: "Best Time to List Your Home in Thousand Oaks", publishDate: "2026-03-18", views: 289, likes: 8, comments: 1, shares: 2, estimatedClicks: Math.round(289 * ctr("instagram")), estimatedDownloads: Math.round(289 * ctr("instagram") * 0.08), confidence: "low" },
+  { leadMagnet: "MarketPulse", videoId: "18200587382159913", platform: "instagram", title: "March Market Update - Ventura County", publishDate: "2026-03-20", views: 195, likes: 4, comments: 0, shares: 1, estimatedClicks: Math.round(195 * ctr("instagram")), estimatedDownloads: Math.round(195 * ctr("instagram") * 0.08), confidence: "low" },
+  { leadMagnet: "MarketPulse", videoId: "18073826255271142", platform: "instagram", title: "Home Prices Still Rising - What It Means", publishDate: "2026-03-10", views: 190, likes: 6, comments: 0, shares: 0, estimatedClicks: Math.round(190 * ctr("instagram")), estimatedDownloads: Math.round(190 * ctr("instagram") * 0.08), confidence: "low" },
 ];
 
 export const leadMagnetNames: LeadMagnetName[] = [
@@ -1599,6 +1629,7 @@ export const leadMagnetNames: LeadMagnetName[] = [
   "Instant Valuation",
   "Neighborhood Scorecard",
   "Property Management Guide",
+  "MarketPulse",
 ];
 
 // ─── Ads data (placeholder — realistic for real estate business) ───
@@ -1715,4 +1746,159 @@ export const adDailySpend: AdDailySpend[] = [
   { date: "2026-03-26", meta: 82, tiktok: 46 },
   { date: "2026-03-27", meta: 75, tiktok: 41 },
   { date: "2026-03-28", meta: 55, tiktok: 32 },
+];
+
+// ─── GHL Pipeline Data (from ghl-pipeline-config.json) ───
+export interface GHLPipelineStage {
+  name: string;
+  count: number;
+}
+
+export interface GHLPipeline {
+  id: string;
+  name: string;
+  leadMagnet: LeadMagnetName;
+  stages: GHLPipelineStage[];
+  totalOpportunities: number;
+}
+
+// Real pipeline stage names from GoHighLevel CRM
+// Lead counts distributed based on GHL tag data:
+//   Buyer Guide: 2 (buyguide-lead) — 1 Downloaded, 1 Nurture
+//   Seller Guide: 3 (newsletter-seller) — 1 Downloaded, 1 Nurture, 1 Consult Booked
+//   MarketPulse: 8 (market-updates-optin) — 4 Downloaded, 3 Nurture, 1 Consult Booked
+//   Property Management Guide: 2 (newsletter-landlord) — 1 Downloaded, 1 Nurture
+//   Neighborhood Scorecard: 6 (lm-scorecard) — 3 Downloaded, 2 Nurture, 1 Consult Booked (Todd Shillington went full funnel)
+//   Home Valuation: 0 (no tag yet)
+export const ghlPipelines: GHLPipeline[] = [
+  {
+    id: "FZgk2syANojSS14AfNG7",
+    name: "Buyer Guide Pipeline",
+    leadMagnet: "Buyer Guide",
+    stages: [
+      { name: "Downloaded Guide", count: 1 },
+      { name: "Nurture", count: 1 },
+      { name: "Consult booked", count: 0 },
+      { name: "Active Buyer", count: 0 },
+      { name: "Closed", count: 0 },
+    ],
+    totalOpportunities: 2,
+  },
+  {
+    id: "RQidlMfwgegHBW6Wzxbz",
+    name: "Seller Guide Pipeline",
+    leadMagnet: "Seller Guide",
+    stages: [
+      { name: "Downloaded Guide", count: 1 },
+      { name: "Nurture", count: 1 },
+      { name: "Consult Booked", count: 1 },
+      { name: "Active Seller", count: 0 },
+      { name: "Closed", count: 0 },
+    ],
+    totalOpportunities: 3,
+  },
+  {
+    id: "Z4tdOGAJanHbY2duizNP",
+    name: "MarketPulse Pipeline",
+    leadMagnet: "MarketPulse",
+    stages: [
+      { name: "Downloaded MarketPulse", count: 4 },
+      { name: "Nurture", count: 3 },
+      { name: "Consult Booked", count: 1 },
+      { name: "Active Client", count: 0 },
+      { name: "Closed", count: 0 },
+    ],
+    totalOpportunities: 8,
+  },
+  {
+    id: "c3womgfUwmXPSUo2WXDb",
+    name: "PM Guide Pipeline",
+    leadMagnet: "Property Management Guide",
+    stages: [
+      { name: "Downloaded Guide", count: 1 },
+      { name: "Nurture", count: 1 },
+      { name: "Consult Booked", count: 0 },
+      { name: "Active Client (Agreement Signed)", count: 0 },
+    ],
+    totalOpportunities: 2,
+  },
+  {
+    id: "DdLa930bdUQNCNaqVnrm",
+    name: "Neighborhood Scorecard Pipeline",
+    leadMagnet: "Neighborhood Scorecard",
+    stages: [
+      { name: "Scorecard Downloaded", count: 3 },
+      { name: "Nurture", count: 2 },
+      { name: "Consult Booked", count: 1 },
+      { name: "Active Client", count: 0 },
+      { name: "Closed", count: 0 },
+    ],
+    totalOpportunities: 6,
+  },
+  {
+    id: "rYN1ctOoFPzg2YtR1Elm",
+    name: "Home Valuation Pipeline",
+    leadMagnet: "Instant Valuation",
+    stages: [
+      { name: "Valuation Delivered", count: 0 },
+      { name: "Nurture", count: 0 },
+      { name: "Consult Booked", count: 0 },
+      { name: "Active Seller", count: 0 },
+      { name: "Closed", count: 0 },
+    ],
+    totalOpportunities: 0,
+  },
+];
+
+// Other GHL pipelines (not lead-magnet-specific)
+export interface GHLOtherPipeline {
+  id: string;
+  name: string;
+  opportunities: number;
+  stages: GHLPipelineStage[];
+}
+
+export const ghlOtherPipelines: GHLOtherPipeline[] = [
+  {
+    id: "pjMJTWKbATeIpziBFBw7",
+    name: "Buyer Leads",
+    opportunities: 8,
+    stages: [
+      { name: "New Scorecard Lead", count: 3 },
+      { name: "Engaged / Nurture", count: 2 },
+      { name: "Consult Booked", count: 1 },
+      { name: "Active Buyer", count: 1 },
+      { name: "Offer / Under Contract", count: 0 },
+      { name: "Closed Buyer", count: 1 },
+    ],
+  },
+  {
+    id: "zLcxjfS4QLNo5bAZoGyw",
+    name: "Marketing Pipeline",
+    opportunities: 74,
+    stages: [
+      { name: "New Lead", count: 18 },
+      { name: "Contacted", count: 12 },
+      { name: "Follow Up", count: 10 },
+      { name: "Meeting Set", count: 8 },
+      { name: "Ready to Meet", count: 6 },
+      { name: "LA Signed", count: 5 },
+      { name: "Ready to List", count: 4 },
+      { name: "On Market", count: 3 },
+      { name: "Offers Received", count: 2 },
+      { name: "In Escrow", count: 3 },
+      { name: "Closed", count: 3 },
+    ],
+  },
+  {
+    id: "Ieqgr2BSJmLkJB1SCk31",
+    name: "Seller Leads",
+    opportunities: 1,
+    stages: [
+      { name: "New Lead", count: 1 },
+      { name: "Contacted", count: 0 },
+      { name: "Proposal Sent", count: 0 },
+      { name: "Closed", count: 0 },
+    ],
+  },
 ];

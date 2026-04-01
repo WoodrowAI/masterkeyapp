@@ -29,7 +29,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { PlatformIcon } from "@/components/platform-badge";
-import { funnelDatasets, getAggregatedFunnelData, funnelSources, type FunnelData } from "@/lib/mock-data";
+import { funnelDatasets, getAggregatedFunnelData, funnelSources, ghlPipelines, type FunnelData, type GHLPipeline } from "@/lib/mock-data";
 import { platforms, type PlatformKey } from "@/lib/platforms";
 import { ArrowRight, Info, Trophy, AlertTriangle } from "lucide-react";
 
@@ -54,6 +54,24 @@ export default function FunnelAnalysis() {
   const activeFunnel: FunnelData = useMemo(() => {
     if (selectedFunnelId === "all") return getAggregatedFunnelData();
     return funnelDatasets.find((f) => f.id === selectedFunnelId) ?? getAggregatedFunnelData();
+  }, [selectedFunnelId]);
+
+  // Find matching GHL pipeline for the selected funnel
+  const activePipeline: GHLPipeline | null = useMemo(() => {
+    if (selectedFunnelId === "all") return null;
+    const funnel = funnelDatasets.find((f) => f.id === selectedFunnelId);
+    if (!funnel) return null;
+    // Map funnel id → lead magnet name to find pipeline
+    const funnelToLM: Record<string, string> = {
+      "buy-guide": "Buyer Guide",
+      "seller-guide": "Seller Guide",
+      "instant-valuation": "Instant Valuation",
+      "neighborhood-scorecard": "Neighborhood Scorecard",
+      "pm-guide": "Property Management Guide",
+      "marketpulse": "MarketPulse",
+    };
+    const lmName = funnelToLM[selectedFunnelId];
+    return ghlPipelines.find((p) => p.leadMagnet === lmName) ?? null;
   }, [selectedFunnelId]);
 
   const maxCount = activeFunnel.steps[0].count;
@@ -190,6 +208,169 @@ export default function FunnelAnalysis() {
           </div>
         )}
       </Card>
+
+      {/* GHL Pipeline Stages (individual funnel) */}
+      {activePipeline && (
+        <Card className="p-5 border border-border" data-testid="pipeline-stages">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-sm font-semibold">{activePipeline.name} — Stage Breakdown</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {activePipeline.totalOpportunities} total opportunities across {activePipeline.stages.length} stages
+              </p>
+            </div>
+            <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1">
+              ID: {activePipeline.id.slice(0, 8)}…
+            </Badge>
+          </div>
+          <div className="space-y-2">
+            {activePipeline.stages.map((stage, i) => {
+              const maxStageCount = Math.max(...activePipeline.stages.map((s) => s.count), 1);
+              const widthPct = Math.max((stage.count / maxStageCount) * 100, 6);
+              const prevCount = i > 0 ? activePipeline.stages[i - 1].count : stage.count;
+              const dropPct = prevCount > 0 && i > 0 ? (((prevCount - stage.count) / prevCount) * 100).toFixed(0) : null;
+              return (
+                <div key={stage.name}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground w-4">{i + 1}</span>
+                      <span className="text-sm font-medium">{stage.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="font-semibold tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                        {stage.count}
+                      </span>
+                      {dropPct && Number(dropPct) > 0 && (
+                        <span className="text-muted-foreground">-{dropPct}%</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="relative h-6 w-full rounded bg-muted/30 overflow-hidden">
+                    <div
+                      className="h-full rounded transition-all duration-500"
+                      style={{
+                        width: `${widthPct}%`,
+                        backgroundColor: stepColors[Math.min(i, stepColors.length - 1)],
+                        opacity: 0.7,
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {activePipeline.totalOpportunities === 0 && (
+            <div className="flex items-start gap-2 mt-3 rounded-md border border-amber-500/30 bg-amber-500/5 p-2 text-xs text-muted-foreground">
+              <AlertTriangle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-amber-500" />
+              <span>This pipeline has no opportunities yet. Add a GHL tag to start tracking conversions.</span>
+            </div>
+          )}
+        </Card>
+      )}
+
+      {/* Pipeline Comparison (aggregate view) */}
+      {selectedFunnelId === "all" && (
+        <Card className="p-5 border border-border" data-testid="pipeline-comparison">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-sm font-semibold">GHL Pipeline Comparison</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Lead magnet pipelines — opportunities by stage
+              </p>
+            </div>
+            <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1">
+              GoHighLevel CRM
+            </Badge>
+          </div>
+          <div className="h-[280px] w-full">
+            {mounted && (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={ghlPipelines.map((p) => ({
+                    name: p.leadMagnet,
+                    total: p.totalOpportunities,
+                    "Consult+": p.stages
+                      .filter((s) => s.name.toLowerCase().includes("consult") || s.name.toLowerCase().includes("active") || s.name.toLowerCase().includes("closed"))
+                      .reduce((sum, s) => sum + s.count, 0),
+                  }))}
+                  layout="vertical"
+                  margin={{ left: 10, right: 30, top: 4, bottom: 4 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" horizontal={false} />
+                  <XAxis
+                    type="number"
+                    tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    tick={{ fontSize: 10, fill: "var(--color-muted-foreground)" }}
+                    axisLine={false}
+                    tickLine={false}
+                    width={140}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "var(--color-card)",
+                      border: "1px solid var(--color-border)",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                    }}
+                  />
+                  <Bar dataKey="total" name="Total Leads" radius={[0, 4, 4, 0]} barSize={14} fill="var(--color-chart-1)" />
+                  <Bar dataKey="Consult+" name="Consult Booked+" radius={[0, 4, 4, 0]} barSize={14} fill="var(--color-chart-2)" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+          </div>
+          <div className="mt-3 overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Pipeline</TableHead>
+                  <TableHead className="text-right">Total</TableHead>
+                  <TableHead className="text-right">In Nurture</TableHead>
+                  <TableHead className="text-right">Consult+</TableHead>
+                  <TableHead className="text-right">Conv. Rate</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {ghlPipelines.map((p) => {
+                  const consultPlus = p.stages
+                    .filter((s) => s.name.toLowerCase().includes("consult") || s.name.toLowerCase().includes("active") || s.name.toLowerCase().includes("closed"))
+                    .reduce((sum, s) => sum + s.count, 0);
+                  const nurture = p.stages.find((s) => s.name === "Nurture")?.count ?? 0;
+                  const convRate = p.totalOpportunities > 0 ? ((consultPlus / p.totalOpportunities) * 100).toFixed(0) : "0";
+                  return (
+                    <TableRow key={p.id}>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium text-sm">{p.leadMagnet}</div>
+                          <div className="text-[10px] text-muted-foreground">{p.id.slice(0, 8)}…</div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                        {p.totalOpportunities}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                        {nurture}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                        {consultPlus}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                        {convRate}%
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </Card>
+      )}
 
       {/* Session Flow */}
       <Card className="p-5 border border-border" data-testid="session-flow">

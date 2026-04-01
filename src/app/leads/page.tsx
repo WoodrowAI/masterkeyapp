@@ -28,6 +28,7 @@ import {
 import {
   leadMagnetMappings,
   leadMagnetNames,
+  ghlPipelines,
   type LeadMagnetName,
   type LeadMagnetMapping,
 } from "@/lib/mock-data";
@@ -49,6 +50,7 @@ const GHL_REAL_LEADS: Record<LeadMagnetName, number> = {
   "Instant Valuation": 0,        // no GHL tag yet
   "Neighborhood Scorecard": 6,   // lm-scorecard-requested tag
   "Property Management Guide": 2, // newsletter-landlord tag
+  "MarketPulse": 8,              // market-updates-optin tag
 };
 
 type FilterKey = "All" | LeadMagnetName;
@@ -59,6 +61,7 @@ const LEAD_MAGNET_COLORS: Record<string, string> = {
   "Instant Valuation": "var(--color-chart-3)",
   "Neighborhood Scorecard": "var(--color-chart-4)",
   "Property Management Guide": "var(--color-chart-5)",
+  "MarketPulse": "var(--color-chart-2)",
 };
 
 const PLATFORM_BAR_COLORS: Record<string, string> = {
@@ -168,13 +171,18 @@ export default function LeadMagnets() {
     const recs: { title: string; body: string }[] = [];
 
     recs.push({
-      title: "Neighborhood Scorecard Is Your Best Lead Magnet",
-      body: "6 leads from the Scorecard vs 2 from Buyer Guide and 0 from Instant Valuation. The Scorecard has a 100% delivery rate and leads directly to the buyer pipeline. Double down on Scorecard-promoting content.",
+      title: "MarketPulse Is Your Top Lead Magnet by Volume",
+      body: "8 leads from market-updates-optin — 4 in Downloaded, 3 in Nurture, 1 at Consult Booked. The market updates content clearly resonates. Create more platform-specific market update content to feed this pipeline.",
+    });
+
+    recs.push({
+      title: "Neighborhood Scorecard Has Best Pipeline Progression",
+      body: "6 leads with 1 reaching Consult Booked (Todd Shillington went through the full funnel). The Scorecard has a 100% delivery rate and leads directly to the buyer pipeline. Double down on Scorecard-promoting content.",
     });
 
     recs.push({
       title: "Instant Valuation Has Zero GHL Leads — Add a Tag",
-      body: "The Home Value Tool gets the most landing page traffic (42 sessions, 152 pageviews) but 0 leads are tagged in GHL. Add a lead capture tag to the valuation flow to start tracking conversions.",
+      body: "The Home Value Tool gets the most landing page traffic (42 sessions, 152 pageviews) but 0 leads are tagged in GHL. The Home Valuation Pipeline sits empty. Add a lead capture tag to start tracking conversions.",
     });
 
     recs.push({
@@ -343,6 +351,7 @@ export default function LeadMagnets() {
           <div className="space-y-2.5">
             {leadMagnetNames.map((name) => {
               const leads = GHL_REAL_LEADS[name];
+              const pipeline = ghlPipelines.find((p) => p.leadMagnet === name);
               const items = leadMagnetMappings.filter((m) => m.leadMagnet === name);
               const seen = new Set<string>();
               let views = 0;
@@ -350,23 +359,42 @@ export default function LeadMagnets() {
                 const key = `${m.videoId}-${m.platform}`;
                 if (!seen.has(key)) { seen.add(key); views += m.views; }
               }
-              const convRate = views > 0 ? ((leads / views) * 100).toFixed(3) : "0";
+              const consultPlus = pipeline
+                ? pipeline.stages
+                    .filter((s) => s.name.toLowerCase().includes("consult") || s.name.toLowerCase().includes("active") || s.name.toLowerCase().includes("closed"))
+                    .reduce((sum, s) => sum + s.count, 0)
+                : 0;
+              const convRate = leads > 0 ? ((consultPlus / leads) * 100).toFixed(0) : "0";
               return (
-                <div key={name} className="flex items-center justify-between rounded-md border border-border p-2.5">
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">{name}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {seen.size} videos · {views.toLocaleString()} views
+                <div key={name} className="rounded-md border border-border p-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium truncate">{name}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">
+                        {seen.size} videos · {views.toLocaleString()} views
+                      </div>
+                    </div>
+                    <div className="text-right ml-4">
+                      <div className="text-lg font-bold tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                        {leads}
+                      </div>
+                      <div className="text-[10px] text-muted-foreground">
+                        {convRate}% to consult+
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right ml-4">
-                    <div className="text-lg font-bold tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                      {leads}
+                  {pipeline && leads > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {pipeline.stages.filter((s) => s.count > 0).map((s) => (
+                        <span
+                          key={s.name}
+                          className="inline-flex items-center rounded bg-muted/50 px-1.5 py-0.5 text-[10px] text-muted-foreground"
+                        >
+                          {s.count} {s.name}
+                        </span>
+                      ))}
                     </div>
-                    <div className="text-[10px] text-muted-foreground">
-                      {convRate}% conv.
-                    </div>
-                  </div>
+                  )}
                 </div>
               );
             })}
@@ -375,7 +403,7 @@ export default function LeadMagnets() {
             <div className="flex items-start gap-2 mt-3 rounded-md border border-border bg-muted/20 p-2 text-xs text-muted-foreground">
               <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
               <span>
-                Total: <strong className="text-foreground">13 leads</strong> from GHL tags (~10 unique people). All social-attributed leads came from Instagram. Scorecard has the highest lead count (6) with 100% delivery rate.
+                Total: <strong className="text-foreground">21 leads</strong> across 6 pipelines from GHL tags. MarketPulse is the top performer (8 leads). All social-attributed leads came from Instagram. Scorecard has the highest consult rate (1 of 6 reached Consult Booked).
               </span>
             </div>
           )}
