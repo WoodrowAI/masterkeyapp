@@ -159,9 +159,10 @@ export async function GET(request: NextRequest) {
       );
     }
   } catch (err) {
-    console.error("TikTok token exchange error:", err);
+    const errMsg = err instanceof Error ? err.message : String(err);
+    console.error("TikTok token exchange error:", errMsg);
     return NextResponse.redirect(
-      new URL("/settings?tiktok_error=exchange_failed", request.url)
+      new URL(`/settings?tiktok_error=${encodeURIComponent(errMsg)}`, request.url)
     );
   }
 }
