@@ -13,10 +13,13 @@ const BUSINESS_TOKEN_FILE = path.join(process.cwd(), ".tiktok-business-tokens.js
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const code = searchParams.get("code") || searchParams.get("auth_code");
+  const contentCode = searchParams.get("code");      // Content API (Login Kit) sends "code"
+  const businessCode = searchParams.get("auth_code"); // Business API (Advertiser) sends "auth_code"
   const state = searchParams.get("state");
   const error = searchParams.get("error");
   const errorDescription = searchParams.get("error_description");
+
+  console.log("TikTok callback params:", { contentCode: !!contentCode, businessCode: !!businessCode, state });
 
   // Handle error from TikTok
   if (error) {
@@ -26,15 +29,16 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Determine flow: Business API uses "auth_code" param, Content API uses "code"
+  const isBusinessFlow = !!businessCode;
+  const code = businessCode || contentCode;
+
   // Validate auth code
   if (!code) {
     return NextResponse.redirect(
       new URL("/settings?tiktok_error=no_code", request.url)
     );
   }
-
-  // Determine flow: Business API (advertiser) or Content API (login kit)
-  const isBusinessFlow = state === "masterkey_business";
 
   try {
     if (isBusinessFlow) {
