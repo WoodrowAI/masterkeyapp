@@ -9,6 +9,7 @@ import {
   BarChart3,
   Lightbulb,
   Magnet,
+  Megaphone,
   Settings,
 } from "lucide-react";
 import {
@@ -32,6 +33,7 @@ const navItems = [
   { href: "/videos", label: "Video Performance", icon: PlayCircle },
   { href: "/funnel", label: "Funnel Analysis", icon: Filter },
   { href: "/leads", label: "Lead Magnets", icon: Magnet },
+  { href: "/ads", label: "Ads", icon: Megaphone },
   { href: "/posthog", label: "PostHog", icon: BarChart3 },
   { href: "/insights", label: "AI Insights", icon: Lightbulb },
   { href: "/settings", label: "Settings", icon: Settings },
