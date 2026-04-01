@@ -380,8 +380,8 @@ export const topContent: TopContent[] = [
     id: "ehGSxHMgWJ4",
     title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
     platform: "youtube",
-    views: 102,
-    engagementRate: +((5 + 0 + 0) / 102 * 100).toFixed(2),
+    views: 105,
+    engagementRate: +((5 + 0 + 0) / 105 * 100).toFixed(2),
     avgWatchPercent: 20.75,
     publishedDate: "2026-03-06",
     contentType: "Neighborhood",
@@ -424,8 +424,8 @@ export const topContent: TopContent[] = [
     id: "h0hKN-VpBns",
     title: "Living in Thousand Oaks - Wildwood",
     platform: "youtube",
-    views: 74,
-    engagementRate: +((3 + 0 + 1) / 74 * 100).toFixed(2),
+    views: 75,
+    engagementRate: +((3 + 0 + 1) / 75 * 100).toFixed(2),
     avgWatchPercent: 8.27,
     publishedDate: "2026-02-18",
     contentType: "Neighborhood",
@@ -479,8 +479,8 @@ export const topContent: TopContent[] = [
     id: "eWhT6g-VEt0",
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     platform: "youtube",
-    views: 26,
-    engagementRate: +((3 + 0 + 0) / 26 * 100).toFixed(2),
+    views: 84,
+    engagementRate: +((5 + 0 + 0) / 84 * 100).toFixed(2),
     avgWatchPercent: 21.13,
     publishedDate: "2026-03-26",
     contentType: "Market Update",
@@ -490,7 +490,7 @@ export const topContent: TopContent[] = [
     id: "57dW51ak-Vo",
     title: "This Might Be The Most Underrated Neighborhood in Thousand Oaks",
     platform: "youtube",
-    views: 8,
+    views: 12,
     engagementRate: 0,
     avgWatchPercent: 85.99,
     publishedDate: "2026-03-24",
@@ -501,8 +501,8 @@ export const topContent: TopContent[] = [
     id: "nkBf3uUmmOQ",
     title: "Here's How to Actually Know if it's a Buyer's or Seller's Market",
     platform: "youtube",
-    views: 0,
-    engagementRate: 0,
+    views: 88,
+    engagementRate: +((2 + 0 + 0) / 88 * 100).toFixed(2),
     avgWatchPercent: 0,
     publishedDate: "2026-03-30",
     contentType: "Market Update",
@@ -702,7 +702,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
     duration: 723, // averageViewDuration=150s, avgViewPercentage=20.75% → 150/0.2075 ≈ 723s
     platform: "youtube",
-    views: 102,
+    views: 105,
     averageViewDuration: 150,
     averageViewPercentage: 20.75,
     retentionCurve: [
@@ -734,7 +734,7 @@ export const videoRetentionData: VideoRetention[] = [
       { timestamp: "8:42", viewersLost: 5, percentDrop: 5, reason: "Final stretch — core audience remains at ~7-9%" },
     ],
     crossPlatform: {
-      youtube: { views: 102, avgWatchTime: "2:30", completionRate: 21 },
+      youtube: { views: 105, avgWatchTime: "2:30", completionRate: 21 },
       instagram: { views: 0, avgWatchTime: "N/A", completionRate: "N/A*" },
       tiktok: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
       facebook: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
@@ -789,7 +789,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     duration: 913,
     platform: "youtube",
-    views: 26,
+    views: 84,
     averageViewDuration: 193,
     averageViewPercentage: 21.13,
     retentionCurve: [
@@ -822,7 +822,7 @@ export const videoRetentionData: VideoRetention[] = [
       { timestamp: "12:58", viewersLost: 1, percentDrop: 4, reason: "Spike at 85% mark (52% ratio) suggests rewatching a specific section" },
     ],
     crossPlatform: {
-      youtube: { views: 26, avgWatchTime: "3:13", completionRate: 21 },
+      youtube: { views: 61, avgWatchTime: "3:13", completionRate: 21 },
       instagram: { views: 0, avgWatchTime: "N/A", completionRate: "N/A*" },
       tiktok: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
       facebook: { views: 0, avgWatchTime: "N/A", completionRate: 0 },
@@ -857,7 +857,7 @@ export interface FunnelData {
 }
 
 // Real data from GoHighLevel CRM + PostHog + platform APIs:
-// Step 1 (Social Content): YouTube 1,629 + Instagram 3,122 + TikTok 8,682 = 13,433 total views
+// Step 1 (Social Content): YouTube 1,736 + Instagram 3,122 + TikTok 8,682 = 13,540 total views
 // Step 2 (Link Clicked): PostHog 287 landing page sessions (88 YouTube UTM, 13 Instagram UTM, 75 Facebook referrer, 4 Linktree, rest direct/google)
 // Step 3 (Leads): GHL tagged contacts — 6 scorecard + 2 buyguide + 8 market-updates + 3 seller + 2 landlord = 21 total pipeline leads
 // Step 4 (Consult Booked): 3 total from GHL pipelines (Seller Guide 1 + Neighborhood Scorecard 1 + MarketPulse 1)
@@ -956,15 +956,15 @@ export const funnelDatasets: FunnelData[] = [
     id: "pm-guide",
     name: "Property Management Guide Funnel",
     // Leads: 2 (GHL newsletter-landlord tag), Consult Booked: 0
-    // Views: YT (26) + IG (0) + TT (0)
+    // Views: YT (84) + IG (0) + TT (0)
     steps: [
-      { name: "Social Media Views",  count: 26,    conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",    count: 18,    conversionFromPrev: 69.2, dropOff: 30.8 },
+      { name: "Social Media Views",  count: 84,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",    count: 18,    conversionFromPrev: 21.4, dropOff: 78.6 },
       { name: "Leads",           count: 2,     conversionFromPrev: 11.1, dropOff: 88.9 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 26, linkClicked: 12, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 84, linkClicked: 12, leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "instagram", socialContent: 0,  linkClicked: 2,  leads: 2, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,  linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,  linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
@@ -998,19 +998,19 @@ export const funnelDatasets: FunnelData[] = [
 // Aggregate "All Funnels" view — real GHL + PostHog + API data
 export function getAggregatedFunnelData(): FunnelData {
   // Use real totals instead of summing per-funnel (avoids double-counting shared videos)
-  // Social Content: YT 1,629 + IG 3,122 + TT 8,682 = 13,433
+  // Social Media Views: YT 1,736 + IG 3,122 + TT 8,682 = 13,540
   // Link Clicked: 287 PostHog sessions
   // Leads: 21 total GHL pipeline leads
   // Consult Booked: 3 (Seller 1 + Scorecard 1 + MarketPulse 1)
   const allSteps: FunnelStep[] = [
-    { name: "Social Media Views",  count: 13433, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Social Media Views",  count: 13563, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Link Clicked",    count: 287,   conversionFromPrev: 2.1,   dropOff: 97.9 },
     { name: "Leads",           count: 21,    conversionFromPrev: 7.3,   dropOff: 92.7 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,  dropOff: 100 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube:   { platform: "youtube",   socialContent: 1629,  linkClicked: 88,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 1736,  linkClicked: 88,  leads: 0,  consultBooked: 0, conversionRate: 0 },
     instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 43, consultBooked: 0, conversionRate: 0 },
     tiktok:    { platform: "tiktok",    socialContent: 8682,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
     facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 75,  leads: 0,  consultBooked: 0, conversionRate: 0 },
@@ -1120,7 +1120,7 @@ export const aiInsights: AIInsight[] = [
   {
     id: "ai2",
     title: "Best Posting Times",
-    body: "Shorts dominate your channel — 1,275 of 1,629 total views (78%) came from the Shorts feed. Your subscriber traffic (75 views) and YouTube Search (62 views) are secondary but growing. Prioritize vertical short-form content under 60 seconds to keep riding the Shorts algorithm while your search presence builds.",
+    body: "Shorts dominate your channel — 1,275 of 1,736 total views (78%) came from the Shorts feed. Your subscriber traffic (75 views) and YouTube Search (62 views) are secondary but growing. Prioritize vertical short-form content under 60 seconds to keep riding the Shorts algorithm while your search presence builds.",
     platforms: ["youtube"],
     category: "timing",
     icon: "Clock",
@@ -1144,7 +1144,7 @@ export const aiInsights: AIInsight[] = [
   {
     id: "ai5",
     title: "Engagement Pattern",
-    body: "Your channel earned 7 subscribers and 27 total likes from 1,629 views — a 1.66% like rate. The Long-form 'Shadow Oaks & Eichler' video (102 views) drove 5 likes and 1 subscriber, the best engagement-per-view ratio among longer content. Short-form drives volume; long-form drives qualified engagement and subscribers.",
+    body: "Your channel earned 7 subscribers and 27 total likes from 1,736 views — a 1.66% like rate. The Long-form 'Shadow Oaks & Eichler' video (105 views) drove 5 likes and 1 subscriber, the best engagement-per-view ratio among longer content. Short-form drives volume; long-form drives qualified engagement and subscribers.",
     platforms: ["youtube"],
     category: "engagement",
     icon: "MessageCircle",
@@ -1178,7 +1178,7 @@ export interface ContentScore {
 // Scores based on real data (YouTube + Instagram):
 // hooks: top video 130% ratio = strong hooks, avg completion ~40% → 62
 // engagement: 27 YT likes + 148 IG likes + 12 shares = 3.9% combined rate → 48
-// reach: 1,629 YT views + 3,122 IG views = 4,751 total views across 2 platforms → 52
+// reach: 1,736 YT views + 3,122 IG views = 4,858 total views across 2 platforms → 52
 // conversion: 287 sessions, 5 form starts = 1.7% → 28
 export const contentScore: ContentScore = {
   overall: 48,
@@ -1557,7 +1557,7 @@ export const leadMagnetMappings: LeadMagnetMapping[] = [
   // YouTube
   { leadMagnet: "Buyer Guide", videoId: "8GOuD0uBz5I", platform: "youtube", title: "Stop Waiting for The Perfect Time to Buy a Home", publishDate: "2026-02-21", views: 233, likes: 3, comments: 0, shares: 1, estimatedClicks: Math.round(233 * ctr("youtube")), estimatedDownloads: Math.round(233 * ctr("youtube") * 0.08), confidence: "high" },
   { leadMagnet: "Buyer Guide", videoId: "0mycplFWKsE", platform: "youtube", title: "What Home Buyers Are Really Looking For In Thousand Oaks", publishDate: "2026-03-19", views: 92, likes: 0, comments: 0, shares: 0, estimatedClicks: Math.round(92 * ctr("youtube")), estimatedDownloads: Math.round(92 * ctr("youtube") * 0.08), confidence: "high" },
-  { leadMagnet: "Buyer Guide", videoId: "nkBf3uUmmOQ", platform: "youtube", title: "Here's How to Actually Know if it's a Buyer's or Seller's Market", publishDate: "2026-03-30", views: 0, likes: 0, comments: 0, shares: 0, estimatedClicks: 0, estimatedDownloads: 0, confidence: "high" },
+  { leadMagnet: "Buyer Guide", videoId: "nkBf3uUmmOQ", platform: "youtube", title: "Here's How to Actually Know if it's a Buyer's or Seller's Market", publishDate: "2026-03-30", views: 88, likes: 2, comments: 0, shares: 0, estimatedClicks: Math.round(88 * ctr("youtube")), estimatedDownloads: Math.round(88 * ctr("youtube") * 0.08), confidence: "high" },
   // Instagram
   { leadMagnet: "Buyer Guide", videoId: "18311200336287963", platform: "instagram", title: "Buyer's vs Seller's Market Explained", publishDate: "2026-03-27", views: 286, likes: 8, comments: 0, shares: 1, estimatedClicks: Math.round(286 * ctr("instagram")), estimatedDownloads: Math.round(286 * ctr("instagram") * 0.08), confidence: "medium" },
   { leadMagnet: "Buyer Guide", videoId: "18564967411052930", platform: "instagram", title: "Stop Waiting for The Perfect Time to Buy", publishDate: "2026-02-21", views: 171, likes: 12, comments: 0, shares: 1, estimatedClicks: Math.round(171 * ctr("instagram")), estimatedDownloads: Math.round(171 * ctr("instagram") * 0.08), confidence: "medium" },
@@ -1590,13 +1590,13 @@ export const leadMagnetMappings: LeadMagnetMapping[] = [
   // YouTube
   { leadMagnet: "Neighborhood Scorecard", videoId: "zLzcfWmtFxM", platform: "youtube", title: "This Thousand Oaks Neighborhood has Waterfalls Within Walking Distance", publishDate: "2026-02-26", views: 376, likes: 6, comments: 0, shares: 1, estimatedClicks: Math.round(376 * ctr("youtube")), estimatedDownloads: Math.round(376 * ctr("youtube") * 0.08), confidence: "medium" },
   { leadMagnet: "Neighborhood Scorecard", videoId: "zOdjiJH33VE", platform: "youtube", title: "Thousand Oaks Neighborhoods - Original Wildwood Tract", publishDate: "2026-03-13", views: 294, likes: 5, comments: 0, shares: 0, estimatedClicks: Math.round(294 * ctr("youtube")), estimatedDownloads: Math.round(294 * ctr("youtube") * 0.08), confidence: "medium" },
-  { leadMagnet: "Neighborhood Scorecard", videoId: "ehGSxHMgWJ4", platform: "youtube", title: "Living in Thousand Oaks - Shadow Oaks & Eichler", publishDate: "2026-03-06", views: 102, likes: 5, comments: 0, shares: 0, estimatedClicks: Math.round(102 * ctr("youtube")), estimatedDownloads: Math.round(102 * ctr("youtube") * 0.08), confidence: "medium" },
+  { leadMagnet: "Neighborhood Scorecard", videoId: "ehGSxHMgWJ4", platform: "youtube", title: "Living in Thousand Oaks - Shadow Oaks & Eichler", publishDate: "2026-03-06", views: 105, likes: 5, comments: 0, shares: 0, estimatedClicks: Math.round(105 * ctr("youtube")), estimatedDownloads: Math.round(105 * ctr("youtube") * 0.08), confidence: "medium" },
   { leadMagnet: "Neighborhood Scorecard", videoId: "_tneSFg1Eu8", platform: "youtube", title: "Wildwood's Most Connected Tract (Park Hills)", publishDate: "2026-03-06", views: 78, likes: 0, comments: 0, shares: 0, estimatedClicks: Math.round(78 * ctr("youtube")), estimatedDownloads: Math.round(78 * ctr("youtube") * 0.08), confidence: "medium" },
-  { leadMagnet: "Neighborhood Scorecard", videoId: "h0hKN-VpBns", platform: "youtube", title: "Living in Thousand Oaks - Wildwood", publishDate: "2026-02-18", views: 74, likes: 3, comments: 0, shares: 1, estimatedClicks: Math.round(74 * ctr("youtube")), estimatedDownloads: Math.round(74 * ctr("youtube") * 0.08), confidence: "medium" },
+  { leadMagnet: "Neighborhood Scorecard", videoId: "h0hKN-VpBns", platform: "youtube", title: "Living in Thousand Oaks - Wildwood", publishDate: "2026-02-18", views: 75, likes: 3, comments: 0, shares: 1, estimatedClicks: Math.round(75 * ctr("youtube")), estimatedDownloads: Math.round(75 * ctr("youtube") * 0.08), confidence: "medium" },
   { leadMagnet: "Neighborhood Scorecard", videoId: "CNrOek_2nIw", platform: "youtube", title: "Wildwood's Largest Tract (Wildflower)", publishDate: "2026-03-11", views: 70, likes: 0, comments: 0, shares: 0, estimatedClicks: Math.round(70 * ctr("youtube")), estimatedDownloads: Math.round(70 * ctr("youtube") * 0.08), confidence: "medium" },
   { leadMagnet: "Neighborhood Scorecard", videoId: "iA6A6tgDqyk", platform: "youtube", title: "The Truth About Living in Wildwood Thousand Oaks", publishDate: "2026-02-24", views: 65, likes: 1, comments: 0, shares: 0, estimatedClicks: Math.round(65 * ctr("youtube")), estimatedDownloads: Math.round(65 * ctr("youtube") * 0.08), confidence: "medium" },
   { leadMagnet: "Neighborhood Scorecard", videoId: "UQQaKx81Trw", platform: "youtube", title: "Wildwood's Best Kept Secret: Kendall Ridge", publishDate: "2026-03-04", views: 64, likes: 1, comments: 0, shares: 0, estimatedClicks: Math.round(64 * ctr("youtube")), estimatedDownloads: Math.round(64 * ctr("youtube") * 0.08), confidence: "medium" },
-  { leadMagnet: "Neighborhood Scorecard", videoId: "57dW51ak-Vo", platform: "youtube", title: "This Might Be The Most Underrated Neighborhood in Thousand Oaks", publishDate: "2026-03-24", views: 8, likes: 0, comments: 0, shares: 0, estimatedClicks: Math.round(8 * ctr("youtube")), estimatedDownloads: Math.round(8 * ctr("youtube") * 0.08), confidence: "medium" },
+  { leadMagnet: "Neighborhood Scorecard", videoId: "57dW51ak-Vo", platform: "youtube", title: "This Might Be The Most Underrated Neighborhood in Thousand Oaks", publishDate: "2026-03-24", views: 12, likes: 0, comments: 0, shares: 0, estimatedClicks: Math.round(12 * ctr("youtube")), estimatedDownloads: Math.round(12 * ctr("youtube") * 0.08), confidence: "medium" },
   // Instagram (neighborhood posts)
   { leadMagnet: "Neighborhood Scorecard", videoId: "17895071457423081", platform: "instagram", title: "Wildflower Tract - Largest in Wildwood", publishDate: "2026-03-11", views: 248, likes: 8, comments: 0, shares: 0, estimatedClicks: Math.round(248 * ctr("instagram")), estimatedDownloads: Math.round(248 * ctr("instagram") * 0.08), confidence: "low" },
   { leadMagnet: "Neighborhood Scorecard", videoId: "17878895649489300", platform: "instagram", title: "Kendall Ridge - Only 69 Homes with Views", publishDate: "2026-03-04", views: 223, likes: 5, comments: 2, shares: 0, estimatedClicks: Math.round(223 * ctr("instagram")), estimatedDownloads: Math.round(223 * ctr("instagram") * 0.08), confidence: "low" },
@@ -1610,7 +1610,7 @@ export const leadMagnetMappings: LeadMagnetMapping[] = [
   { leadMagnet: "Neighborhood Scorecard", videoId: "18103160624507374", platform: "instagram", title: "Wildwood Neighborhoods Breakdown", publishDate: "2026-02-25", views: 17, likes: 6, comments: 0, shares: 0, estimatedClicks: Math.round(17 * ctr("instagram")), estimatedDownloads: Math.round(17 * ctr("instagram") * 0.08), confidence: "low" },
 
   // ─── Property Management Guide ───
-  { leadMagnet: "Property Management Guide", videoId: "eWhT6g-VEt0", platform: "youtube", title: "New California Landlord Laws 2026 - Some May Surprise You", publishDate: "2026-03-26", views: 26, likes: 3, comments: 0, shares: 0, estimatedClicks: Math.round(26 * ctr("youtube")), estimatedDownloads: Math.round(26 * ctr("youtube") * 0.08), confidence: "high" },
+  { leadMagnet: "Property Management Guide", videoId: "eWhT6g-VEt0", platform: "youtube", title: "New California Landlord Laws 2026 - Some May Surprise You", publishDate: "2026-03-26", views: 84, likes: 5, comments: 0, shares: 0, estimatedClicks: Math.round(84 * ctr("youtube")), estimatedDownloads: Math.round(84 * ctr("youtube") * 0.08), confidence: "high" },
 
   // ─── MarketPulse (market updates opt-in) ───
   // YouTube market update content

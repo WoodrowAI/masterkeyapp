@@ -29,7 +29,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { PlatformIcon } from "@/components/platform-badge";
-import { funnelDatasets, getAggregatedFunnelData, funnelSources, ghlPipelines, type FunnelData, type GHLPipeline } from "@/lib/mock-data";
+import { funnelDatasets, getAggregatedFunnelData, funnelSources, ghlPipelines, type FunnelData } from "@/lib/mock-data";
 import { platforms, type PlatformKey } from "@/lib/platforms";
 import { ArrowRight, Info, Trophy, AlertTriangle } from "lucide-react";
 
@@ -54,24 +54,6 @@ export default function FunnelAnalysis() {
   const activeFunnel: FunnelData = useMemo(() => {
     if (selectedFunnelId === "all") return getAggregatedFunnelData();
     return funnelDatasets.find((f) => f.id === selectedFunnelId) ?? getAggregatedFunnelData();
-  }, [selectedFunnelId]);
-
-  // Find matching GHL pipeline for the selected funnel
-  const activePipeline: GHLPipeline | null = useMemo(() => {
-    if (selectedFunnelId === "all") return null;
-    const funnel = funnelDatasets.find((f) => f.id === selectedFunnelId);
-    if (!funnel) return null;
-    // Map funnel id → lead magnet name to find pipeline
-    const funnelToLM: Record<string, string> = {
-      "buy-guide": "Buyer Guide",
-      "seller-guide": "Seller Guide",
-      "instant-valuation": "Instant Valuation",
-      "neighborhood-scorecard": "Neighborhood Scorecard",
-      "pm-guide": "Property Management Guide",
-      "marketpulse": "MarketPulse",
-    };
-    const lmName = funnelToLM[selectedFunnelId];
-    return ghlPipelines.find((p) => p.leadMagnet === lmName) ?? null;
   }, [selectedFunnelId]);
 
   const maxCount = activeFunnel.steps[0].count;
@@ -243,66 +225,14 @@ export default function FunnelAnalysis() {
             </div>
           );
         })()}
+        <div className="mt-4 space-y-1 text-[11px] text-muted-foreground leading-relaxed">
+          <p className="font-medium text-foreground text-xs mb-1.5">Data Sources</p>
+          <p><span className="font-medium">Social Media Views</span> — Total video views from YouTube Analytics API, Instagram Graph API, and TikTok Content API</p>
+          <p><span className="font-medium">Link Clicked</span> — Landing page sessions tracked by PostHog (UTM-attributed visits from social media)</p>
+          <p><span className="font-medium">Leads</span> — Contacts who downloaded a lead magnet, tracked via GoHighLevel form submissions and pipeline data</p>
+          <p><span className="font-medium">Consult Booked</span> — Contacts who reached the &quot;Consult Booked&quot; stage in their GoHighLevel lead magnet pipeline</p>
+        </div>
       </Card>
-
-      {/* GHL Pipeline Stages (individual funnel) */}
-      {activePipeline && (
-        <Card className="p-5 border border-border" data-testid="pipeline-stages">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-sm font-semibold">{activePipeline.name} — Stage Breakdown</h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {activePipeline.totalOpportunities} total leads across {activePipeline.stages.length} stages
-              </p>
-            </div>
-            <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1">
-              ID: {activePipeline.id.slice(0, 8)}…
-            </Badge>
-          </div>
-          <div className="space-y-2">
-            {activePipeline.stages.map((stage, i) => {
-              const maxStageCount = Math.max(...activePipeline.stages.map((s) => s.count), 1);
-              const widthPct = Math.max((stage.count / maxStageCount) * 100, 6);
-              const prevCount = i > 0 ? activePipeline.stages[i - 1].count : stage.count;
-              const dropPct = prevCount > 0 && i > 0 ? (((prevCount - stage.count) / prevCount) * 100).toFixed(0) : null;
-              return (
-                <div key={stage.name}>
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground w-4">{i + 1}</span>
-                      <span className="text-sm font-medium">{stage.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="font-semibold tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                        {stage.count}
-                      </span>
-                      {dropPct && Number(dropPct) > 0 && (
-                        <span className="text-muted-foreground">-{dropPct}%</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="relative h-6 w-full rounded bg-muted/30 overflow-hidden">
-                    <div
-                      className="h-full rounded transition-all duration-500"
-                      style={{
-                        width: `${widthPct}%`,
-                        backgroundColor: stepColors[Math.min(i, stepColors.length - 1)],
-                        opacity: 0.7,
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          {activePipeline.totalOpportunities === 0 && (
-            <div className="flex items-start gap-2 mt-3 rounded-md border border-amber-500/30 bg-amber-500/5 p-2 text-xs text-muted-foreground">
-              <AlertTriangle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-amber-500" />
-              <span>This pipeline has no leads yet. Add a GHL tag to start tracking conversions.</span>
-            </div>
-          )}
-        </Card>
-      )}
 
       {/* Pipeline Comparison (aggregate view) */}
       {selectedFunnelId === "all" && (
