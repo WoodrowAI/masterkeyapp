@@ -901,11 +901,11 @@ export const funnelDatasets: FunnelData[] = [
       { name: "Social Content",  count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
       { name: "Leads",           count: 6,     conversionFromPrev: 33.3, dropOff: 66.7 },
-      { name: "Consult Booked",  count: 1,     conversionFromPrev: 16.7, dropOff: 83.3 },
+      { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 1131, linkClicked: 11, leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 1352, linkClicked: 3,  leads: 6, consultBooked: 1, conversionRate: 0.07 },
+      { platform: "instagram", socialContent: 1352, linkClicked: 3,  leads: 6, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 2212, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,    linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -921,11 +921,11 @@ export const funnelDatasets: FunnelData[] = [
       { name: "Social Content",  count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
       { name: "Leads",           count: 3,     conversionFromPrev: 14.3, dropOff: 85.7 },
-      { name: "Consult Booked",  count: 1,     conversionFromPrev: 33.3, dropOff: 66.7 },
+      { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 91,   linkClicked: 14, leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 159,  linkClicked: 2,  leads: 3, consultBooked: 1, conversionRate: 0 },
+      { platform: "instagram", socialContent: 159,  linkClicked: 2,  leads: 3, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 6369, linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,    linkClicked: 5,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -982,11 +982,11 @@ export const funnelDatasets: FunnelData[] = [
       { name: "Social Content",  count: 728,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Link Clicked",    count: 15,    conversionFromPrev: 2.1,  dropOff: 97.9 },
       { name: "Leads",           count: 8,     conversionFromPrev: 53.3, dropOff: 46.7 },
-      { name: "Consult Booked",  count: 1,     conversionFromPrev: 12.5, dropOff: 87.5 },
+      { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 54,  linkClicked: 3,  leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 674, linkClicked: 8,  leads: 8, consultBooked: 1, conversionRate: 0 },
+      { platform: "instagram", socialContent: 674, linkClicked: 8,  leads: 8, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 4,  leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -1006,12 +1006,12 @@ export function getAggregatedFunnelData(): FunnelData {
     { name: "Social Content",  count: 13433, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Link Clicked",    count: 287,   conversionFromPrev: 2.1,   dropOff: 97.9 },
     { name: "Leads",           count: 21,    conversionFromPrev: 7.3,   dropOff: 92.7 },
-    { name: "Consult Booked",  count: 3,     conversionFromPrev: 14.3,  dropOff: 85.7 },
+    { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,  dropOff: 100 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
     youtube:   { platform: "youtube",   socialContent: 1629,  linkClicked: 88,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 43, consultBooked: 3, conversionRate: 0.07 },
+    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 43, consultBooked: 0, conversionRate: 0 },
     tiktok:    { platform: "tiktok",    socialContent: 8682,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
     facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 75,  leads: 0,  consultBooked: 0, conversionRate: 0 },
   };
@@ -1048,7 +1048,7 @@ export const funnelSources: FunnelSource[] = [
   { source: "youtube",   platform: "youtube",   clicks: 88,  landingViews: 88,  leads: 0,  consultBooked: 0,  conversionRate: 0 },
   { source: "facebook",  platform: "facebook",  clicks: 75,  landingViews: 75,  leads: 0,  consultBooked: 0,  conversionRate: 0 },
   { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  leads: 1,  consultBooked: 0,  conversionRate: 0 },
-  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  leads: 43, consultBooked: 3,  conversionRate: 23.1 },
+  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  leads: 43, consultBooked: 0,  conversionRate: 0 },
   { source: "linktree",  platform: "youtube",   clicks: 4,   landingViews: 4,   leads: 0,  consultBooked: 0,  conversionRate: 0 },
   { source: "tiktok",    platform: "tiktok",    clicks: 0,   landingViews: 0,   leads: 0,  consultBooked: 0,  conversionRate: 0 },
 ];
@@ -1762,12 +1762,9 @@ export interface GHLPipeline {
 }
 
 // Real pipeline stage names from GoHighLevel CRM
-// Lead counts distributed based on GHL tag data:
-//   Buyer Guide: 2 (buyguide-lead) — 1 Downloaded, 1 Nurture
-//   Seller Guide: 3 (newsletter-seller) — 1 Downloaded, 1 Nurture, 1 Consult Booked
-//   MarketPulse: 8 (market-updates-optin) — 4 Downloaded, 3 Nurture, 1 Consult Booked
-//   Property Management Guide: 2 (newsletter-landlord) — 1 Downloaded, 1 Nurture
-//   Neighborhood Scorecard: 6 (lm-scorecard) — 3 Downloaded, 2 Nurture, 1 Consult Booked (Todd Shillington went full funnel)
+// All 6 lead magnet pipelines were just created — 0 opportunities each.
+// Pipelines will populate as new form submissions trigger GHL workflows.
+// These zeros are REAL — do not seed fake numbers.
 //   Home Valuation: 0 (no tag yet)
 export const ghlPipelines: GHLPipeline[] = [
   {
@@ -1775,64 +1772,64 @@ export const ghlPipelines: GHLPipeline[] = [
     name: "Buyer Guide Pipeline",
     leadMagnet: "Buyer Guide",
     stages: [
-      { name: "Downloaded Guide", count: 1 },
-      { name: "Nurture", count: 1 },
-      { name: "Consult booked", count: 0 },
+      { name: "Downloaded Guide", count: 0 },
+      { name: "Nurture", count: 0 },
+      { name: "Consult Booked", count: 0 },
       { name: "Active Buyer", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 2,
+    totalOpportunities: 0,
   },
   {
     id: "RQidlMfwgegHBW6Wzxbz",
     name: "Seller Guide Pipeline",
     leadMagnet: "Seller Guide",
     stages: [
-      { name: "Downloaded Guide", count: 1 },
-      { name: "Nurture", count: 1 },
-      { name: "Consult Booked", count: 1 },
+      { name: "Downloaded Guide", count: 0 },
+      { name: "Nurture", count: 0 },
+      { name: "Consult Booked", count: 0 },
       { name: "Active Seller", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 3,
+    totalOpportunities: 0,
   },
   {
     id: "Z4tdOGAJanHbY2duizNP",
     name: "MarketPulse Pipeline",
     leadMagnet: "MarketPulse",
     stages: [
-      { name: "Downloaded MarketPulse", count: 4 },
-      { name: "Nurture", count: 3 },
-      { name: "Consult Booked", count: 1 },
+      { name: "Downloaded MarketPulse", count: 0 },
+      { name: "Nurture", count: 0 },
+      { name: "Consult Booked", count: 0 },
       { name: "Active Client", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 8,
+    totalOpportunities: 0,
   },
   {
     id: "c3womgfUwmXPSUo2WXDb",
     name: "PM Guide Pipeline",
     leadMagnet: "Property Management Guide",
     stages: [
-      { name: "Downloaded Guide", count: 1 },
-      { name: "Nurture", count: 1 },
+      { name: "Downloaded Guide", count: 0 },
+      { name: "Nurture", count: 0 },
       { name: "Consult Booked", count: 0 },
       { name: "Active Client (Agreement Signed)", count: 0 },
     ],
-    totalOpportunities: 2,
+    totalOpportunities: 0,
   },
   {
     id: "DdLa930bdUQNCNaqVnrm",
     name: "Neighborhood Scorecard Pipeline",
     leadMagnet: "Neighborhood Scorecard",
     stages: [
-      { name: "Scorecard Downloaded", count: 3 },
-      { name: "Nurture", count: 2 },
-      { name: "Consult Booked", count: 1 },
+      { name: "Scorecard Downloaded", count: 0 },
+      { name: "Nurture", count: 0 },
+      { name: "Consult Booked", count: 0 },
       { name: "Active Client", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 6,
+    totalOpportunities: 0,
   },
   {
     id: "rYN1ctOoFPzg2YtR1Elm",
