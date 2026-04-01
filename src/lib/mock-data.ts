@@ -842,8 +842,8 @@ export interface FunnelPlatformBreakdown {
   platform: PlatformKey;
   socialContent: number;
   linkClicked: number;
-  callFromAsset: number;
-  meetingScheduled: number;
+  leads: number;
+  opportunities: number;
   conversionRate: number;
 }
 
@@ -856,175 +856,153 @@ export interface FunnelData {
   bestConverter: PlatformKey;
 }
 
-// Real data:
-// Step 1 (Social Content): YouTube total views = 1629
-// Step 2 (Link Clicked): PostHog pageviews per landing page (from UTM + referrer data)
-// Step 3 (Call from Asset): Form Started = 5 total, distributed proportionally by sessions
-// Step 4 (Meeting Scheduled): Step 1 Completed = 3 total, distributed proportionally by sessions
+// Real data from GoHighLevel CRM + PostHog + platform APIs:
+// Step 1 (Social Content): YouTube 1,629 + Instagram 3,122 + TikTok 8,682 = 13,433 total views
+// Step 2 (Link Clicked): PostHog 287 landing page sessions (88 YouTube UTM, 13 Instagram UTM, 75 Facebook referrer, 4 Linktree, rest direct/google)
+// Step 3 (Leads): GHL tagged contacts — 6 scorecard + 2 buyguide + 8 market-updates + 8 newsletter-buyer + 3 newsletter-seller + 2 newsletter-landlord ≈ 10 unique lead magnet conversions
+// Step 4 (Opportunities): 84 total GHL opportunities (8 Buyer Leads, 74 Marketing Pipeline, 1 Seller, 1 Nurture); 1 social-attributed
 //
-// Platform link clicks derived from UTM query (2026-03-31):
-//   Instagram UTM: buyerguide(6), scorecard(3), pm_guide(2), seller_guide(2) = 13 total
-//   YouTube UTM: various pages = 88 total (allocated per funnel below)
-//   Facebook referrer: 75 total (allocated per funnel from landing page data)
-//   Linktree UTM: buyerguide(2), sellguide(2) = 4 total
-//   Google: 29 sessions | Direct: 155 sessions
+// Platform attribution: 43 social media leads, ALL from Instagram. 0 from TikTok/YouTube (no UTM tracking yet).
+// Social → opportunity: 43 social leads → 1 opportunity (Michael Mathias)
 //
-// Landing pages:
+// Landing pages (PostHog):
 //   buyerguide = 48 pv, 23 sessions
-//   marketpulse = 52+12 = 64 pv, 15 sessions (marketpulse/dashboard + marketpulse/dashboard/news)
+//   marketpulse = 52+12 = 64 pv, 15 sessions
 //   sellguide = 42 pv, 19 sessions
-//   homevalue = 64+48+40 = 152 pv, 42 sessions (homevalue + questionnaire + results)
+//   homevalue = 64+48+40 = 152 pv, 42 sessions
 //   property-management = 31 pv, 16 sessions
-// Total funnel sessions = 23 + 15 + 19 + 42 + 16 = 115
 
 export const funnelDatasets: FunnelData[] = [
   {
     id: "buy-guide",
     name: "Buy Guide Funnel",
-    // Step 1: YouTube views attributed to buyer content (proportional ~23/115 of 1629 ≈ 326)
-    // Step 2: 23 sessions + IG UTM(6) = 29 link clicks to /buyerguide
-    // Step 3: Form Started 5 * (23/115) ≈ 1
-    // Step 4: Step 1 Completed 3 * (23/115) ≈ 1
+    // Leads: 2 (GHL buyguide-lead tag)
+    // Views: YT buyer content (325) + IG buyer content (457) + TT buyer content (6,369)
     steps: [
-      { name: "Social Content",      count: 326,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",         count: 29,   conversionFromPrev: 8.9,  dropOff: 91.1 },
-      { name: "Call from Buy Guide",  count: 1,    conversionFromPrev: 3.4,  dropOff: 96.6 },
-      { name: "Meeting Scheduled",    count: 1,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Content", count: 7151,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",   count: 29,    conversionFromPrev: 0.4,  dropOff: 99.6 },
+      { name: "Leads",          count: 2,     conversionFromPrev: 6.9,  dropOff: 93.1 },
+      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 326, linkClicked: 17, callFromAsset: 1, meetingScheduled: 1, conversionRate: 0.31 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 6,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 6,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 325, linkClicked: 17, leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 457, linkClicked: 6,  leads: 2, opportunities: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 6369, linkClicked: 0, leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 6,  leads: 0, opportunities: 0, conversionRate: 0 },
     ],
-    bestVolumeDriver: "youtube",
-    bestConverter: "youtube",
+    bestVolumeDriver: "tiktok",
+    bestConverter: "instagram",
   },
   {
     id: "neighborhood-scorecard",
     name: "Neighborhood Scorecard Funnel",
-    // Step 2: 15 sessions + IG UTM(3) = 18 link clicks to scorecard/thousand-oaks-guide
+    // Leads: 6 (GHL lm-scorecard-requested tag, all 6 delivered)
+    // Views: YT neighborhood content (1,131) + IG neighborhood content (1,352) + TT neighborhood content (2,212)
     steps: [
-      { name: "Social Content",       count: 213,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",          count: 18,   conversionFromPrev: 8.5,  dropOff: 91.5 },
-      { name: "Call from Scorecard",   count: 1,    conversionFromPrev: 5.6,  dropOff: 94.4 },
-      { name: "Meeting Scheduled",     count: 0,    conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Social Content", count: 4695,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",   count: 18,    conversionFromPrev: 0.4,  dropOff: 99.6 },
+      { name: "Leads",          count: 6,     conversionFromPrev: 33.3, dropOff: 66.7 },
+      { name: "Opportunities",  count: 1,     conversionFromPrev: 16.7, dropOff: 83.3 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 213, linkClicked: 11, callFromAsset: 1, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 3,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 4,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 1131, linkClicked: 11, leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 1352, linkClicked: 3,  leads: 6, opportunities: 1, conversionRate: 0.07 },
+      { platform: "tiktok",    socialContent: 2212, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,    linkClicked: 4,  leads: 0, opportunities: 0, conversionRate: 0 },
     ],
-    bestVolumeDriver: "youtube",
-    bestConverter: "youtube",
+    bestVolumeDriver: "tiktok",
+    bestConverter: "instagram",
   },
   {
     id: "seller-guide",
     name: "Seller Guide Funnel",
-    // Step 2: 19 sessions + IG UTM(2) = 21 link clicks to /sellguide
+    // Leads: 3 (GHL newsletter-seller tag as proxy)
+    // Views: YT seller content (91) + IG seller content (159) + TT seller content (6,369 — shared w/ buyer)
     steps: [
-      { name: "Social Content",        count: 270,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",           count: 21,   conversionFromPrev: 7.8,  dropOff: 92.2 },
-      { name: "Call from Seller Guide", count: 1,    conversionFromPrev: 4.8,  dropOff: 95.2 },
-      { name: "Meeting Scheduled",      count: 1,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Content", count: 6619,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",   count: 21,    conversionFromPrev: 0.3,  dropOff: 99.7 },
+      { name: "Leads",          count: 3,     conversionFromPrev: 14.3, dropOff: 85.7 },
+      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 270, linkClicked: 14, callFromAsset: 1, meetingScheduled: 1, conversionRate: 0.37 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 2,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 5,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 91,   linkClicked: 14, leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 159,  linkClicked: 2,  leads: 3, opportunities: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 6369, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,    linkClicked: 5,  leads: 0, opportunities: 0, conversionRate: 0 },
     ],
-    bestVolumeDriver: "youtube",
-    bestConverter: "youtube",
+    bestVolumeDriver: "tiktok",
+    bestConverter: "instagram",
   },
   {
     id: "instant-valuation",
     name: "Instant Valuation Funnel",
-    // Step 2: 42 sessions (homevalue 18 + questionnaire 12 + results 12)
+    // Leads: 0 (no GHL tag for home value tool yet)
+    // Views: YT (28) + IG (480) + TT (101)
     steps: [
-      { name: "Social Content",       count: 596,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",          count: 42,   conversionFromPrev: 7.0,  dropOff: 93.0 },
-      { name: "Call from Valuation",   count: 2,    conversionFromPrev: 4.8,  dropOff: 95.2 },
-      { name: "Meeting Scheduled",     count: 1,    conversionFromPrev: 50,   dropOff: 50 },
+      { name: "Social Content", count: 609,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",   count: 42,    conversionFromPrev: 6.9,  dropOff: 93.1 },
+      { name: "Leads",          count: 0,     conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 596, linkClicked: 31, callFromAsset: 2, meetingScheduled: 1, conversionRate: 0.17 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 11, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 28,  linkClicked: 31, leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 480, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 101, linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,   linkClicked: 11, leads: 0, opportunities: 0, conversionRate: 0 },
     ],
-    bestVolumeDriver: "youtube",
+    bestVolumeDriver: "instagram",
     bestConverter: "youtube",
   },
   {
     id: "pm-guide",
     name: "Property Management Guide Funnel",
-    // Step 2: 16 sessions + IG UTM(2) = 18 link clicks to /propertymanagement
+    // Leads: 2 (GHL newsletter-landlord tag)
+    // Views: YT (26) + IG (0) + TT (0)
     steps: [
-      { name: "Social Content",      count: 224,  conversionFromPrev: 100,  dropOff: 0 },
-      { name: "Link Clicked",         count: 18,   conversionFromPrev: 8.0,  dropOff: 92.0 },
-      { name: "Call from PM Guide",   count: 1,    conversionFromPrev: 5.6,  dropOff: 94.4 },
-      { name: "Meeting Scheduled",    count: 0,    conversionFromPrev: 0,    dropOff: 100 },
+      { name: "Social Content", count: 26,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Link Clicked",   count: 18,    conversionFromPrev: 69.2, dropOff: 30.8 },
+      { name: "Leads",          count: 2,     conversionFromPrev: 11.1, dropOff: 88.9 },
+      { name: "Opportunities",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
-      { platform: "youtube",   socialContent: 224, linkClicked: 12, callFromAsset: 1, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 0,   linkClicked: 2,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "tiktok",    socialContent: 0,   linkClicked: 0,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-      { platform: "facebook",  socialContent: 0,   linkClicked: 4,  callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+      { platform: "youtube",   socialContent: 26, linkClicked: 12, leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 0,  linkClicked: 2,  leads: 2, opportunities: 0, conversionRate: 0 },
+      { platform: "tiktok",    socialContent: 0,  linkClicked: 0,  leads: 0, opportunities: 0, conversionRate: 0 },
+      { platform: "facebook",  socialContent: 0,  linkClicked: 4,  leads: 0, opportunities: 0, conversionRate: 0 },
     ],
     bestVolumeDriver: "youtube",
-    bestConverter: "youtube",
+    bestConverter: "instagram",
   },
 ];
 
-// Aggregate "All Funnels" view
+// Aggregate "All Funnels" view — real GHL + PostHog + API data
 export function getAggregatedFunnelData(): FunnelData {
+  // Use real totals instead of summing per-funnel (avoids double-counting shared videos)
+  // Social Content: YT 1,629 + IG 3,122 + TT 8,682 = 13,433
+  // Link Clicked: 287 PostHog sessions
+  // Leads: ~10 unique (GHL tags, deduplicated)
+  // Opportunities: 84 total in GHL pipelines (1 social-attributed)
   const allSteps: FunnelStep[] = [
-    { name: "Social Content",  count: 0, conversionFromPrev: 100, dropOff: 0 },
-    { name: "Link Clicked",    count: 0, conversionFromPrev: 0,   dropOff: 0 },
-    { name: "Call from Asset", count: 0, conversionFromPrev: 0,   dropOff: 0 },
-    { name: "Meeting Scheduled", count: 0, conversionFromPrev: 0, dropOff: 0 },
+    { name: "Social Content", count: 13433, conversionFromPrev: 100,  dropOff: 0 },
+    { name: "Link Clicked",   count: 287,   conversionFromPrev: 2.1,  dropOff: 97.9 },
+    { name: "Leads",          count: 10,    conversionFromPrev: 3.5,  dropOff: 96.5 },
+    { name: "Opportunities",  count: 84,    conversionFromPrev: 840,  dropOff: 0 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube:   { platform: "youtube",   socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-    instagram: { platform: "instagram", socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-    tiktok:    { platform: "tiktok",    socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
-    facebook:  { platform: "facebook",  socialContent: 0, linkClicked: 0, callFromAsset: 0, meetingScheduled: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 1629,  linkClicked: 88,  leads: 0,  opportunities: 0, conversionRate: 0 },
+    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 13,  leads: 43, opportunities: 1, conversionRate: 0.03 },
+    tiktok:    { platform: "tiktok",    socialContent: 8682,  linkClicked: 0,   leads: 0,  opportunities: 0, conversionRate: 0 },
+    facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 75,  leads: 0,  opportunities: 0, conversionRate: 0 },
   };
-
-  for (const funnel of funnelDatasets) {
-    allSteps[0].count += funnel.steps[0].count;
-    allSteps[1].count += funnel.steps[1].count;
-    allSteps[2].count += funnel.steps[2].count;
-    allSteps[3].count += funnel.steps[3].count;
-    for (const pb of funnel.platformBreakdown) {
-      platTotals[pb.platform].socialContent   += pb.socialContent;
-      platTotals[pb.platform].linkClicked      += pb.linkClicked;
-      platTotals[pb.platform].callFromAsset    += pb.callFromAsset;
-      platTotals[pb.platform].meetingScheduled += pb.meetingScheduled;
-    }
-  }
-
-  allSteps[1].conversionFromPrev = +((allSteps[1].count / allSteps[0].count) * 100).toFixed(1);
-  allSteps[1].dropOff = +(100 - allSteps[1].conversionFromPrev).toFixed(1);
-  allSteps[2].conversionFromPrev = allSteps[1].count > 0 ? +((allSteps[2].count / allSteps[1].count) * 100).toFixed(1) : 0;
-  allSteps[2].dropOff = +(100 - allSteps[2].conversionFromPrev).toFixed(1);
-  allSteps[3].conversionFromPrev = allSteps[2].count > 0 ? +((allSteps[3].count / allSteps[2].count) * 100).toFixed(1) : 0;
-  allSteps[3].dropOff = +(100 - allSteps[3].conversionFromPrev).toFixed(1);
-
-  for (const p of Object.values(platTotals)) {
-    p.conversionRate = p.socialContent > 0 ? +((p.meetingScheduled / p.socialContent) * 100).toFixed(2) : 0;
-  }
 
   return {
     id: "all",
     name: "All Funnels",
     steps: allSteps,
     platformBreakdown: Object.values(platTotals),
-    bestVolumeDriver: "youtube",
-    bestConverter: "youtube",
+    bestVolumeDriver: "tiktok",
+    bestConverter: "instagram",
   };
 }
 
@@ -1036,22 +1014,23 @@ export interface FunnelSource {
   platform: PlatformKey;
   clicks: number;
   landingViews: number;
-  formFills: number;
-  callsBooked: number;
+  leads: number;
+  opportunities: number;
   conversionRate: number;
 }
 
 // Real PostHog referrer + UTM data (updated 2026-03-31 with 90-day UTM query):
 // Direct: 155 sessions | YouTube UTM: 88 pageviews | Facebook referrer: 75 pageviews
 // Instagram UTM: 13 pageviews | Google: 29 sessions | Linktree UTM: 4 pageviews
+// GHL leads: 43 social media leads (all Instagram), 10 unique lead magnet conversions
 export const funnelSources: FunnelSource[] = [
-  { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, formFills: 3, callsBooked: 2, conversionRate: 1.3 },
-  { source: "youtube",   platform: "youtube",   clicks: 88,  landingViews: 88,  formFills: 1, callsBooked: 0, conversionRate: 0 },
-  { source: "facebook",  platform: "facebook",  clicks: 75,  landingViews: 75,  formFills: 0, callsBooked: 0, conversionRate: 0 },
-  { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  formFills: 1, callsBooked: 1, conversionRate: 3.4 },
-  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  formFills: 0, callsBooked: 0, conversionRate: 0 },
-  { source: "linktree",  platform: "youtube",   clicks: 4,   landingViews: 4,   formFills: 0, callsBooked: 0, conversionRate: 0 },
-  { source: "tiktok",    platform: "tiktok",    clicks: 0,   landingViews: 0,   formFills: 0, callsBooked: 0, conversionRate: 0 },
+  { source: "direct",    platform: "youtube",   clicks: 155, landingViews: 155, leads: 3,  opportunities: 2,  conversionRate: 1.3 },
+  { source: "youtube",   platform: "youtube",   clicks: 88,  landingViews: 88,  leads: 0,  opportunities: 0,  conversionRate: 0 },
+  { source: "facebook",  platform: "facebook",  clicks: 75,  landingViews: 75,  leads: 0,  opportunities: 0,  conversionRate: 0 },
+  { source: "google",    platform: "youtube",   clicks: 29,  landingViews: 29,  leads: 1,  opportunities: 1,  conversionRate: 3.4 },
+  { source: "instagram", platform: "instagram", clicks: 13,  landingViews: 13,  leads: 43, opportunities: 1,  conversionRate: 7.7 },
+  { source: "linktree",  platform: "youtube",   clicks: 4,   landingViews: 4,   leads: 0,  opportunities: 0,  conversionRate: 0 },
+  { source: "tiktok",    platform: "tiktok",    clicks: 0,   landingViews: 0,   leads: 0,  opportunities: 0,  conversionRate: 0 },
 ];
 
 // ─── PostHog Website Traffic by Source (90-day referrer + UTM data) ───

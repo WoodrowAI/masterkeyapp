@@ -31,7 +31,7 @@ import {
 import { PlatformIcon } from "@/components/platform-badge";
 import { funnelDatasets, getAggregatedFunnelData, funnelSources, type FunnelData } from "@/lib/mock-data";
 import { platforms, type PlatformKey } from "@/lib/platforms";
-import { ArrowRight, Info, Trophy } from "lucide-react";
+import { ArrowRight, Info, Trophy, AlertTriangle } from "lucide-react";
 
 const PLATFORM_COLORS: Record<string, string> = {
   youtube: "var(--color-chart-1)",
@@ -64,8 +64,8 @@ export default function FunnelAnalysis() {
         platform: platforms[pb.platform].name,
         "Social Content": pb.socialContent,
         "Link Clicked": pb.linkClicked,
-        "Call from Asset": pb.callFromAsset,
-        "Meeting Scheduled": pb.meetingScheduled,
+        "Leads": pb.leads,
+        "Opportunities": pb.opportunities,
       })),
     [activeFunnel]
   );
@@ -115,6 +115,9 @@ export default function FunnelAnalysis() {
             </div>
           </div>
         )}
+        <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1 ml-auto">
+          GoHighLevel + PostHog
+        </Badge>
       </div>
 
       {/* Funnel Visualization */}
@@ -141,7 +144,7 @@ export default function FunnelAnalysis() {
                     >
                       {step.count.toLocaleString()}
                     </span>
-                    {i > 0 && (
+                    {i > 0 && step.conversionFromPrev <= 100 && (
                       <span
                         className="text-muted-foreground tabular-nums"
                         style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
@@ -168,7 +171,7 @@ export default function FunnelAnalysis() {
                       className="tabular-nums"
                       style={{ fontVariantNumeric: "tabular-nums lining-nums" }}
                     >
-                      {activeFunnel.steps[i + 1].dropOff.toFixed(1)}% drop-off
+                      {activeFunnel.steps[i + 1].dropOff > 0 ? `${activeFunnel.steps[i + 1].dropOff.toFixed(1)}% drop-off` : ""}
                     </span>
                   </div>
                 )}
@@ -176,6 +179,16 @@ export default function FunnelAnalysis() {
             );
           })}
         </div>
+        {/* Note about step 3→4 jump */}
+        {selectedFunnelId === "all" && (
+          <div className="flex items-start gap-2 mt-4 rounded-md border border-border bg-muted/20 p-2.5 text-xs text-muted-foreground">
+            <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+            <span>
+              Leads (10) → Opportunities (84) jumps because most opportunities came from non-social sources (CRM, direct mail, referrals).
+              Social-to-opportunity conversion: <strong className="text-foreground">43 social leads → 1 opportunity</strong>.
+            </span>
+          </div>
+        )}
       </Card>
 
       {/* Session Flow */}
@@ -237,7 +250,7 @@ export default function FunnelAnalysis() {
                   }}
                 />
                 <Bar dataKey="Social Content" fill={stepColors[0]} radius={[4, 4, 0, 0]} barSize={18} />
-                <Bar dataKey="Meeting Scheduled" fill={stepColors[3]} radius={[4, 4, 0, 0]} barSize={18} />
+                <Bar dataKey="Leads" fill={stepColors[2]} radius={[4, 4, 0, 0]} barSize={18} />
               </BarChart>
             </ResponsiveContainer>}
           </div>
@@ -292,8 +305,8 @@ export default function FunnelAnalysis() {
                 <TableHead>Platform</TableHead>
                 <TableHead className="text-right">Social Content</TableHead>
                 <TableHead className="text-right">Link Clicked</TableHead>
-                <TableHead className="text-right">Call from Asset</TableHead>
-                <TableHead className="text-right">Meeting Scheduled</TableHead>
+                <TableHead className="text-right">Leads</TableHead>
+                <TableHead className="text-right">Opportunities</TableHead>
                 <TableHead className="text-right">Conv. Rate</TableHead>
               </TableRow>
             </TableHeader>
@@ -317,11 +330,14 @@ export default function FunnelAnalysis() {
                       {pb.platform === "youtube" && (
                         <Badge variant="secondary" className="text-[9px] h-3.5 px-1 font-normal">API</Badge>
                       )}
-                      {(pb.platform === "facebook" || pb.platform === "instagram") && (
-                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal">PostHog UTM</Badge>
+                      {pb.platform === "instagram" && (
+                        <Badge variant="secondary" className="text-[9px] h-3.5 px-1 font-normal">GHL + API</Badge>
+                      )}
+                      {pb.platform === "facebook" && (
+                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal">PostHog</Badge>
                       )}
                       {pb.platform === "tiktok" && (
-                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal text-muted-foreground">Awaiting Data</Badge>
+                        <Badge variant="outline" className="text-[9px] h-3.5 px-1 font-normal text-muted-foreground">No UTM yet</Badge>
                       )}
                     </div>
                   </TableCell>
@@ -332,10 +348,10 @@ export default function FunnelAnalysis() {
                     {pb.linkClicked.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                    {pb.callFromAsset.toLocaleString()}
+                    {pb.leads.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                    {pb.meetingScheduled}
+                    {pb.opportunities}
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-medium" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
                     {pb.conversionRate}%
@@ -352,17 +368,17 @@ export default function FunnelAnalysis() {
                   {activeFunnel.platformBreakdown.reduce((s, r) => s + r.linkClicked, 0).toLocaleString()}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {activeFunnel.platformBreakdown.reduce((s, r) => s + r.callFromAsset, 0).toLocaleString()}
+                  {activeFunnel.platformBreakdown.reduce((s, r) => s + r.leads, 0).toLocaleString()}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {activeFunnel.platformBreakdown.reduce((s, r) => s + r.meetingScheduled, 0)}
+                  {activeFunnel.platformBreakdown.reduce((s, r) => s + r.opportunities, 0)}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {(
-                    (activeFunnel.platformBreakdown.reduce((s, r) => s + r.meetingScheduled, 0) /
-                      activeFunnel.platformBreakdown.reduce((s, r) => s + r.socialContent, 0)) *
-                    100
-                  ).toFixed(2)}%
+                  {(() => {
+                    const totalContent = activeFunnel.platformBreakdown.reduce((s, r) => s + r.socialContent, 0);
+                    const totalOpps = activeFunnel.platformBreakdown.reduce((s, r) => s + r.opportunities, 0);
+                    return totalContent > 0 ? ((totalOpps / totalContent) * 100).toFixed(2) : "0";
+                  })()}%
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -373,7 +389,7 @@ export default function FunnelAnalysis() {
       {/* Traffic Source Breakdown */}
       <Card className="p-4 border border-border" data-testid="traffic-source-table">
         <h3 className="text-sm font-semibold mb-3">Traffic Source Breakdown</h3>
-        <p className="text-xs text-muted-foreground mb-3">Sessions attributed by UTM source and referrer (PostHog)</p>
+        <p className="text-xs text-muted-foreground mb-3">Sessions attributed by UTM source and referrer (PostHog + GHL)</p>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -381,8 +397,8 @@ export default function FunnelAnalysis() {
                 <TableHead>Source</TableHead>
                 <TableHead className="text-right">Sessions</TableHead>
                 <TableHead className="text-right">Landing Views</TableHead>
-                <TableHead className="text-right">Form Fills</TableHead>
-                <TableHead className="text-right">Calls Booked</TableHead>
+                <TableHead className="text-right">Leads</TableHead>
+                <TableHead className="text-right">Opportunities</TableHead>
                 <TableHead className="text-right">Conv. Rate</TableHead>
               </TableRow>
             </TableHeader>
@@ -399,10 +415,10 @@ export default function FunnelAnalysis() {
                     {fs.landingViews.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                    {fs.formFills}
+                    {fs.leads}
                   </TableCell>
                   <TableCell className="text-right tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                    {fs.callsBooked}
+                    {fs.opportunities}
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-medium" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
                     {fs.conversionRate}%
@@ -418,17 +434,17 @@ export default function FunnelAnalysis() {
                   {funnelSources.reduce((s, r) => s + r.landingViews, 0).toLocaleString()}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {funnelSources.reduce((s, r) => s + r.formFills, 0)}
+                  {funnelSources.reduce((s, r) => s + r.leads, 0)}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {funnelSources.reduce((s, r) => s + r.callsBooked, 0)}
+                  {funnelSources.reduce((s, r) => s + r.opportunities, 0)}
                 </TableCell>
                 <TableCell className="text-right tabular-nums font-semibold" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                  {(
-                    (funnelSources.reduce((s, r) => s + r.callsBooked, 0) /
-                      funnelSources.reduce((s, r) => s + r.clicks, 0)) *
-                    100
-                  ).toFixed(1)}%
+                  {(() => {
+                    const totalClicks = funnelSources.reduce((s, r) => s + r.clicks, 0);
+                    const totalOpps = funnelSources.reduce((s, r) => s + r.opportunities, 0);
+                    return totalClicks > 0 ? ((totalOpps / totalClicks) * 100).toFixed(1) : "0";
+                  })()}%
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -436,15 +452,29 @@ export default function FunnelAnalysis() {
         </div>
       </Card>
 
-      {/* PostHog Integration Note */}
+      {/* Attribution Insight */}
+      <div
+        className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs text-muted-foreground"
+        data-testid="attribution-insight"
+      >
+        <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0 text-amber-500" />
+        <div>
+          <span className="font-medium text-foreground">43 social media leads — all from Instagram.</span>{" "}
+          TikTok and YouTube UTM tracking not yet configured. TikTok generates the most views (8,682) but 0 attributed leads.
+          Setting up UTMs for TikTok and YouTube will unlock platform-level attribution and reveal the true conversion path.
+        </div>
+      </div>
+
+      {/* Data Source Note */}
       <div
         className="flex items-start gap-2 rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground"
         data-testid="posthog-note"
       >
         <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
         <div>
-          <span className="font-medium text-foreground">Connected to PostHog</span>{" "}
-          (Project: 234009) — UTM tracking live across all platforms via Linktree. Instagram: 13 pageviews via UTM (6 Buy Guide, 3 Scorecard, 2 Seller, 2 PM). YouTube: 88 pageviews via UTM. Facebook: 75 pageviews via referrer. TikTok: Linktree set up, awaiting first traffic data.
+          <span className="font-medium text-foreground">Data Sources:</span>{" "}
+          GoHighLevel CRM (leads, opportunities, tags) + PostHog (UTM tracking, sessions) + YouTube/Instagram/TikTok APIs (content views).
+          Instagram: 13 pageviews via UTM, 43 GHL leads. YouTube: 88 pageviews via UTM, 0 GHL leads. Facebook: 75 pageviews via referrer. TikTok: awaiting UTM setup.
         </div>
       </div>
     </div>

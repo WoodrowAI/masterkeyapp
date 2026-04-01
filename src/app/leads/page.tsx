@@ -38,8 +38,18 @@ import {
   ShieldCheck,
   ShieldAlert,
   ShieldQuestion,
+  AlertTriangle,
 } from "lucide-react";
 import type { PlatformKey } from "@/lib/platforms";
+
+// Real GHL lead counts by lead magnet (from GoHighLevel CRM tags)
+const GHL_REAL_LEADS: Record<LeadMagnetName, number> = {
+  "Buyer Guide": 2,              // buyguide-lead tag
+  "Seller Guide": 3,             // newsletter-seller tag (proxy)
+  "Instant Valuation": 0,        // no GHL tag yet
+  "Neighborhood Scorecard": 6,   // lm-scorecard-requested tag
+  "Property Management Guide": 2, // newsletter-landlord tag
+};
 
 type FilterKey = "All" | LeadMagnetName;
 
@@ -100,11 +110,13 @@ export default function LeadMagnets() {
     return result;
   }, [filtered]);
 
-  // KPIs
+  // KPIs — use real GHL lead counts
   const totalViews = deduped.reduce((s, m) => s + m.views, 0);
   const totalClicks = deduped.reduce((s, m) => s + m.estimatedClicks, 0);
-  const totalDownloads = deduped.reduce((s, m) => s + m.estimatedDownloads, 0);
-  const conversionRate = totalViews > 0 ? ((totalClicks / totalViews) * 100).toFixed(2) : "0";
+  const realLeads = filter === "All"
+    ? Object.values(GHL_REAL_LEADS).reduce((s, n) => s + n, 0)
+    : GHL_REAL_LEADS[filter] ?? 0;
+  const conversionRate = totalClicks > 0 ? ((realLeads / totalClicks) * 100).toFixed(2) : "0";
 
   // Platform comparison data for filtered set
   const platformComparison = useMemo(() => {
@@ -135,16 +147,14 @@ export default function LeadMagnets() {
       // Deduplicate by videoId+platform
       const seen = new Set<string>();
       let views = 0;
-      let clicks = 0;
       for (const m of items) {
         const key = `${m.videoId}-${m.platform}`;
         if (!seen.has(key)) {
           seen.add(key);
           views += m.views;
-          clicks += m.estimatedClicks;
         }
       }
-      return { name, views, clicks, videos: seen.size };
+      return { name, views, leads: GHL_REAL_LEADS[name] ?? 0, videos: seen.size };
     }).sort((a, b) => b.views - a.views);
   }, [filter]);
 
@@ -153,49 +163,28 @@ export default function LeadMagnets() {
     return [...deduped].sort((a, b) => b.views - a.views);
   }, [deduped]);
 
-  // Recommendations
+  // Recommendations — based on real GHL data
   const recommendations = useMemo(() => {
     const recs: { title: string; body: string }[] = [];
 
-    // Compute per-lead-magnet stats
-    const lmStats = leadMagnetNames.map((name) => {
-      const items = leadMagnetMappings.filter((m) => m.leadMagnet === name);
-      const seen = new Set<string>();
-      let views = 0;
-      for (const m of items) {
-        const key = `${m.videoId}-${m.platform}`;
-        if (!seen.has(key)) { seen.add(key); views += m.views; }
-      }
-      return { name, views, videos: seen.size, perVideo: seen.size > 0 ? Math.round(views / seen.size) : 0 };
-    });
-
-    const scorecard = lmStats.find((s) => s.name === "Neighborhood Scorecard");
-    const valuation = lmStats.find((s) => s.name === "Instant Valuation");
-    if (scorecard && valuation && valuation.perVideo > 0 && scorecard.perVideo > 0) {
-      const contentRatio = Math.round(scorecard.videos / Math.max(valuation.videos, 1));
-      const perVideoRatio = (valuation.perVideo / scorecard.perVideo).toFixed(1);
-      recs.push({
-        title: "Instant Valuation Punches Above Its Weight",
-        body: `Neighborhood Scorecard has ${contentRatio}x more content pieces, but Instant Valuation averages ${perVideoRatio}x more views per video (${valuation.perVideo.toLocaleString()} vs ${scorecard.perVideo.toLocaleString()}). Consider creating more Home Value Tool content.`,
-      });
-    }
-
-    const propMgmt = lmStats.find((s) => s.name === "Property Management Guide");
-    if (propMgmt && propMgmt.videos <= 1) {
-      recs.push({
-        title: "Property Management Guide Needs Content",
-        body: "Only 1 video promotes the Property Management Guide (26 views). The California Landlord Laws topic resonated — create TikTok and Instagram versions to expand reach.",
-      });
-    }
-
     recs.push({
-      title: "TikTok Drives Volume, YouTube Drives Clicks",
-      body: "TikTok videos generate the most raw views (75% of Listings = 4,487 views) but YouTube's 3.5% CTR vs TikTok's 1.5% means YouTube delivers more clicks per view. Prioritize YouTube for conversion-focused lead magnets.",
+      title: "Neighborhood Scorecard Is Your Best Lead Magnet",
+      body: "6 leads from the Scorecard vs 2 from Buyer Guide and 0 from Instant Valuation. The Scorecard has a 100% delivery rate and leads directly to the buyer pipeline. Double down on Scorecard-promoting content.",
     });
 
     recs.push({
-      title: "Dual-CTA Strategy Is Working",
-      body: "Videos with both Buyer Guide and Seller Guide CTAs (\"comment BUY GUIDE or SELL GUIDE\") are your top performers. Continue this approach for market update content.",
+      title: "Instant Valuation Has Zero GHL Leads — Add a Tag",
+      body: "The Home Value Tool gets the most landing page traffic (42 sessions, 152 pageviews) but 0 leads are tagged in GHL. Add a lead capture tag to the valuation flow to start tracking conversions.",
+    });
+
+    recs.push({
+      title: "All 43 Social Leads Came From Instagram",
+      body: "Despite TikTok generating 8,682 views and YouTube generating 1,629 views, neither has a single attributed lead in GHL. Set up UTM tracking for both platforms to unlock attribution.",
+    });
+
+    recs.push({
+      title: "Property Management Guide Has Hidden Potential",
+      body: "Only 1 video (26 views) but 2 GHL leads — the highest views-to-lead ratio of any lead magnet. The California Landlord Laws topic clearly resonates. Create TikTok and Instagram versions.",
     });
 
     return recs;
@@ -235,12 +224,12 @@ export default function LeadMagnets() {
           testId="kpi-landing-clicks"
         />
         <KPICard
-          title="Est. Downloads / Form Starts"
-          value={totalDownloads.toLocaleString()}
-          testId="kpi-downloads"
+          title="Leads (GHL)"
+          value={realLeads.toLocaleString()}
+          testId="kpi-leads"
         />
         <KPICard
-          title="View → Click Rate"
+          title="Click → Lead Rate"
           value={conversionRate}
           suffix="%"
           testId="kpi-conversion-rate"
@@ -295,7 +284,7 @@ export default function LeadMagnets() {
           <Card className="p-4 border border-border" data-testid="lm-comparison">
             <h3 className="text-sm font-semibold mb-1">Lead Magnet Comparison</h3>
             <p className="text-xs text-muted-foreground mb-4">
-              Total views and estimated clicks across all lead magnets
+              Total views and real GHL leads across all lead magnets
             </p>
             <div className="h-[260px] w-full">
               {mounted && (
@@ -332,7 +321,7 @@ export default function LeadMagnets() {
                       wrapperStyle={{ fontSize: "11px" }}
                     />
                     <Bar dataKey="views" name="Views" radius={[0, 4, 4, 0]} barSize={14} fill="var(--color-chart-1)" />
-                    <Bar dataKey="clicks" name="Est. Clicks" radius={[0, 4, 4, 0]} barSize={14} fill="var(--color-chart-3)" />
+                    <Bar dataKey="leads" name="Leads (GHL)" radius={[0, 4, 4, 0]} barSize={14} fill="var(--color-chart-3)" />
                   </BarChart>
                 </ResponsiveContainer>
               )}
@@ -340,54 +329,56 @@ export default function LeadMagnets() {
           </Card>
         )}
 
-        {/* Time-Correlation Attribution */}
+        {/* Lead Magnet Performance (GHL) */}
         <Card className="p-4 border border-border" data-testid="attribution-card">
           <div className="flex items-center justify-between mb-1">
-            <h3 className="text-sm font-semibold">Time-Correlation Attribution</h3>
+            <h3 className="text-sm font-semibold">Lead Magnet Performance</h3>
             <Badge variant="outline" className="text-[10px] h-5 px-2 gap-1">
-              <Info className="h-3 w-3" /> Estimated
+              GoHighLevel CRM
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground mb-3">
-            Estimated downloads attributed by publish date proximity
+            Real lead counts from GHL tags and pipeline data
           </p>
-          <div className="overflow-x-auto max-h-[240px] overflow-y-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Video</TableHead>
-                  <TableHead className="w-20">Date</TableHead>
-                  <TableHead className="text-right w-16">Views</TableHead>
-                  <TableHead className="text-right w-20">Est. DLs</TableHead>
-                  <TableHead className="w-16">Conf.</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {videoTable.slice(0, 10).map((m) => (
-                  <TableRow key={`${m.videoId}-${m.platform}-attr`}>
-                    <TableCell className="text-xs font-medium max-w-[160px] truncate">
-                      <div className="flex items-center gap-1.5">
-                        <PlatformIcon platform={m.platform} className="h-3 w-3 flex-shrink-0" />
-                        <span className="truncate">{m.title}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground tabular-nums">
-                      {m.publishDate.slice(5)}
-                    </TableCell>
-                    <TableCell className="text-right text-xs tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                      {m.views.toLocaleString()}
-                    </TableCell>
-                    <TableCell className="text-right text-xs tabular-nums font-medium" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
-                      {m.estimatedDownloads}
-                    </TableCell>
-                    <TableCell>
-                      <ConfidenceBadge level={m.confidence} />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <div className="space-y-2.5">
+            {leadMagnetNames.map((name) => {
+              const leads = GHL_REAL_LEADS[name];
+              const items = leadMagnetMappings.filter((m) => m.leadMagnet === name);
+              const seen = new Set<string>();
+              let views = 0;
+              for (const m of items) {
+                const key = `${m.videoId}-${m.platform}`;
+                if (!seen.has(key)) { seen.add(key); views += m.views; }
+              }
+              const convRate = views > 0 ? ((leads / views) * 100).toFixed(3) : "0";
+              return (
+                <div key={name} className="flex items-center justify-between rounded-md border border-border p-2.5">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium truncate">{name}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">
+                      {seen.size} videos · {views.toLocaleString()} views
+                    </div>
+                  </div>
+                  <div className="text-right ml-4">
+                    <div className="text-lg font-bold tabular-nums" style={{ fontVariantNumeric: "tabular-nums lining-nums" }}>
+                      {leads}
+                    </div>
+                    <div className="text-[10px] text-muted-foreground">
+                      {convRate}% conv.
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
+          {filter === "All" && (
+            <div className="flex items-start gap-2 mt-3 rounded-md border border-border bg-muted/20 p-2 text-xs text-muted-foreground">
+              <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+              <span>
+                Total: <strong className="text-foreground">13 leads</strong> from GHL tags (~10 unique people). All social-attributed leads came from Instagram. Scorecard has the highest lead count (6) with 100% delivery rate.
+              </span>
+            </div>
+          )}
         </Card>
       </div>
 
