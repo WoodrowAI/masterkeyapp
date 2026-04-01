@@ -81,8 +81,19 @@ export async function GET(request: NextRequest) {
 
       console.log("TikTok Business tokens saved! Advertiser IDs:", businessTokens.advertiser_ids);
 
-      return NextResponse.redirect(
-        new URL("/settings?tiktok_ads_connected=true", request.url)
+      // Return tokens in response so they can be saved as env vars
+      // (Vercel serverless file system is ephemeral)
+      return new NextResponse(
+        JSON.stringify({
+          success: true,
+          type: "business",
+          message: "TikTok Ads connected! Copy these tokens to set as environment variables.",
+          tokens: businessTokens,
+        }, null, 2),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
       );
     } else {
       // === CONTENT API TOKEN EXCHANGE (Login Kit) ===
@@ -128,8 +139,19 @@ export async function GET(request: NextRequest) {
       await saveTokens(tokens);
       console.log("TikTok Content tokens saved!");
 
-      return NextResponse.redirect(
-        new URL("/settings?tiktok_connected=true", request.url)
+      // Return tokens in response so they can be saved as env vars
+      // (Vercel serverless file system is ephemeral)
+      return new NextResponse(
+        JSON.stringify({
+          success: true,
+          type: "content",
+          message: "TikTok Content connected! Copy these tokens to set as environment variables.",
+          tokens,
+        }, null, 2),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
       );
     }
   } catch (err) {

@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-// Token storage file path — stored in project root (outside src/ for safety)
+// Token storage file path — used for local dev, ephemeral on Vercel
 const TOKEN_FILE = path.join(process.cwd(), ".tiktok-tokens.json");
 
 export interface TikTokTokens {
@@ -15,10 +15,28 @@ export interface TikTokTokens {
 }
 
 export async function saveTokens(tokens: TikTokTokens): Promise<void> {
-  await fs.writeFile(TOKEN_FILE, JSON.stringify(tokens, null, 2), "utf-8");
+  try {
+    await fs.writeFile(TOKEN_FILE, JSON.stringify(tokens, null, 2), "utf-8");
+  } catch {
+    console.log("Could not write token file (expected on Vercel)");
+  }
 }
 
 export async function loadTokens(): Promise<TikTokTokens | null> {
+  // First try environment variables (persistent on Vercel)
+  if (process.env.TIKTOK_ACCESS_TOKEN) {
+    return {
+      access_token: process.env.TIKTOK_ACCESS_TOKEN,
+      refresh_token: process.env.TIKTOK_REFRESH_TOKEN || "",
+      open_id: process.env.TIKTOK_OPEN_ID || "",
+      scope: process.env.TIKTOK_SCOPE || "",
+      expires_at: parseInt(process.env.TIKTOK_EXPIRES_AT || "0"),
+      refresh_expires_at: parseInt(process.env.TIKTOK_REFRESH_EXPIRES_AT || "0"),
+      updated_at: process.env.TIKTOK_UPDATED_AT || "",
+    };
+  }
+
+  // Fall back to file (works in local dev)
   try {
     const data = await fs.readFile(TOKEN_FILE, "utf-8");
     return JSON.parse(data) as TikTokTokens;
@@ -38,9 +56,8 @@ export function isRefreshTokenExpired(tokens: TikTokTokens): boolean {
 }
 
 // TikTok API credentials
-export const TIKTOK_CLIENT_KEY = "7623599459196207105";
-export const TIKTOK_CLIENT_SECRET = "b0aff60d91a8ec3083877094a3d9e7e5d6d47183";
+export const TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY || "7623599459196207105";
+export const TIKTOK_CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET || "b0aff60d91a8ec3083877094a3d9e7e5d6d47183";
 // This must match what's registered in TikTok Developer Portal
-// Update to Vercel URL once redirect URI is updated in TikTok portal
 export const TIKTOK_REDIRECT_URI =
   process.env.TIKTOK_REDIRECT_URI || "https://masterkeyapp-5ho6.vercel.app/auth/tiktok/callback";
