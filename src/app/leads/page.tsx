@@ -113,9 +113,20 @@ export default function LeadMagnets() {
     return result;
   }, [filtered]);
 
-  // KPIs — use real GHL lead counts
+  // KPIs — use real GHL lead counts and real PostHog organic social landing page visits
   const totalViews = deduped.reduce((s, m) => s + m.views, 0);
-  const totalClicks = deduped.reduce((s, m) => s + m.estimatedClicks, 0);
+  // Real organic social landing page visits from PostHog (filtered to social UTM + Linktree)
+  const ORGANIC_SOCIAL_VISITS: Record<LeadMagnetName, number> = {
+    "Neighborhood Scorecard": 70,
+    "Buyer Guide": 8,
+    "Seller Guide": 4,
+    "Instant Valuation": 0,
+    "Property Management Guide": 0,
+    "MarketPulse": 0,
+  };
+  const totalClicks = filter === "All"
+    ? Object.values(ORGANIC_SOCIAL_VISITS).reduce((s, n) => s + n, 0)
+    : ORGANIC_SOCIAL_VISITS[filter] ?? 0;
   const realLeads = filter === "All"
     ? Object.values(GHL_REAL_LEADS).reduce((s, n) => s + n, 0)
     : GHL_REAL_LEADS[filter] ?? 0;
@@ -182,17 +193,17 @@ export default function LeadMagnets() {
 
     recs.push({
       title: "Instant Valuation Has Zero GHL Leads — Add a Tag",
-      body: "The Home Value Tool gets the most landing page traffic (42 sessions, 152 pageviews) but 0 leads are tagged in GHL. The Home Valuation Pipeline sits empty. Add a lead capture tag to start tracking conversions.",
+      body: "The Home Value Tool has 0 organic social landing page visits and 0 leads tagged in GHL. The Home Valuation Pipeline sits empty. Add social UTM links and a lead capture tag to start driving and tracking conversions.",
     });
 
     recs.push({
-      title: "All 43 Social Leads Came From Instagram",
-      body: "Despite TikTok generating 8,682 views and YouTube generating 1,629 views, neither has a single attributed lead in GHL. Set up UTM tracking for both platforms to unlock attribution.",
+      title: "YouTube Drives 83% of Organic Social Visits",
+      body: "68 of 82 organic social landing page visits came from YouTube UTM links (all to Neighborhood Scorecard). Instagram contributed 10 visits, Linktree 4. TikTok generates 8,682 views but 0 attributed visits — set up UTM tracking.",
     });
 
     recs.push({
       title: "Property Management Guide Has Hidden Potential",
-      body: "Only 1 video (26 views) but 2 GHL leads — the highest views-to-lead ratio of any lead magnet. The California Landlord Laws topic clearly resonates. Create TikTok and Instagram versions.",
+      body: "Only 1 video (84 views) but 2 GHL leads and 0 organic social visits — the leads came from non-social channels. The California Landlord Laws topic resonates. Add social UTM links and create TikTok and Instagram versions.",
     });
 
     return recs;
@@ -227,7 +238,7 @@ export default function LeadMagnets() {
           testId="kpi-lead-views"
         />
         <KPICard
-          title="Est. Landing Page Clicks"
+          title="Organic Social Visits"
           value={totalClicks.toLocaleString()}
           testId="kpi-landing-clicks"
         />
@@ -403,7 +414,7 @@ export default function LeadMagnets() {
             <div className="flex items-start gap-2 mt-3 rounded-md border border-border bg-muted/20 p-2 text-xs text-muted-foreground">
               <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
               <span>
-                Total: <strong className="text-foreground">21 leads</strong> across 6 pipelines from GHL tags. MarketPulse is the top performer (8 leads). All social-attributed leads came from Instagram. Scorecard has the highest consult rate (1 of 6 reached Consult Booked).
+                Total: <strong className="text-foreground">21 leads</strong> across 6 pipelines from GHL tags. <strong className="text-foreground">82 organic social landing page visits</strong> (68 YouTube, 10 Instagram, 4 Linktree). Scorecard dominates organic traffic (70 of 82 visits). MarketPulse leads in GHL leads (8).
               </span>
             </div>
           )}

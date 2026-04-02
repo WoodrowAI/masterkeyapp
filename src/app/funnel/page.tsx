@@ -228,7 +228,7 @@ export default function FunnelAnalysis() {
         <div className="mt-4 space-y-1 text-[11px] text-muted-foreground leading-relaxed">
           <p className="font-medium text-foreground text-xs mb-1.5">Data Sources</p>
           <p><span className="font-medium">Social Media Views</span> — Total video views from YouTube Analytics API, Instagram Graph API, and TikTok Content API</p>
-          <p><span className="font-medium">Landing Page Visits</span> — Sessions on your lead magnet landing pages tracked by PostHog, attributed by UTM params and Linktree referrers</p>
+          <p><span className="font-medium">Landing Page Visits</span> — Sessions on your lead magnet landing pages from organic social only — tracked by PostHog, filtered to Linktree referrers and social UTM parameters (excludes direct, Google, paid ads)</p>
           <p><span className="font-medium">Leads</span> — Contacts who downloaded a lead magnet, tracked via GoHighLevel form submissions and pipeline data</p>
           <p><span className="font-medium">Consult Booked</span> — Contacts who reached the &quot;Consult Booked&quot; stage in their GoHighLevel lead magnet pipeline</p>
         </div>
@@ -606,9 +606,9 @@ export default function FunnelAnalysis() {
       >
         <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0 text-amber-500" />
         <div>
-          <span className="font-medium text-foreground">43 social media leads — all from Instagram.</span>{" "}
-          TikTok and YouTube UTM tracking not yet configured. TikTok generates the most views (8,682) but 0 attributed leads.
-          Setting up UTMs for TikTok and YouTube will unlock platform-level attribution and reveal the true conversion path.
+          <span className="font-medium text-foreground">82 organic social landing page visits — YouTube drives 83%.</span>{" "}
+          68 of 82 visits came from YouTube UTM links (all to Neighborhood Scorecard). Instagram contributed 10, Linktree 4.
+          TikTok generates the most views (8,682) but 0 attributed landing page visits — UTM tracking not yet configured.
         </div>
       </div>
 
@@ -621,7 +621,7 @@ export default function FunnelAnalysis() {
         <div>
           <span className="font-medium text-foreground">Data Sources:</span>{" "}
           GoHighLevel CRM (leads, pipelines, tags) + PostHog (UTM tracking, sessions) + YouTube/Instagram/TikTok APIs (content views).
-          Instagram: 13 pageviews via UTM, 43 GHL leads. YouTube: 88 pageviews via UTM, 0 GHL leads. Facebook: 75 pageviews via referrer. TikTok: awaiting UTM setup.
+          Organic social only: YouTube UTM 68 visits, Instagram UTM 10 visits, Linktree 4 visits. TikTok: awaiting UTM setup. Non-social traffic (direct, Google, Facebook referrer) excluded from funnel.
         </div>
       </div>
     </div>
