@@ -32,7 +32,7 @@ const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/videos", label: "Video Performance", icon: PlayCircle },
   { href: "/funnel", label: "Funnel Analysis", icon: Filter },
-  { href: "/leads", label: "Lead Magnets", icon: Magnet },
+  { href: "/leads", label: "Organic Lead Magnets", icon: Magnet },
   { href: "/ads", label: "Ads", icon: Megaphone },
   { href: "/posthog", label: "PostHog", icon: BarChart3 },
   { href: "/insights", label: "AI Insights", icon: Lightbulb },
