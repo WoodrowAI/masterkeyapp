@@ -25,9 +25,10 @@ import {
 } from "recharts";
 import { KPICard } from "@/components/kpi-card";
 import { PlatformIcon } from "@/components/platform-badge";
-import { topContent, videoRetentionData } from "@/lib/mock-data";
+import { getFilteredTopContent, videoRetentionData, topContent } from "@/lib/mock-data";
 import { platforms, type PlatformKey } from "@/lib/platforms";
 import { useActivePlatforms } from "@/lib/active-platforms-context";
+import { useDateRange } from "@/lib/date-range-context";
 import { ArrowLeft, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 
 type SortKey = "title" | "views" | "avgWatchPercent" | "hookScore" | "avgViewDuration";
@@ -57,6 +58,7 @@ function computeAvgViewDuration(videoId: string, avgWatchPercent: number): strin
 export default function VideoPerformance() {
   const mounted = useMounted();
   const { activePlatforms } = useActivePlatforms();
+  const { dateRange } = useDateRange();
 
   // Mode state
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
@@ -65,10 +67,10 @@ export default function VideoPerformance() {
   const [sortKey, setSortKey] = useState<SortKey>("views");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
-  // Filter topContent to only active platforms
+  // Filter topContent by date range and active platforms
   const filteredContent = useMemo(
-    () => topContent.filter((v) => activePlatforms.includes(v.platform as PlatformKey)),
-    [activePlatforms]
+    () => getFilteredTopContent(dateRange, activePlatforms),
+    [activePlatforms, dateRange]
   );
 
   // Compute mean avgWatchPercent for relative performance

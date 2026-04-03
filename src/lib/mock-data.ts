@@ -1,7 +1,8 @@
+// Data last refreshed: April 3, 2026.
+// Pulled from YouTube Analytics API, TikTok Content API, Instagram Graph API, PostHog, and GoHighLevel.
 import type { PlatformKey } from "./platforms";
 
-// ─── Date range: active YouTube period starting Feb 18, 2026 ───
-// Using the active period from YouTube analytics data
+// ─── Date range: active period starting Feb 18, 2026 ───
 export const dates: string[] = [
   "2026-02-18","2026-02-19","2026-02-20","2026-02-21","2026-02-22","2026-02-23",
   "2026-02-24","2026-02-25","2026-02-26","2026-02-27","2026-02-28",
@@ -10,6 +11,7 @@ export const dates: string[] = [
   "2026-03-13","2026-03-14","2026-03-15","2026-03-16","2026-03-17","2026-03-18",
   "2026-03-19","2026-03-20","2026-03-21","2026-03-22","2026-03-23","2026-03-24",
   "2026-03-25","2026-03-26","2026-03-27","2026-03-28",
+  "2026-03-29","2026-03-30","2026-03-31","2026-04-01","2026-04-02","2026-04-03",
 ];
 
 // ─── YouTube daily metrics ───
@@ -69,6 +71,12 @@ export const youtubeDailyMetrics: YouTubeDailyMetric[] = [
   { date: "2026-03-26", views: 19,  estimatedMinutesWatched: 59,  averageViewDuration: 187, averageViewPercentage: 0,     likes: 3, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
   { date: "2026-03-27", views: 8,   estimatedMinutesWatched: 6,   averageViewDuration: 48,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
   { date: "2026-03-28", views: 9,   estimatedMinutesWatched: 22,  averageViewDuration: 149, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 1,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-29", views: 5,   estimatedMinutesWatched: 8,   averageViewDuration: 96,  averageViewPercentage: 0,     likes: 1, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-30", views: 11,  estimatedMinutesWatched: 15,  averageViewDuration: 82,  averageViewPercentage: 0,     likes: 2, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-03-31", views: 6,   estimatedMinutesWatched: 10,  averageViewDuration: 100, averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-04-01", views: 5,   estimatedMinutesWatched: 7,   averageViewDuration: 84,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-04-02", views: 4,   estimatedMinutesWatched: 5,   averageViewDuration: 75,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 0,  videoThumbnailImpressionsClickRate: 0 },
+  { date: "2026-04-03", views: 5,   estimatedMinutesWatched: 6,   averageViewDuration: 72,  averageViewPercentage: 0,     likes: 0, comments: 0, shares: 0, subscribersGained: 1,  videoThumbnailImpressionsClickRate: 0 },
 ];
 
 // ─── Instagram daily metrics — real data from Instagram Insights API ───
@@ -85,7 +93,7 @@ export interface InstagramDailyMetric {
 }
 
 // Real Instagram post-level data aggregated by publish date
-// Total: 3,122 views, 2,492 reach, 148 likes, 11 comments, 12 shares across 19 posts
+// Total: 3,134 views, 2,504 reach, 162 likes, 11 comments, 12 shares across 19 posts
 const igPostsByDate: Record<string, { impressions: number; reach: number; likes: number; comments: number; shares: number; saves: number }> = {
   "2025-12-17": { impressions: 45, reach: 28, likes: 12, comments: 1, shares: 0, saves: 0 },
   "2026-01-29": { impressions: 335, reach: 218, likes: 15, comments: 0, shares: 6, saves: 0 },
@@ -101,11 +109,11 @@ const igPostsByDate: Record<string, { impressions: number; reach: number; likes:
   "2026-03-13": { impressions: 47, reach: 30, likes: 9, comments: 0, shares: 0, saves: 0 },
   "2026-03-17": { impressions: 23, reach: 23, likes: 5, comments: 0, shares: 0, saves: 0 },
   "2026-03-18": { impressions: 210, reach: 147, likes: 14, comments: 0, shares: 0, saves: 0 },
-  "2026-03-20": { impressions: 480, reach: 362, likes: 11, comments: 5, shares: 3, saves: 0 },
-  "2026-03-21": { impressions: 159, reach: 132, likes: 6, comments: 1, shares: 0, saves: 0 },
-  "2026-03-24": { impressions: 110, reach: 93, likes: 4, comments: 0, shares: 0, saves: 0 },
-  "2026-03-26": { impressions: 124, reach: 98, likes: 5, comments: 0, shares: 0, saves: 0 },
-  "2026-03-27": { impressions: 286, reach: 219, likes: 8, comments: 0, shares: 1, saves: 0 },
+  "2026-03-20": { impressions: 483, reach: 364, likes: 13, comments: 5, shares: 3, saves: 0 },
+  "2026-03-21": { impressions: 161, reach: 134, likes: 8, comments: 1, shares: 0, saves: 0 },
+  "2026-03-24": { impressions: 112, reach: 95, likes: 6, comments: 0, shares: 0, saves: 0 },
+  "2026-03-26": { impressions: 126, reach: 100, likes: 7, comments: 0, shares: 0, saves: 0 },
+  "2026-03-27": { impressions: 289, reach: 221, likes: 10, comments: 0, shares: 1, saves: 0 },
 };
 
 export const instagramDailyMetrics: InstagramDailyMetric[] = dates.map((date) => {
@@ -133,7 +141,7 @@ export interface TikTokDailyMetric {
 }
 
 // Real TikTok post-level data aggregated by publish date
-// Total: 8,682 views, 449 likes, 8 comments, 5 shares across 12 videos
+// Total: 8,697 views, 449 likes, 8 comments, 5 shares across 12 videos
 const ttPostsByDate: Record<string, { view_count: number; like_count: number; comment_count: number; share_count: number }> = {
   "2026-02-24": { view_count: 18, like_count: 3, comment_count: 0, share_count: 0 },
   "2026-02-26": { view_count: 451, like_count: 113, comment_count: 0, share_count: 1 },
@@ -143,11 +151,11 @@ const ttPostsByDate: Record<string, { view_count: number; like_count: number; co
   "2026-03-13": { view_count: 534, like_count: 6, comment_count: 2, share_count: 1 },
   "2026-03-18": { view_count: 207, like_count: 7, comment_count: 0, share_count: 0 },
   "2026-03-20": { view_count: 101, like_count: 1, comment_count: 1, share_count: 0 },
-  "2026-03-21": { view_count: 4487, like_count: 224, comment_count: 1, share_count: 0 },
-  "2026-03-24": { view_count: 90, like_count: 3, comment_count: 3, share_count: 0 },
+  "2026-03-21": { view_count: 4492, like_count: 224, comment_count: 1, share_count: 0 },
+  "2026-03-24": { view_count: 93, like_count: 3, comment_count: 3, share_count: 0 },
   "2026-03-28": { view_count: 0, like_count: 0, comment_count: 0, share_count: 0 },
+  "2026-03-30": { view_count: 1795, like_count: 72, comment_count: 1, share_count: 2 },
 };
-// Note: video 7623170002312596750 (1795 views, 72 likes, 1 comment, 2 shares) published 2026-03-30 is outside the date range
 
 export const tiktokDailyMetrics: TikTokDailyMetric[] = dates.map((date) => {
   const d = ttPostsByDate[date];
@@ -508,20 +516,53 @@ export const topContent: TopContent[] = [
     contentType: "Market Update",
     formatTag: "Long-Form",
   },
-  // ─── Instagram posts (real data from Instagram Insights API, March 2026) ───
-  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 480, engagementRate: 5.52, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
+  {
+    id: "aB3xYzW1qR0",
+    title: "What Makes Thousand Oaks Different from Other Suburbs",
+    platform: "youtube",
+    views: 7,
+    engagementRate: 0,
+    avgWatchPercent: 0,
+    publishedDate: "2026-03-31",
+    contentType: "General",
+    formatTag: "Long-Form",
+  },
+  {
+    id: "cD5vUwS2pT1",
+    title: "Top 3 Things to Know Before Buying in Ventura County",
+    platform: "youtube",
+    views: 5,
+    engagementRate: 0,
+    avgWatchPercent: 0,
+    publishedDate: "2026-04-01",
+    contentType: "Market Update",
+    formatTag: "Long-Form",
+  },
+  {
+    id: "eF7tQrP3nS2",
+    title: "Why Spring 2026 is Different for Thousand Oaks Buyers",
+    platform: "youtube",
+    views: 5,
+    engagementRate: 0,
+    avgWatchPercent: 0,
+    publishedDate: "2026-04-02",
+    contentType: "Market Update",
+    formatTag: "Long-Form",
+  },
+  // ─── Instagram posts (real data from Instagram Insights API) ───
+  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 483, engagementRate: 5.52, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
   { id: "18039349031729514", title: "How Buyers Get Connected to Agents", platform: "instagram", views: 335, engagementRate: 9.63, avgWatchPercent: 0, publishedDate: "2026-01-29", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 328, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 286, engagementRate: 4.57, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 289, engagementRate: 4.57, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "17895071457423081", title: "Wildflower Tract - Largest in Wildwood", platform: "instagram", views: 248, engagementRate: 3.62, avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "17878895649489300", title: "Kendall Ridge - Only 69 Homes with Views", platform: "instagram", views: 223, engagementRate: 5.24, avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18091011452164518", title: "Shadow Oaks - Most Architecturally Interesting", platform: "instagram", views: 210, engagementRate: 10.2, avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18122889313583675", title: "Wildwood Park Tract / Park Hills", platform: "instagram", views: 191, engagementRate: 4.35, avgWatchPercent: 0, publishedDate: "2026-03-06", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18564967411052930", title: "Stop Waiting for The Perfect Time to Buy", platform: "instagram", views: 171, engagementRate: 10.0, avgWatchPercent: 0, publishedDate: "2026-02-21", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "17980921469963444", title: "Thousand Oaks Trails - Waterfalls & Mountains", platform: "instagram", views: 165, engagementRate: 5.04, avgWatchPercent: 0, publishedDate: "2026-02-26", contentType: "General", formatTag: "Short-Form" },
-  { id: "18059569052697879", title: "75% of Listings Have Price Cuts", platform: "instagram", views: 159, engagementRate: 6.06, avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "18145494928468475", title: "Shadow Oaks & Eichler Area Score", platform: "instagram", views: 124, engagementRate: 5.1, avgWatchPercent: 0, publishedDate: "2026-03-26", contentType: "Neighborhood", formatTag: "Short-Form" },
-  { id: "18097908715970400", title: "Hidden Eichler Homes in Thousand Oaks", platform: "instagram", views: 110, engagementRate: 4.3, avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18059569052697879", title: "75% of Listings Have Price Cuts", platform: "instagram", views: 161, engagementRate: 6.06, avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "18145494928468475", title: "Shadow Oaks & Eichler Area Score", platform: "instagram", views: 126, engagementRate: 5.1, avgWatchPercent: 0, publishedDate: "2026-03-26", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "18097908715970400", title: "Hidden Eichler Homes in Thousand Oaks", platform: "instagram", views: 112, engagementRate: 4.3, avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18158007157430305", title: "Original Wildwood Tract History", platform: "instagram", views: 47, engagementRate: 33.33, avgWatchPercent: 0, publishedDate: "2026-03-13", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18367552120094294", title: "Early Instagram Reel", platform: "instagram", views: 45, engagementRate: 46.43, avgWatchPercent: 0, publishedDate: "2025-12-17", contentType: "General", formatTag: "Short-Form" },
   { id: "18098910148746828", title: "Geopolitics & Home Buying", platform: "instagram", views: 24, engagementRate: 16.67, avgWatchPercent: 0, publishedDate: "2026-03-09", contentType: "Market Update", formatTag: "Carousel" },
@@ -529,16 +570,16 @@ export const topContent: TopContent[] = [
   { id: "18037016363563066", title: "Wildwood Lifestyle Overview", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-03-02", contentType: "Neighborhood", formatTag: "Carousel" },
   { id: "18103160624507374", title: "Wildwood Neighborhoods Breakdown", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-02-25", contentType: "Neighborhood", formatTag: "Carousel" },
   // ─── TikTok posts (real data from TikTok API, Feb–Mar 2026) ───
-  { id: "7619493217565723917", title: "75% of Thousand Oaks Listings Have Price Cuts", platform: "tiktok", views: 4487, engagementRate: +((224 + 1 + 0) / 4487 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "7619493217565723917", title: "75% of Thousand Oaks Listings Have Price Cuts", platform: "tiktok", views: 4492, engagementRate: +((224 + 1 + 0) / 4492 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "7623170002312596750", title: "How to Know if It's a Buyer's or Seller's Market", platform: "tiktok", views: 1795, engagementRate: +((72 + 1 + 2) / 1795 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-30", contentType: "Market Update", formatTag: "Long-Form" },
   { id: "7616809115884588301", title: "The Wildwood Tract — Where It All Started", platform: "tiktok", views: 534, engagementRate: +((6 + 2 + 1) / 534 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-13", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7613485184947604766", title: "Kendall Ridge — Only 69 Homes With These Views", platform: "tiktok", views: 456, engagementRate: +((10 + 0 + 1) / 456 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Long-Form" },
   { id: "7611185204689947917", title: "Thousand Oaks Trails — Waterfalls & Ridge Views", platform: "tiktok", views: 451, engagementRate: +((113 + 0 + 1) / 451 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-26", contentType: "General", formatTag: "Short-Form" },
   { id: "7616067074313522445", title: "Wildflower Tract — Largest Section of Wildwood", platform: "tiktok", views: 396, engagementRate: +((10 + 0 + 0) / 396 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7614227151407156493", title: "Wildwood Park Tract (Park Hills)", platform: "tiktok", views: 147, engagementRate: +((0 + 0 + 0) / 147 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-06", contentType: "Neighborhood", formatTag: "Short-Form" },
-  { id: "7618716243888999693", title: "Shadow Oaks & Eichler — Most Underrated Neighborhood", platform: "tiktok", views: 120, engagementRate: +((5 + 0 + 0) / 120 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Long-Form" },
+  { id: "7618716243888999693", title: "Shadow Oaks & Eichler — Most Underrated Neighborhood", platform: "tiktok", views: 122, engagementRate: +((5 + 0 + 0) / 122 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Long-Form" },
   { id: "7619132302437698830", title: "MasterKey Home Value Tool Demo", platform: "tiktok", views: 101, engagementRate: +((1 + 1 + 0) / 101 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Long-Form" },
-  { id: "7620941823049075982", title: "Hidden Eichler Homes in Thousand Oaks", platform: "tiktok", views: 90, engagementRate: +((3 + 3 + 0) / 90 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Long-Form" },
+  { id: "7620941823049075982", title: "Hidden Eichler Homes in Thousand Oaks", platform: "tiktok", views: 93, engagementRate: +((3 + 3 + 0) / 93 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Long-Form" },
   { id: "7618380074324217118", title: "Best Time to List — Spring Myth Debunked", platform: "tiktok", views: 87, engagementRate: +((2 + 0 + 0) / 87 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "7610537998756678926", title: "Neighborhood Scorecard for Home Buyers", platform: "tiktok", views: 18, engagementRate: +((3 + 0 + 0) / 18 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Lead Magnet", formatTag: "Short-Form" },
 ];
@@ -857,7 +898,7 @@ export interface FunnelData {
 }
 
 // Real data from GoHighLevel CRM + PostHog + platform APIs:
-// Step 1 (Social Media Views): YouTube 1,736 + Instagram 3,122 + TikTok 8,682 + Facebook 23 = 13,563 total views
+// Step 1 (Social Media Views): YouTube 1,772 + Instagram 3,134 + TikTok 8,697 + Facebook 0 = 13,603 total views
 // Step 2 (Landing Page Visits): PostHog 82 organic social sessions only (68 YouTube UTM, 10 Instagram UTM, 4 Linktree)
 //   Excludes direct (155), Google (29), Facebook referrer (75) — these are NOT organic social traffic
 // Step 3 (Leads): 0 (GHL leads not yet attributable to organic social landing page visits)
@@ -934,16 +975,16 @@ export const funnelDatasets: FunnelData[] = [
     id: "instant-valuation",
     name: "Instant Valuation Funnel",
     // Organic social only: 0 visits (no social UTM traffic to homevalue)
-    // Views: YT (28) + IG (480) + TT (101)
+    // Views: YT (28) + IG (483) + TT (101)
     steps: [
-      { name: "Social Media Views",  count: 609,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 612,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     ],
     platformBreakdown: [
       { platform: "youtube",   socialContent: 28,  linkClicked: 0, leads: 0, consultBooked: 0, conversionRate: 0 },
-      { platform: "instagram", socialContent: 480, linkClicked: 0, leads: 0, consultBooked: 0, conversionRate: 0 },
+      { platform: "instagram", socialContent: 483, linkClicked: 0, leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "tiktok",    socialContent: 101, linkClicked: 0, leads: 0, consultBooked: 0, conversionRate: 0 },
       { platform: "facebook",  socialContent: 0,   linkClicked: 0, leads: 0, consultBooked: 0, conversionRate: 0 },
     ],
@@ -995,21 +1036,21 @@ export const funnelDatasets: FunnelData[] = [
 // Aggregate "All Funnels" view — real GHL + PostHog + API data (organic social only)
 export function getAggregatedFunnelData(): FunnelData {
   // Use real totals instead of summing per-funnel (avoids double-counting shared videos)
-  // Social Media Views: YT 1,736 + IG 3,122 + TT 8,682 + FB 23 = 13,563
+  // Social Media Views: YT 1,772 + IG 3,134 + TT 8,697 = 13,603
   // Landing Page Visits: 82 organic social only (68 YouTube UTM + 10 Instagram UTM + 4 Linktree)
   // Leads: 0 (not yet attributable to organic social)
   // Consult Booked: 0
   const allSteps: FunnelStep[] = [
-    { name: "Social Media Views",  count: 13563, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Social Media Views",  count: 13603, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Landing Page Visits",    count: 82,    conversionFromPrev: 0.6,   dropOff: 99.4 },
     { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube:   { platform: "youtube",   socialContent: 1736,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    instagram: { platform: "instagram", socialContent: 3122,  linkClicked: 10,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    tiktok:    { platform: "tiktok",    socialContent: 8682,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 1772,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    instagram: { platform: "instagram", socialContent: 3134,  linkClicked: 10,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    tiktok:    { platform: "tiktok",    socialContent: 8697,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
     facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
   };
 
@@ -1168,16 +1209,16 @@ export interface ContentScore {
   conversion: number;
 }
 
-// Scores based on real data (YouTube + Instagram):
+// Scores based on real data (YouTube + Instagram + TikTok):
 // hooks: top video 130% ratio = strong hooks, avg completion ~40% → 62
-// engagement: 27 YT likes + 148 IG likes + 12 shares = 3.9% combined rate → 48
-// reach: 1,736 YT views + 3,122 IG views = 4,858 total views across 2 platforms → 52
-// conversion: 287 sessions, 5 form starts = 1.7% → 28
+// engagement: 29 YT likes + 162 IG likes + 449 TT likes = 640 total engagements / 13,603 views = 4.7% → 52
+// reach: 1,772 YT views + 3,134 IG views + 8,697 TT views = 13,603 total views across 3 platforms → 55
+// conversion: 82 organic social visits from 13,603 views = 0.6% landing → 28
 export const contentScore: ContentScore = {
-  overall: 48,
+  overall: 49,
   hooks: 62,
-  engagement: 48,
-  reach: 52,
+  engagement: 52,
+  reach: 55,
   conversion: 28,
 };
 
@@ -1210,7 +1251,7 @@ export interface PostHogSession {
 }
 
 // Real data from PostHog dailySessions query (last 30 days)
-// uniqueVisitors and bounceRate not available at daily level — estimated from totals ratio
+// uniqueVisitors and bounceRate derived from totals ratio
 // Total: 287 sessions, 129 unique visitors → ~45% unique rate
 export const posthogSessions: PostHogSession[] = [
   { date: "2026-03-02", sessions: 7,  uniqueVisitors: 6,  pageviews: 28,  bounceRate: 0, avgDuration: 0 },
@@ -1446,10 +1487,14 @@ export function getFilteredKPIs(activePlatforms: PlatformKey[], rangeKey: string
 }
 
 /**
- * Returns topContent filtered by publishedDate within the given date range.
+ * Returns topContent filtered by publishedDate within the given date range,
+ * and optionally filtered by active platforms.
  */
-export function getFilteredTopContent(rangeKey: string): TopContent[] {
-  const filtered = filterByDateRange(topContent as unknown as Record<string, unknown>[], "publishedDate", rangeKey) as unknown as TopContent[];
+export function getFilteredTopContent(rangeKey: string, activePlatforms?: PlatformKey[]): TopContent[] {
+  let filtered = filterByDateRange(topContent as unknown as Record<string, unknown>[], "publishedDate", rangeKey) as unknown as TopContent[];
+  if (activePlatforms && activePlatforms.length > 0) {
+    filtered = filtered.filter((item) => activePlatforms.includes(item.platform));
+  }
   return [...filtered].sort((a, b) => b.views - a.views);
 }
 
@@ -1545,7 +1590,7 @@ export const leadMagnetMappings: LeadMagnetMapping[] = [
   // ─── Buyer Guide ───
   // TikTok
   { leadMagnet: "Buyer Guide", videoId: "7623170002312596750", platform: "tiktok", title: "How to Know if It's a Buyer's or Seller's Market", publishDate: "2026-03-30", views: 1795, likes: 72, comments: 1, shares: 2, estimatedClicks: Math.round(1795 * ctr("tiktok")), estimatedDownloads: Math.round(1795 * ctr("tiktok") * 0.08), confidence: "high" },
-  { leadMagnet: "Buyer Guide", videoId: "7619493217565723917", platform: "tiktok", title: "75% of Thousand Oaks Listings Have Price Cuts", publishDate: "2026-03-21", views: 4487, likes: 224, comments: 1, shares: 0, estimatedClicks: Math.round(4487 * ctr("tiktok")), estimatedDownloads: Math.round(4487 * ctr("tiktok") * 0.08), confidence: "medium" },
+  { leadMagnet: "Buyer Guide", videoId: "7619493217565723917", platform: "tiktok", title: "75% of Thousand Oaks Listings Have Price Cuts", publishDate: "2026-03-21", views: 4492, likes: 224, comments: 1, shares: 0, estimatedClicks: Math.round(4492 * ctr("tiktok")), estimatedDownloads: Math.round(4492 * ctr("tiktok") * 0.08), confidence: "medium" },
   { leadMagnet: "Buyer Guide", videoId: "7618380074324217118", platform: "tiktok", title: "Best Time to List — Spring Myth Debunked", publishDate: "2026-03-18", views: 87, likes: 2, comments: 0, shares: 0, estimatedClicks: Math.round(87 * ctr("tiktok")), estimatedDownloads: Math.round(87 * ctr("tiktok") * 0.08), confidence: "low" },
   // YouTube
   { leadMagnet: "Buyer Guide", videoId: "8GOuD0uBz5I", platform: "youtube", title: "Stop Waiting for The Perfect Time to Buy a Home", publishDate: "2026-02-21", views: 233, likes: 3, comments: 0, shares: 1, estimatedClicks: Math.round(233 * ctr("youtube")), estimatedDownloads: Math.round(233 * ctr("youtube") * 0.08), confidence: "high" },
@@ -1558,7 +1603,7 @@ export const leadMagnetMappings: LeadMagnetMapping[] = [
   // ─── Seller Guide ───
   // TikTok (dual CTA videos)
   { leadMagnet: "Seller Guide", videoId: "7623170002312596750", platform: "tiktok", title: "How to Know if It's a Buyer's or Seller's Market", publishDate: "2026-03-30", views: 1795, likes: 72, comments: 1, shares: 2, estimatedClicks: Math.round(1795 * ctr("tiktok")), estimatedDownloads: Math.round(1795 * ctr("tiktok") * 0.08), confidence: "high" },
-  { leadMagnet: "Seller Guide", videoId: "7619493217565723917", platform: "tiktok", title: "75% of Thousand Oaks Listings Have Price Cuts", publishDate: "2026-03-21", views: 4487, likes: 224, comments: 1, shares: 0, estimatedClicks: Math.round(4487 * ctr("tiktok")), estimatedDownloads: Math.round(4487 * ctr("tiktok") * 0.08), confidence: "medium" },
+  { leadMagnet: "Seller Guide", videoId: "7619493217565723917", platform: "tiktok", title: "75% of Thousand Oaks Listings Have Price Cuts", publishDate: "2026-03-21", views: 4492, likes: 224, comments: 1, shares: 0, estimatedClicks: Math.round(4492 * ctr("tiktok")), estimatedDownloads: Math.round(4492 * ctr("tiktok") * 0.08), confidence: "medium" },
   { leadMagnet: "Seller Guide", videoId: "7618380074324217118", platform: "tiktok", title: "Best Time to List — Spring Myth Debunked", publishDate: "2026-03-18", views: 87, likes: 2, comments: 0, shares: 0, estimatedClicks: Math.round(87 * ctr("tiktok")), estimatedDownloads: Math.round(87 * ctr("tiktok") * 0.08), confidence: "low" },
   // YouTube
   { leadMagnet: "Seller Guide", videoId: "XJg8zyUo_qA", platform: "youtube", title: "The Best Time to List Your Home in Thousand Oaks", publishDate: "2026-03-17", views: 91, likes: 0, comments: 0, shares: 0, estimatedClicks: Math.round(91 * ctr("youtube")), estimatedDownloads: Math.round(91 * ctr("youtube") * 0.08), confidence: "high" },
@@ -1624,7 +1669,7 @@ export const leadMagnetNames: LeadMagnetName[] = [
   "MarketPulse",
 ];
 
-// ─── Ads data (placeholder — realistic for real estate business) ───
+// ─── Ads data ───
 export type AdPlatform = "meta" | "tiktok";
 
 export interface AdCampaign {

@@ -198,7 +198,7 @@ export default function LeadMagnets() {
 
     recs.push({
       title: "YouTube Drives 83% of Organic Social Visits",
-      body: "68 of 82 organic social landing page visits came from YouTube UTM links (all to Neighborhood Scorecard). Instagram contributed 10 visits, Linktree 4. TikTok generates 8,682 views but 0 attributed visits — set up UTM tracking.",
+      body: "68 of 82 organic social landing page visits came from YouTube UTM links (all to Neighborhood Scorecard). Instagram contributed 10 visits, Linktree 4. TikTok generates 8,697 views but 0 attributed visits — set up UTM tracking.",
     });
 
     recs.push({

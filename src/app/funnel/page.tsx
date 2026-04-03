@@ -608,7 +608,7 @@ export default function FunnelAnalysis() {
         <div>
           <span className="font-medium text-foreground">82 organic social landing page visits — YouTube drives 83%.</span>{" "}
           68 of 82 visits came from YouTube UTM links (all to Neighborhood Scorecard). Instagram contributed 10, Linktree 4.
-          TikTok generates the most views (8,682) but 0 attributed landing page visits — UTM tracking not yet configured.
+          TikTok generates the most views (8,697) but 0 attributed landing page visits — UTM tracking not yet configured.
         </div>
       </div>
 
