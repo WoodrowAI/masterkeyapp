@@ -92,7 +92,7 @@ export default function Dashboard() {
     [activePlatforms, dateRange]
   );
 
-  const filteredTopContent = useMemo(() => getFilteredTopContent(dateRange), [dateRange]);
+  const filteredTopContent = useMemo(() => getFilteredTopContent(dateRange, activePlatforms), [dateRange, activePlatforms]);
 
   return (
     <div className="space-y-6" data-testid="dashboard-page">

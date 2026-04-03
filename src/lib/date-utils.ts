@@ -1,6 +1,6 @@
 // ─── Date range utilities ───
-// Today is treated as Mar 31, 2026 (current date for this project)
-const TODAY = new Date("2026-03-31T23:59:59.999Z");
+// Today is treated as Apr 3, 2026 (current date for this project)
+const TODAY = new Date("2026-04-03T23:59:59.999Z");
 
 export function getDateRange(rangeKey: string): { start: Date; end: Date } {
   const end = new Date(TODAY);
