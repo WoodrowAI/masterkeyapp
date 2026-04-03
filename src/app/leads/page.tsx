@@ -44,13 +44,14 @@ import {
 import type { PlatformKey } from "@/lib/platforms";
 
 // Real GHL lead counts by lead magnet (from GoHighLevel CRM tags)
+// Data refreshed: April 3, 2026 — all lead magnet pipeline stages are empty
 const GHL_REAL_LEADS: Record<LeadMagnetName, number> = {
-  "Buyer Guide": 2,              // buyguide-lead tag
-  "Seller Guide": 3,             // newsletter-seller tag (proxy)
-  "Instant Valuation": 0,        // no GHL tag yet
-  "Neighborhood Scorecard": 6,   // lm-scorecard-requested tag
-  "Property Management Guide": 2, // newsletter-landlord tag
-  "MarketPulse": 8,              // market-updates-optin tag
+  "Buyer Guide": 0,
+  "Seller Guide": 0,
+  "Instant Valuation": 0,
+  "Neighborhood Scorecard": 0,
+  "Property Management Guide": 0,
+  "MarketPulse": 0,
 };
 
 type FilterKey = "All" | LeadMagnetName;
@@ -177,33 +178,33 @@ export default function LeadMagnets() {
     return [...deduped].sort((a, b) => b.views - a.views);
   }, [deduped]);
 
-  // Recommendations — based on real GHL data
+  // Recommendations — based on real data (all GHL lead magnet pipelines currently empty)
   const recommendations = useMemo(() => {
     const recs: { title: string; body: string }[] = [];
 
     recs.push({
-      title: "MarketPulse Is Your Top Lead Magnet by Volume",
-      body: "8 leads from market-updates-optin — 4 in Downloaded, 3 in Nurture, 1 at Consult Booked. The market updates content clearly resonates. Create more platform-specific market update content to feed this pipeline.",
-    });
-
-    recs.push({
-      title: "Neighborhood Scorecard Has Best Pipeline Progression",
-      body: "6 leads with 1 reaching Consult Booked (Todd Shillington went through the full funnel). The Scorecard has a 100% delivery rate and leads directly to the buyer pipeline. Double down on Scorecard-promoting content.",
-    });
-
-    recs.push({
-      title: "Instant Valuation Has Zero GHL Leads — Add a Tag",
-      body: "The Home Value Tool has 0 organic social landing page visits and 0 leads tagged in GHL. The Home Valuation Pipeline sits empty. Add social UTM links and a lead capture tag to start driving and tracking conversions.",
+      title: "All Lead Magnet Pipelines Are Empty — Focus on Capture",
+      body: "0 leads across all 6 lead magnet pipelines in GHL. The 43 social media contacts in GHL exist but none have lead magnet tags. Ensure GHL automations are tagging contacts when they submit lead magnet forms.",
     });
 
     recs.push({
       title: "YouTube Drives 83% of Organic Social Visits",
-      body: "68 of 82 organic social landing page visits came from YouTube UTM links (all to Neighborhood Scorecard). Instagram contributed 10 visits, Linktree 4. TikTok generates 8,682 views but 0 attributed visits — set up UTM tracking.",
+      body: "68 of 82 organic social landing page visits came from YouTube UTM links (all to Neighborhood Scorecard). Instagram contributed 10 visits, Linktree 4. TikTok generates 8,697 views but 0 attributed visits — set up UTM tracking.",
     });
 
     recs.push({
-      title: "Property Management Guide Has Hidden Potential",
-      body: "Only 1 video (84 views) but 2 GHL leads and 0 organic social visits — the leads came from non-social channels. The California Landlord Laws topic resonates. Add social UTM links and create TikTok and Instagram versions.",
+      title: "Neighborhood Scorecard Dominates Organic Traffic",
+      body: "70 of 82 organic social visits (85%) go to the Neighborhood Scorecard landing page. The Wildwood content series is clearly driving traffic. Ensure the scorecard form connects to GHL and tags contacts properly.",
+    });
+
+    recs.push({
+      title: "Property Management Guide Has Zero Social Traffic",
+      body: "Only 1 video (81 views) promoting PM Guide and 0 organic social visits. The California Landlord Laws topic has engagement potential. Add social UTM links and create TikTok and Instagram versions.",
+    });
+
+    recs.push({
+      title: "MarketPulse and Home Valuation Need Social UTM Links",
+      body: "Both MarketPulse and Instant Valuation have 0 organic social landing page visits despite video content promoting them. Add UTM-tagged links in video descriptions and bio to start tracking the funnel.",
     });
 
     return recs;
@@ -414,7 +415,7 @@ export default function LeadMagnets() {
             <div className="flex items-start gap-2 mt-3 rounded-md border border-border bg-muted/20 p-2 text-xs text-muted-foreground">
               <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
               <span>
-                Total: <strong className="text-foreground">21 leads</strong> across 6 pipelines from GHL tags. <strong className="text-foreground">82 organic social landing page visits</strong> (68 YouTube, 10 Instagram, 4 Linktree). Scorecard dominates organic traffic (70 of 82 visits). MarketPulse leads in GHL leads (8).
+                Total: <strong className="text-foreground">0 leads</strong> across 6 pipelines — all lead magnet pipelines are currently empty in GHL. <strong className="text-foreground">82 organic social landing page visits</strong> (68 YouTube, 10 Instagram, 4 Linktree). Scorecard dominates organic traffic (70 of 82 visits).
               </span>
             </div>
           )}
