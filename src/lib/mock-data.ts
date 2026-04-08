@@ -1,4 +1,4 @@
-// Data last refreshed: April 3, 2026.
+// Data last refreshed: April 8, 2026.
 // Pulled from YouTube Analytics API, TikTok Content API, Instagram Graph API, PostHog, and GoHighLevel.
 import type { PlatformKey } from "./platforms";
 
@@ -349,7 +349,7 @@ export const topContent: TopContent[] = [
     id: "zLzcfWmtFxM",
     title: "This Thousand Oaks Neighborhood has Waterfalls Within Walking Distance",
     platform: "youtube",
-    views: 376,
+    views: 378,
     engagementRate: +((6 + 0 + 1) / 376 * 100).toFixed(2),
     avgWatchPercent: 59.17,
     publishedDate: "2026-02-26",
@@ -360,7 +360,7 @@ export const topContent: TopContent[] = [
     id: "zOdjiJH33VE",
     title: "Thousand Oaks Neighborhoods - Original Wildwood Tract",
     platform: "youtube",
-    views: 294,
+    views: 298,
     engagementRate: +((5 + 0 + 0) / 294 * 100).toFixed(2),
     avgWatchPercent: 40.9,
     publishedDate: "2026-03-13",
@@ -382,7 +382,7 @@ export const topContent: TopContent[] = [
     id: "ehGSxHMgWJ4",
     title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
     platform: "youtube",
-    views: 106,
+    views: 109,
     engagementRate: +((5 + 0 + 0) / 106 * 100).toFixed(2),
     avgWatchPercent: 21.9,
     publishedDate: "2026-03-06",
@@ -404,7 +404,7 @@ export const topContent: TopContent[] = [
     id: "XJg8zyUo_qA",
     title: "The Best Time to List Your Home in Thousand Oaks",
     platform: "youtube",
-    views: 91,
+    views: 92,
     engagementRate: +((0 + 0 + 0) / 91 * 100).toFixed(2),
     avgWatchPercent: 7.08,
     publishedDate: "2026-03-17",
@@ -426,7 +426,7 @@ export const topContent: TopContent[] = [
     id: "h0hKN-VpBns",
     title: "Living in Thousand Oaks - Wildwood",
     platform: "youtube",
-    views: 77,
+    views: 79,
     engagementRate: +((3 + 0 + 1) / 77 * 100).toFixed(2),
     avgWatchPercent: 10.45,
     publishedDate: "2026-02-18",
@@ -437,7 +437,7 @@ export const topContent: TopContent[] = [
     id: "CNrOek_2nIw",
     title: "Thousand Oaks Neighborhoods - Wildwood's Largest Tract (Wildflower)",
     platform: "youtube",
-    views: 70,
+    views: 71,
     engagementRate: +((0 + 0 + 0) / 70 * 100).toFixed(2),
     avgWatchPercent: 45.25,
     publishedDate: "2026-03-11",
@@ -481,7 +481,7 @@ export const topContent: TopContent[] = [
     id: "eWhT6g-VEt0",
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     platform: "youtube",
-    views: 81,
+    views: 95,
     engagementRate: +((4 + 0 + 2) / 81 * 100).toFixed(2),
     avgWatchPercent: 26.46,
     publishedDate: "2026-03-26",
@@ -492,7 +492,7 @@ export const topContent: TopContent[] = [
     id: "57dW51ak-Vo",
     title: "This Might Be The Most Underrated Neighborhood in Thousand Oaks",
     platform: "youtube",
-    views: 12,
+    views: 13,
     engagementRate: 0,
     avgWatchPercent: 64.68,
     publishedDate: "2026-03-24",
@@ -503,7 +503,7 @@ export const topContent: TopContent[] = [
     id: "nkBf3uUmmOQ",
     title: "Here's How to Actually Know if it's a Buyer's or Seller's Market",
     platform: "youtube",
-    views: 101,
+    views: 102,
     engagementRate: +((1 + 0 + 0) / 101 * 100).toFixed(2),
     avgWatchPercent: 20.83,
     publishedDate: "2026-03-30",
@@ -511,11 +511,11 @@ export const topContent: TopContent[] = [
     formatTag: "Long-Form",
   },
   // ─── Instagram posts (real data from Instagram Insights API, March 2026) ───
-  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 482, engagementRate: 3.94, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
-  { id: "18039349031729514", title: "How Buyers Get Connected to Agents", platform: "instagram", views: 335, engagementRate: 9.63, avgWatchPercent: 0, publishedDate: "2026-01-29", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 328, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 287, engagementRate: 3.48, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "17895071457423081", title: "Wildflower Tract - Largest in Wildwood", platform: "instagram", views: 249, engagementRate: 3.61, avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 494, engagementRate: 3.94, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
+  { id: "18039349031729514", title: "How Buyers Get Connected to Agents", platform: "instagram", views: 338, engagementRate: 9.63, avgWatchPercent: 0, publishedDate: "2026-01-29", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 331, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 298, engagementRate: 3.48, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17895071457423081", title: "Wildflower Tract - Largest in Wildwood", platform: "instagram", views: 251, engagementRate: 3.61, avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "17878895649489300", title: "Kendall Ridge - Only 69 Homes with Views", platform: "instagram", views: 223, engagementRate: 4.48, avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18091011452164518", title: "Shadow Oaks - Most Architecturally Interesting", platform: "instagram", views: 212, engagementRate: 7.08, avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18122889313583675", title: "Wildwood Park Tract / Park Hills", platform: "instagram", views: 192, engagementRate: 4.17, avgWatchPercent: 0, publishedDate: "2026-03-06", contentType: "Neighborhood", formatTag: "Short-Form" },
@@ -531,16 +531,16 @@ export const topContent: TopContent[] = [
   { id: "18037016363563066", title: "Wildwood Lifestyle Overview", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-03-02", contentType: "Neighborhood", formatTag: "Carousel" },
   { id: "18103160624507374", title: "Wildwood Neighborhoods Breakdown", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-02-25", contentType: "Neighborhood", formatTag: "Carousel" },
   // ─── TikTok posts (real data from TikTok API, Feb–Mar 2026) ───
-  { id: "7619493217565723917", title: "75% of Thousand Oaks Listings Have Price Cuts", platform: "tiktok", views: 4497, engagementRate: +((224 + 1 + 0) / 4497 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "7623170002312596750", title: "How to Know if It's a Buyer's or Seller's Market", platform: "tiktok", views: 1797, engagementRate: +((72 + 1 + 2) / 1797 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-30", contentType: "Market Update", formatTag: "Long-Form" },
-  { id: "7616809115884588301", title: "The Wildwood Tract — Where It All Started", platform: "tiktok", views: 534, engagementRate: +((6 + 2 + 1) / 534 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-13", contentType: "Neighborhood", formatTag: "Short-Form" },
+  { id: "7619493217565723917", title: "75% of Thousand Oaks Listings Have Price Cuts", platform: "tiktok", views: 4499, engagementRate: +((224 + 1 + 0) / 4497 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "7623170002312596750", title: "How to Know if It's a Buyer's or Seller's Market", platform: "tiktok", views: 1801, engagementRate: +((72 + 1 + 2) / 1797 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-30", contentType: "Market Update", formatTag: "Long-Form" },
+  { id: "7616809115884588301", title: "The Wildwood Tract — Where It All Started", platform: "tiktok", views: 535, engagementRate: +((6 + 2 + 1) / 534 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-13", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7613485184947604766", title: "Kendall Ridge — Only 69 Homes With These Views", platform: "tiktok", views: 456, engagementRate: +((10 + 0 + 1) / 456 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Long-Form" },
-  { id: "7611185204689947917", title: "Thousand Oaks Trails — Waterfalls & Ridge Views", platform: "tiktok", views: 453, engagementRate: +((113 + 0 + 1) / 453 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-26", contentType: "General", formatTag: "Short-Form" },
+  { id: "7611185204689947917", title: "Thousand Oaks Trails — Waterfalls & Ridge Views", platform: "tiktok", views: 455, engagementRate: +((113 + 0 + 1) / 453 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-26", contentType: "General", formatTag: "Short-Form" },
   { id: "7616067074313522445", title: "Wildflower Tract — Largest Section of Wildwood", platform: "tiktok", views: 396, engagementRate: +((10 + 0 + 0) / 396 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7614227151407156493", title: "Wildwood Park Tract (Park Hills)", platform: "tiktok", views: 148, engagementRate: +((0 + 0 + 0) / 148 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-06", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7618716243888999693", title: "Shadow Oaks & Eichler — Most Underrated Neighborhood", platform: "tiktok", views: 120, engagementRate: +((5 + 0 + 0) / 120 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Long-Form" },
   { id: "7619132302437698830", title: "MasterKey Home Value Tool Demo", platform: "tiktok", views: 101, engagementRate: +((1 + 1 + 0) / 101 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Long-Form" },
-  { id: "7620941823049075982", title: "Hidden Eichler Homes in Thousand Oaks", platform: "tiktok", views: 90, engagementRate: +((3 + 3 + 0) / 90 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Long-Form" },
+  { id: "7620941823049075982", title: "Hidden Eichler Homes in Thousand Oaks", platform: "tiktok", views: 91, engagementRate: +((3 + 3 + 0) / 90 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Long-Form" },
   { id: "7618380074324217118", title: "Best Time to List — Spring Myth Debunked", platform: "tiktok", views: 87, engagementRate: +((2 + 0 + 0) / 87 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "7610537998756678926", title: "Neighborhood Scorecard for Home Buyers", platform: "tiktok", views: 18, engagementRate: +((3 + 0 + 0) / 18 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Lead Magnet", formatTag: "Short-Form" },
 ];
@@ -572,7 +572,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "This Thousand Oaks Neighborhood has Waterfalls Within Walking Distance",
     duration: 107, // ~21s avg / 59.17% ≈ 36s per % — approx from averageViewDuration=21s, avgViewPercentage=59.17
     platform: "youtube",
-    views: 376,
+    views: 378,
     averageViewDuration: 21,
     averageViewPercentage: 59.17,
     retentionCurve: [
@@ -616,7 +616,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "Thousand Oaks Neighborhoods - Original Wildwood Tract",
     duration: 340, // averageViewDuration=22s, avgViewPercentage=40.9% → ~54s/0.409 ≈ 132s full; Shorts ~60s
     platform: "youtube",
-    views: 294,
+    views: 298,
     averageViewDuration: 22,
     averageViewPercentage: 40.9,
     retentionCurve: [
@@ -704,7 +704,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
     duration: 723, // averageViewDuration=159s, avgViewPercentage=20.75% → 159/0.2075 ≈ 766s
     platform: "youtube",
-    views: 106,
+    views: 109,
     averageViewDuration: 159,
     averageViewPercentage: 20.75,
     retentionCurve: [
@@ -791,7 +791,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     duration: 913,
     platform: "youtube",
-    views: 81,
+    views: 95,
     averageViewDuration: 242,
     averageViewPercentage: 21.13,
     retentionCurve: [
@@ -1002,7 +1002,7 @@ export function getAggregatedFunnelData(): FunnelData {
   // Leads: 0 (not yet attributable to organic social)
   // Consult Booked: 0
   const allSteps: FunnelStep[] = [
-    { name: "Social Media Views",  count: 13603, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Social Media Views",  count: 13718, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Landing Page Visits",    count: 82,    conversionFromPrev: 0.6,   dropOff: 99.4 },
     { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1712,13 +1712,13 @@ export const ghlPipelines: GHLPipeline[] = [
     name: "Seller Guide Pipeline",
     leadMagnet: "Seller Guide",
     stages: [
-      { name: "Downloaded Guide", count: 0 },
+      { name: "Downloaded Guide", count: 1 },
       { name: "Nurture", count: 0 },
       { name: "Consult Booked", count: 0 },
       { name: "Active Seller", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 0,
+    totalOpportunities: 1,
   },
   {
     id: "Z4tdOGAJanHbY2duizNP",
