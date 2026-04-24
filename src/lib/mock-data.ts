@@ -1,4 +1,4 @@
-// Data last refreshed: April 22, 2026.
+// Data last refreshed: April 24, 2026.
 // Pulled from YouTube Analytics API, TikTok Content API, Instagram Graph API, PostHog, and GoHighLevel.
 import type { PlatformKey } from "./platforms";
 
@@ -346,6 +346,17 @@ export interface TopContent {
 // Columns: video, views, likes, comments, shares, estimatedMinutesWatched, averageViewDuration, averageViewPercentage, subscribersGained
 export const topContent: TopContent[] = [
   {
+    id: "18111975073833238",
+    title: "Thousand Oaks sellers - softening headlines don't match the data",
+    platform: "instagram",
+    views: 0,
+    engagementRate: 0,
+    avgWatchPercent: 0,
+    publishedDate: "2026-04-22",
+    contentType: "Market Update",
+    formatTag: "Short-Form",
+  },
+  {
     id: "BUldjY3rUvc",
     title: "Thousand Oaks Home Prices - Spring 2026 Update",
     platform: "youtube",
@@ -360,7 +371,7 @@ export const topContent: TopContent[] = [
     id: "7629874171564084494",
     title: "Sell your Ventura County home or rent it out? Before you decide",
     platform: "tiktok",
-    views: 4390,
+    views: 4391,
     engagementRate: +((200 + 0 + 0) / 4390 * 100).toFixed(2),
     avgWatchPercent: 0,
     publishedDate: "2026-04-17",
@@ -536,7 +547,7 @@ export const topContent: TopContent[] = [
     id: "eWhT6g-VEt0",
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     platform: "youtube",
-    views: 124,
+    views: 125,
     engagementRate: +((4 + 0 + 2) / 81 * 100).toFixed(2),
     avgWatchPercent: 26.46,
     publishedDate: "2026-03-26",
@@ -566,9 +577,9 @@ export const topContent: TopContent[] = [
     formatTag: "Long-Form",
   },
   // ─── Instagram posts (real data from Instagram Insights API, March 2026) ───
-  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 515, engagementRate: 3.94, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
+  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 516, engagementRate: 3.94, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
   { id: "18039349031729514", title: "How Buyers Get Connected to Agents", platform: "instagram", views: 349, engagementRate: 9.63, avgWatchPercent: 0, publishedDate: "2026-01-29", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 338, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 339, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 307, engagementRate: 3.48, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "17895071457423081", title: "Wildflower Tract - Largest in Wildwood", platform: "instagram", views: 253, engagementRate: 3.61, avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "17878895649489300", title: "Kendall Ridge - Only 69 Homes with Views", platform: "instagram", views: 223, engagementRate: 4.48, avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Short-Form" },
@@ -846,7 +857,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     duration: 913,
     platform: "youtube",
-    views: 124,
+    views: 125,
     averageViewDuration: 242,
     averageViewPercentage: 21.13,
     retentionCurve: [
@@ -933,7 +944,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 8 visits (6 Instagram UTM, 2 Linktree)
     // Views: YT buyer content (325) + IG buyer content (457) + TT buyer content (6,369)
     steps: [
-      { name: "Social Media Views",  count: 26886,  conversionFromPrev: 100,   dropOff: 0 },
+      { name: "Social Media Views",  count: 26911,  conversionFromPrev: 100,   dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0.1,   dropOff: 99.9 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,     dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,     dropOff: 100 },
@@ -953,7 +964,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 70 visits (68 YouTube UTM, 2 Instagram UTM)
     // Views: YT neighborhood content (1,131) + IG neighborhood content (1,352) + TT neighborhood content (2,212)
     steps: [
-      { name: "Social Media Views",  count: 26886,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 26911,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,    conversionFromPrev: 1.5,  dropOff: 98.5 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
@@ -973,7 +984,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 4 visits (2 Instagram UTM, 2 Linktree)
     // Views: YT seller content (91) + IG seller content (159) + TT seller content (6,369 — shared w/ buyer)
     steps: [
-      { name: "Social Media Views",  count: 26886,  conversionFromPrev: 100,   dropOff: 0 },
+      { name: "Social Media Views",  count: 26911,  conversionFromPrev: 100,   dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0.06,  dropOff: 99.94 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,     dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,     dropOff: 100 },
@@ -993,7 +1004,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to homevalue)
     // Views: YT (28) + IG (480) + TT (101)
     steps: [
-      { name: "Social Media Views",  count: 26886,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 26911,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1013,7 +1024,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to pm-guide)
     // Views: YT (84) + IG (0) + TT (0)
     steps: [
-      { name: "Social Media Views",  count: 26886,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 26911,    conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1033,7 +1044,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to marketpulse)
     // Views: YT market update content (54) + IG market update content (674) + TT market content (0)
     steps: [
-      { name: "Social Media Views",  count: 26886,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 26911,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1057,16 +1068,16 @@ export function getAggregatedFunnelData(): FunnelData {
   // Leads: 0 (not yet attributable to organic social)
   // Consult Booked: 0
   const allSteps: FunnelStep[] = [
-    { name: "Social Media Views",  count: 26886, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Social Media Views",  count: 26911, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Landing Page Visits",    count: 87,    conversionFromPrev: 0.6,   dropOff: 99.4 },
     { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube:   { platform: "youtube",   socialContent: 1935,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    instagram: { platform: "instagram", socialContent: 3959,  linkClicked: 10,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    tiktok:    { platform: "tiktok",    socialContent: 20992,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 1936,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    instagram: { platform: "instagram", socialContent: 3974,  linkClicked: 10,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    tiktok:    { platform: "tiktok",    socialContent: 21001,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
     facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
   };
 
@@ -1767,13 +1778,13 @@ export const ghlPipelines: GHLPipeline[] = [
     name: "Seller Guide Pipeline",
     leadMagnet: "Seller Guide",
     stages: [
-      { name: "Downloaded Guide", count: 2 },
+      { name: "Downloaded Guide", count: 3 },
       { name: "Nurture", count: 0 },
       { name: "Consult Booked", count: 0 },
       { name: "Active Seller", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 2,
+    totalOpportunities: 3,
   },
   {
     id: "Z4tdOGAJanHbY2duizNP",
@@ -1818,13 +1829,13 @@ export const ghlPipelines: GHLPipeline[] = [
     name: "Home Valuation Pipeline",
     leadMagnet: "Instant Valuation",
     stages: [
-      { name: "Valuation Delivered", count: 1 },
+      { name: "Valuation Delivered", count: 2 },
       { name: "Nurture", count: 0 },
       { name: "Consult Booked", count: 0 },
       { name: "Active Seller", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 1,
+    totalOpportunities: 2,
   },
 ];
 
