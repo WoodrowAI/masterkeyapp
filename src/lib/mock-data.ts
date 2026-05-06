@@ -1,4 +1,4 @@
-// Data last refreshed: April 29, 2026.
+// Data last refreshed: May 6, 2026.
 // Pulled from YouTube Analytics API, TikTok Content API, Instagram Graph API, PostHog, and GoHighLevel.
 import type { PlatformKey } from "./platforms";
 
@@ -349,7 +349,7 @@ export const topContent: TopContent[] = [
     id: "18111975073833238",
     title: "Thousand Oaks sellers - softening headlines don't match the data",
     platform: "instagram",
-    views: 12,
+    views: 18,
     engagementRate: 0,
     avgWatchPercent: 0,
     publishedDate: "2026-04-22",
@@ -371,7 +371,7 @@ export const topContent: TopContent[] = [
     id: "7629874171564084494",
     title: "Sell your Ventura County home or rent it out? Before you decide",
     platform: "tiktok",
-    views: 4395,
+    views: 4400,
     engagementRate: +((200 + 0 + 0) / 4390 * 100).toFixed(2),
     avgWatchPercent: 0,
     publishedDate: "2026-04-17",
@@ -393,7 +393,7 @@ export const topContent: TopContent[] = [
     id: "7626902716941470990",
     title: "Too Many Buyers Chase Interest Rates — Here's What Actually Matters",
     platform: "tiktok",
-    views: 3603,
+    views: 3601,
     engagementRate: +((160 + 0 + 0) / 2628 * 100).toFixed(2),
     avgWatchPercent: 0,
     publishedDate: "2026-04-09",
@@ -404,7 +404,7 @@ export const topContent: TopContent[] = [
     id: "18101162941941253",
     title: "Too Many Buyers Chase Interest Rates — Here's What Actually Matters",
     platform: "instagram",
-    views: 293,
+    views: 296,
     engagementRate: +((9 + 0 + 0) / 218 * 100).toFixed(2),
     avgWatchPercent: 0,
     publishedDate: "2026-04-09",
@@ -547,7 +547,7 @@ export const topContent: TopContent[] = [
     id: "eWhT6g-VEt0",
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     platform: "youtube",
-    views: 127,
+    views: 128,
     engagementRate: +((4 + 0 + 2) / 81 * 100).toFixed(2),
     avgWatchPercent: 26.46,
     publishedDate: "2026-03-26",
@@ -577,10 +577,10 @@ export const topContent: TopContent[] = [
     formatTag: "Long-Form",
   },
   // ─── Instagram posts (real data from Instagram Insights API, March 2026) ───
-  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 519, engagementRate: 3.94, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
-  { id: "18039349031729514", title: "How Buyers Get Connected to Agents", platform: "instagram", views: 351, engagementRate: 9.63, avgWatchPercent: 0, publishedDate: "2026-01-29", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 340, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
-  { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 309, engagementRate: 3.48, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17926089300085716", title: "MasterKey Home Value Tool Demo", platform: "instagram", views: 522, engagementRate: 3.94, avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Short-Form" },
+  { id: "18039349031729514", title: "How Buyers Get Connected to Agents", platform: "instagram", views: 354, engagementRate: 9.63, avgWatchPercent: 0, publishedDate: "2026-01-29", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "17987947529778018", title: "Home Buyer Neighborhood Research Guide", platform: "instagram", views: 343, engagementRate: 3.82, avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "18311200336287963", title: "Buyer's vs Seller's Market Explained", platform: "instagram", views: 311, engagementRate: 3.48, avgWatchPercent: 0, publishedDate: "2026-03-27", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "17895071457423081", title: "Wildflower Tract - Largest in Wildwood", platform: "instagram", views: 253, engagementRate: 3.61, avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "17878895649489300", title: "Kendall Ridge - Only 69 Homes with Views", platform: "instagram", views: 223, engagementRate: 4.48, avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "18091011452164518", title: "Shadow Oaks - Most Architecturally Interesting", platform: "instagram", views: 212, engagementRate: 7.08, avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Short-Form" },
@@ -597,7 +597,7 @@ export const topContent: TopContent[] = [
   { id: "18037016363563066", title: "Wildwood Lifestyle Overview", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-03-02", contentType: "Neighborhood", formatTag: "Carousel" },
   { id: "18103160624507374", title: "Wildwood Neighborhoods Breakdown", platform: "instagram", views: 17, engagementRate: 35.29, avgWatchPercent: 0, publishedDate: "2026-02-25", contentType: "Neighborhood", formatTag: "Carousel" },
   // ─── TikTok posts (real data from TikTok API, Feb–Mar 2026) ───
-  { id: "7619493217565723917", title: "75% of Thousand Oaks Listings Have Price Cuts", platform: "tiktok", views: 4520, engagementRate: +((224 + 1 + 0) / 4497 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
+  { id: "7619493217565723917", title: "75% of Thousand Oaks Listings Have Price Cuts", platform: "tiktok", views: 4521, engagementRate: +((224 + 1 + 0) / 4497 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-21", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "7623170002312596750", title: "How to Know if It's a Buyer's or Seller's Market", platform: "tiktok", views: 1802, engagementRate: +((72 + 1 + 2) / 1797 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-30", contentType: "Market Update", formatTag: "Long-Form" },
   { id: "7616809115884588301", title: "The Wildwood Tract — Where It All Started", platform: "tiktok", views: 539, engagementRate: +((6 + 2 + 1) / 534 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-13", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7613485184947604766", title: "Kendall Ridge — Only 69 Homes With These Views", platform: "tiktok", views: 457, engagementRate: +((10 + 0 + 1) / 456 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-04", contentType: "Neighborhood", formatTag: "Long-Form" },
@@ -605,7 +605,7 @@ export const topContent: TopContent[] = [
   { id: "7616067074313522445", title: "Wildflower Tract — Largest Section of Wildwood", platform: "tiktok", views: 398, engagementRate: +((10 + 0 + 0) / 396 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-11", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7614227151407156493", title: "Wildwood Park Tract (Park Hills)", platform: "tiktok", views: 149, engagementRate: +((0 + 0 + 0) / 148 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-06", contentType: "Neighborhood", formatTag: "Short-Form" },
   { id: "7618716243888999693", title: "Shadow Oaks & Eichler — Most Underrated Neighborhood", platform: "tiktok", views: 127, engagementRate: +((5 + 0 + 0) / 120 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Neighborhood", formatTag: "Long-Form" },
-  { id: "7619132302437698830", title: "MasterKey Home Value Tool Demo", platform: "tiktok", views: 4324, engagementRate: +((1 + 1 + 0) / 101 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Long-Form" },
+  { id: "7619132302437698830", title: "MasterKey Home Value Tool Demo", platform: "tiktok", views: 4327, engagementRate: +((1 + 1 + 0) / 101 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-20", contentType: "Lead Magnet", formatTag: "Long-Form" },
   { id: "7620941823049075982", title: "Hidden Eichler Homes in Thousand Oaks", platform: "tiktok", views: 93, engagementRate: +((3 + 3 + 0) / 90 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-24", contentType: "Neighborhood", formatTag: "Long-Form" },
   { id: "7618380074324217118", title: "Best Time to List — Spring Myth Debunked", platform: "tiktok", views: 89, engagementRate: +((2 + 0 + 0) / 87 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-03-18", contentType: "Market Update", formatTag: "Short-Form" },
   { id: "7610537998756678926", title: "Neighborhood Scorecard for Home Buyers", platform: "tiktok", views: 18, engagementRate: +((3 + 0 + 0) / 18 * 100).toFixed(2), avgWatchPercent: 0, publishedDate: "2026-02-24", contentType: "Lead Magnet", formatTag: "Short-Form" },
@@ -857,7 +857,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     duration: 913,
     platform: "youtube",
-    views: 127,
+    views: 128,
     averageViewDuration: 242,
     averageViewPercentage: 21.13,
     retentionCurve: [
@@ -944,7 +944,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 8 visits (6 Instagram UTM, 2 Linktree)
     // Views: YT buyer content (325) + IG buyer content (457) + TT buyer content (6,369)
     steps: [
-      { name: "Social Media Views",  count: 26955,  conversionFromPrev: 100,   dropOff: 0 },
+      { name: "Social Media Views",  count: 27009,  conversionFromPrev: 100,   dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0.1,   dropOff: 99.9 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,     dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,     dropOff: 100 },
@@ -964,7 +964,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 70 visits (68 YouTube UTM, 2 Instagram UTM)
     // Views: YT neighborhood content (1,131) + IG neighborhood content (1,352) + TT neighborhood content (2,212)
     steps: [
-      { name: "Social Media Views",  count: 26955,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27009,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,    conversionFromPrev: 1.5,  dropOff: 98.5 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
@@ -984,7 +984,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 4 visits (2 Instagram UTM, 2 Linktree)
     // Views: YT seller content (91) + IG seller content (159) + TT seller content (6,369 — shared w/ buyer)
     steps: [
-      { name: "Social Media Views",  count: 26955,  conversionFromPrev: 100,   dropOff: 0 },
+      { name: "Social Media Views",  count: 27009,  conversionFromPrev: 100,   dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0.06,  dropOff: 99.94 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,     dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,     dropOff: 100 },
@@ -1004,7 +1004,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to homevalue)
     // Views: YT (28) + IG (480) + TT (101)
     steps: [
-      { name: "Social Media Views",  count: 26955,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27009,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1024,7 +1024,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to pm-guide)
     // Views: YT (84) + IG (0) + TT (0)
     steps: [
-      { name: "Social Media Views",  count: 26955,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27009,    conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1044,7 +1044,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to marketpulse)
     // Views: YT market update content (54) + IG market update content (674) + TT market content (0)
     steps: [
-      { name: "Social Media Views",  count: 26955,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27009,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1068,16 +1068,16 @@ export function getAggregatedFunnelData(): FunnelData {
   // Leads: 0 (not yet attributable to organic social)
   // Consult Booked: 0
   const allSteps: FunnelStep[] = [
-    { name: "Social Media Views",  count: 26955, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Social Media Views",  count: 27009, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Landing Page Visits",    count: 87,    conversionFromPrev: 0.6,   dropOff: 99.4 },
     { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube:   { platform: "youtube",   socialContent: 1943,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    instagram: { platform: "instagram", socialContent: 4001,  linkClicked: 10,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    tiktok:    { platform: "tiktok",    socialContent: 21011,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 1944,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    instagram: { platform: "instagram", socialContent: 4030,  linkClicked: 10,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    tiktok:    { platform: "tiktok",    socialContent: 21035,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
     facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
   };
 
@@ -1778,13 +1778,13 @@ export const ghlPipelines: GHLPipeline[] = [
     name: "Seller Guide Pipeline",
     leadMagnet: "Seller Guide",
     stages: [
-      { name: "Downloaded Guide", count: 3 },
+      { name: "Downloaded Guide", count: 2 },
       { name: "Nurture", count: 0 },
       { name: "Consult Booked", count: 0 },
       { name: "Active Seller", count: 0 },
       { name: "Closed", count: 0 },
     ],
-    totalOpportunities: 3,
+    totalOpportunities: 2,
   },
   {
     id: "Z4tdOGAJanHbY2duizNP",
