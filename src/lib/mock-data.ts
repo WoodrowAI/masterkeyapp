@@ -1,4 +1,4 @@
-// Data last refreshed: May 6, 2026.
+// Data last refreshed: May 8, 2026.
 // Pulled from YouTube Analytics API, TikTok Content API, Instagram Graph API, PostHog, and GoHighLevel.
 import type { PlatformKey } from "./platforms";
 
@@ -448,7 +448,7 @@ export const topContent: TopContent[] = [
     id: "ehGSxHMgWJ4",
     title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
     platform: "youtube",
-    views: 115,
+    views: 118,
     engagementRate: +((5 + 0 + 0) / 106 * 100).toFixed(2),
     avgWatchPercent: 21.9,
     publishedDate: "2026-03-06",
@@ -481,7 +481,7 @@ export const topContent: TopContent[] = [
     id: "_tneSFg1Eu8",
     title: "Thousand Oaks Neighborhoods - Wildwood's Most connected Tract (Park Hills)",
     platform: "youtube",
-    views: 78,
+    views: 79,
     engagementRate: +((0 + 0 + 0) / 78 * 100).toFixed(2),
     avgWatchPercent: 98.23,
     publishedDate: "2026-03-06",
@@ -492,7 +492,7 @@ export const topContent: TopContent[] = [
     id: "h0hKN-VpBns",
     title: "Living in Thousand Oaks - Wildwood",
     platform: "youtube",
-    views: 81,
+    views: 84,
     engagementRate: +((3 + 0 + 1) / 77 * 100).toFixed(2),
     avgWatchPercent: 10.45,
     publishedDate: "2026-02-18",
@@ -547,7 +547,7 @@ export const topContent: TopContent[] = [
     id: "eWhT6g-VEt0",
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     platform: "youtube",
-    views: 128,
+    views: 130,
     engagementRate: +((4 + 0 + 2) / 81 * 100).toFixed(2),
     avgWatchPercent: 26.46,
     publishedDate: "2026-03-26",
@@ -770,7 +770,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "Living in Thousand Oaks - Shadow Oaks & Eichler",
     duration: 723, // averageViewDuration=159s, avgViewPercentage=20.75% → 159/0.2075 ≈ 766s
     platform: "youtube",
-    views: 115,
+    views: 118,
     averageViewDuration: 159,
     averageViewPercentage: 20.75,
     retentionCurve: [
@@ -857,7 +857,7 @@ export const videoRetentionData: VideoRetention[] = [
     title: "New California Landlord Laws 2026 - Some May Surprise You",
     duration: 913,
     platform: "youtube",
-    views: 128,
+    views: 130,
     averageViewDuration: 242,
     averageViewPercentage: 21.13,
     retentionCurve: [
@@ -944,7 +944,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 8 visits (6 Instagram UTM, 2 Linktree)
     // Views: YT buyer content (325) + IG buyer content (457) + TT buyer content (6,369)
     steps: [
-      { name: "Social Media Views",  count: 27009,  conversionFromPrev: 100,   dropOff: 0 },
+      { name: "Social Media Views",  count: 27025,  conversionFromPrev: 100,   dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0.1,   dropOff: 99.9 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,     dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,     dropOff: 100 },
@@ -964,7 +964,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 70 visits (68 YouTube UTM, 2 Instagram UTM)
     // Views: YT neighborhood content (1,131) + IG neighborhood content (1,352) + TT neighborhood content (2,212)
     steps: [
-      { name: "Social Media Views",  count: 27009,  conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27025,  conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,    conversionFromPrev: 1.5,  dropOff: 98.5 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0, dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0, dropOff: 100 },
@@ -984,7 +984,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 4 visits (2 Instagram UTM, 2 Linktree)
     // Views: YT seller content (91) + IG seller content (159) + TT seller content (6,369 — shared w/ buyer)
     steps: [
-      { name: "Social Media Views",  count: 27009,  conversionFromPrev: 100,   dropOff: 0 },
+      { name: "Social Media Views",  count: 27025,  conversionFromPrev: 100,   dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0.06,  dropOff: 99.94 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,     dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,     dropOff: 100 },
@@ -1004,7 +1004,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to homevalue)
     // Views: YT (28) + IG (480) + TT (101)
     steps: [
-      { name: "Social Media Views",  count: 27009,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27025,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1024,7 +1024,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to pm-guide)
     // Views: YT (84) + IG (0) + TT (0)
     steps: [
-      { name: "Social Media Views",  count: 27009,    conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27025,    conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1044,7 +1044,7 @@ export const funnelDatasets: FunnelData[] = [
     // Organic social only: 0 visits (no social UTM traffic to marketpulse)
     // Views: YT market update content (54) + IG market update content (674) + TT market content (0)
     steps: [
-      { name: "Social Media Views",  count: 27009,   conversionFromPrev: 100,  dropOff: 0 },
+      { name: "Social Media Views",  count: 27025,   conversionFromPrev: 100,  dropOff: 0 },
       { name: "Landing Page Visits",    count: 87,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
       { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
@@ -1068,16 +1068,16 @@ export function getAggregatedFunnelData(): FunnelData {
   // Leads: 0 (not yet attributable to organic social)
   // Consult Booked: 0
   const allSteps: FunnelStep[] = [
-    { name: "Social Media Views",  count: 27009, conversionFromPrev: 100,   dropOff: 0 },
+    { name: "Social Media Views",  count: 27025, conversionFromPrev: 100,   dropOff: 0 },
     { name: "Landing Page Visits",    count: 87,    conversionFromPrev: 0.6,   dropOff: 99.4 },
     { name: "Leads",           count: 0,     conversionFromPrev: 0,    dropOff: 100 },
     { name: "Consult Booked",  count: 0,     conversionFromPrev: 0,    dropOff: 100 },
   ];
 
   const platTotals: Record<PlatformKey, FunnelPlatformBreakdown> = {
-    youtube:   { platform: "youtube",   socialContent: 1944,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
+    youtube:   { platform: "youtube",   socialContent: 1953,  linkClicked: 68,  leads: 0,  consultBooked: 0, conversionRate: 0 },
     instagram: { platform: "instagram", socialContent: 4030,  linkClicked: 10,  leads: 0,  consultBooked: 0, conversionRate: 0 },
-    tiktok:    { platform: "tiktok",    socialContent: 21035,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
+    tiktok:    { platform: "tiktok",    socialContent: 21042,  linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
     facebook:  { platform: "facebook",  socialContent: 0,     linkClicked: 0,   leads: 0,  consultBooked: 0, conversionRate: 0 },
   };
 
